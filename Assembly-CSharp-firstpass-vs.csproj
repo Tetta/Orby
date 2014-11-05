@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{14288337-EAE5-4C78-95E7-E84838CEDC11}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>D:/Programs/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>D:/Programs/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Billing\Manage\AndroidInAppPurchaseManager.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Billing\Models\AndroidInventory.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Billing\Models\BillingResult.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Billing\Templates\GoogleProductTemplate.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Billing\Templates\GooglePurchaseTemplate.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Core\AndroidNative.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Enum\AndroidDialogResult.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Enum\BillingResponseCodes.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Other\Ad\AndroidAdMobController.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Other\Analytics\AndroidGoogleAnalytics.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\Other\AndroidToast.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PlayService\Manage\GoogleCloudManager.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PlayService\Manage\GoogleCloudMessageService.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PlayService\Manage\GooglePlayManager.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PopUps\AndroidDialog.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PopUps\AndroidMessage.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PopUps\AndroidRateUsPopUp.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\PopUps\Base\BaseAndroidPopup.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\AnalyticsUseExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\AndroidAdMobExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\AndroidPopUpExamples.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\BillingExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\GPaymnetManagerExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\GoogleCloudMessageExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\GoogleCloudUseExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\NotoficationsExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\AndroidNative\xExample\Scripts\PlayServiceExample.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Events\Core\Events\EventDispatcher.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Events\Core\Events\EventDispatcherBase.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Events\Data\BaseEvent.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Events\Templates\CEvent.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Events\interfaces\IDispatcher.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Example\Scripts\Button.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\FlashLikeEvents\Example\Scripts\ExampleListner.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\AndroidBase\AndroidGravity.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\AndroidBase\AndroidLogLevel.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\GoogleBase\GoogleCloudSlot.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\GoogleBase\GoogleGravity.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\GoogleMobileAd\GADBannerSize.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\GoogleMobileAd\GADGenger.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GPAchievementState.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GPAchievementType.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GPBoardTimeSpan.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GPCollectionType.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GPConnectionState.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Enum\PlayService\GooglePlayResponceCode.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Events\GoogleMobileAdEvents.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Interfaces\GoogleMobileAdInterface.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Models\GPAchievement.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Models\GPLeaderBoard.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Models\GoogleCloudResult.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Models\GooglePlayResult.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\PUtil\PlayServiceUtil.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\PUtil\Singletone.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Templates\GooglePlayerTemplate.cs" />
+    <Compile Include="Assets\Plugins\AndroidNativePlugin\Extensions\GooglePlayCommon\Templates\LeaderBoardScoreVariant.cs" />
+    <Compile Include="Assets\Plugins\initApp2.cs" />
+    <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values\attrs.xml" />
+    <None Include="Assets\NGUI\ReadMe - 3.7.2.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
+    <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\lorem-ascii.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-iw\strings.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_search_box.xml" />
+    <None Include="Assets\Ferr\2DTerrain\Examples\Assets\Materials\UnitColoredTransparent.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
+    <None Include="Assets\Ferr\Docs\Ferr2DTerrainTool - Readme.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-ldpi\dimens.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
+    <None Include="Assets\Example Games\Flappy Bird Style\_ReadMe.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values\colors.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
+    <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\russian.txt" />
+    <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_top_button.xml" />
+    <None Include="Assets\Plugins\Android\res\values\ids.xml" />
+    <None Include="Assets\Orthello\Examples\4 - Follow Target View\-orthello-config.xml" />
+    <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\bin\R.txt" />
+    <None Include="Assets\Ferr\2DTerrain\Examples\Assets\Materials\UnlitColored.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values\strings.xml" />
+    <None Include="Assets\Orthello\-Read-Me.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_image.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_top_background.xml" />
+    <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-hdpi\dimens.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\build.xml" />
+    <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\orthello-font-30.txt" />
+    <None Include="Assets\2D Physics Puzzle Kit\Shaders\Depth Mask.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_button_blue.xml" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\img.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\bin\AndroidManifest.xml" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\glyph.xml" />
+    <None Include="Assets\Fonts\LuckiestGuy\LICENSE.txt" />
+    <None Include="Assets\Plugins\Android\res\values\analytics.xml" />
+    <None Include="Assets\Example Games\Angry Birds Style\_ReadMe.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-mdpi\dimens.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
+    <None Include="Assets\Example Games\2D Scrolling Shooter\Fonts\PressStart2P-Regular\OFL.txt" />
+    <None Include="Assets\_font_2.fnt" />
+    <None Include="Assets\Example Games\Hat Trick - The Catch Game\_ReadMe.txt" />
+    <None Include="Assets\Example Games\Hat Trick - The Catch Game\Fonts\LuckiestGuy\LICENSE.txt" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\chalk.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
+    <None Include="Assets\Plugins\Android\res\values\version.xml" />
+    <None Include="Assets\_font_3.fnt" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\Multi Resolution Art\atlas.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values\drawables.xml" />
+    <None Include="Assets\NGUI\Examples\Shaders\Unlit - Additive Colored.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\proguard-project.txt" />
+    <None Include="Assets\Example Games\2D Scrolling Shooter\_ReadMe.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\res\xml\file_paths.xml" />
+    <None Include="Assets\Endless2DTerrain\Demos\Resources\Shaders\VertexColorUnlit.shader" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
+    <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
+    <None Include="Assets\Orthello\Standard Assets\OT\_Base\TintedAlpha.shader" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\RotateTowards\-read-me.txt" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\Persistance\-read-me.txt" />
+    <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth.shader" />
+    <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+    <None Include="Assets\Ferr\2DTerrain\Scripts\LibTessDotNet\LibTessDotNet-LICENSE.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-he\strings.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-es\strings.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\res\values\version.xml" />
+    <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\lorem-rus-utf8.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\drawable\com_facebook_button_check.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\layout\com_facebook_picker_list_row.xml" />
+    <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
+    <None Include="Assets\Fonts\PressStart2P-Regular\OFL.txt" />
+    <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values\styles.xml" />
+    <None Include="Assets\Plugins\StansAssets\Android\facebook\res\values-xhdpi\dimens.xml" />
+    <Reference Include="IFacebook">
+      <HintPath>D:/Dropbox/work/unityProjects/Orby/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
