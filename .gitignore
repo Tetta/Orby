@@ -14,7 +14,7 @@
     #
 
     # All platforms
-    Library
+    Library/metadata
     Temp
     *.csproj
     *.pidb
