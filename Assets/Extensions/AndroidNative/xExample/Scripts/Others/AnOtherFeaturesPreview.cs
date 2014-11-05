@@ -1,0 +1,133 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class AnOtherFeaturesPreview : MonoBehaviour {
+
+	public GameObject image;
+	public Texture2D helloWorldTexture;
+
+
+
+
+
+	public void SaveToGalalry() {
+		AndroidCamera.instance.OnImageSaved += OnImageSaved;
+		AndroidCamera.instance.SaveImageToGalalry(helloWorldTexture);
+
+	}
+
+	public void SaveScreenshot() {
+		AndroidCamera.instance.OnImageSaved += OnImageSaved;
+		AndroidCamera.instance.SaveScreenshotToGallery();
+
+	}
+
+
+	public void GetImageFromGallery() {
+		AndroidCamera.instance.OnImagePicked += OnImagePicked;
+		AndroidCamera.instance.GetImageFromGallery();
+	}
+	
+	
+	
+	public void GetImageFromCamera() {
+		AndroidCamera.instance.OnImagePicked += OnImagePicked;
+		AndroidCamera.instance.GetImageFromCamera();
+	}
+
+
+
+	public void CheckAppInstalation() {
+		AndroidNativeUtility.instance.OnPackageCheckResult += OnPackageCheckResult;
+		AndroidNativeUtility.instance.CheckIsPackageInstalled("com.google.android.youtube");
+	}
+
+	public void RunApp() {
+		AndroidNativeUtility.instance.RunPackage("com.google.android.youtube");
+	}
+
+
+
+
+
+
+	private void EnableImmersiveMode() {
+		ImmersiveMode.instance.EnableImmersiveMode();
+	}
+	
+
+
+
+	private void LoadAppInfo() {
+
+		AndroidAppInfoLoader.instance.addEventListener (AndroidAppInfoLoader.PACKAGE_INFO_LOADED, OnPackageInfoLoaded);
+		AndroidAppInfoLoader.instance.LoadPackageInfo ();
+	}
+
+
+	private void LoadAdressBook() {
+		AddressBookController.instance.LoadContacts ();
+		AddressBookController.instance.OnContactsLoadedAction += OnContactsLoaded;
+
+	}
+
+
+
+
+
+	void OnPackageCheckResult (AN_PackageCheckResult res) {
+		if(res.IsSucceeded) {
+			AndroidNative.showMessage("On Package Check Result" , "Application  " + res.packageName + " is installed on this device");
+		} else {
+			AndroidNative.showMessage("On Package Check Result" , "Application  " + res.packageName + " is not installed on this device");
+		}
+
+		AndroidNativeUtility.instance.OnPackageCheckResult -= OnPackageCheckResult;
+	}
+
+
+
+	void OnContactsLoaded () {
+		AddressBookController.instance.OnContactsLoadedAction -= OnContactsLoaded;
+		AndroidNative.showMessage("On Contacts Loaded" , "Andress book has " + AddressBookController.instance.contacts.Count + " Contacts");
+	}
+	
+
+	private void OnImagePicked(AndroidImagePickResult result) {
+		Debug.Log("OnImagePicked");
+		if(result.IsSucceeded) {
+			image.renderer.material.mainTexture = result.image;
+		}
+
+		AndroidCamera.instance.OnImagePicked -= OnImagePicked;
+	}
+
+	void OnImageSaved (GallerySaveResult result) {
+
+		AndroidCamera.instance.OnImageSaved -= OnImageSaved;
+
+		if(result.IsSucceeded) {
+			AndroidNative.showMessage("Saved", "Image saved to gallery \n" + "Path: " + result.imagePath);
+			SA_StatusBar.text =  "Image saved to gallery";
+		} else {
+			AndroidNative.showMessage("Failed", "Image save to gallery failed");
+			SA_StatusBar.text =  "Image save to gallery failed";
+		}
+
+	}
+
+	private void OnPackageInfoLoaded() {
+		AndroidAppInfoLoader.instance.removeEventListener (AndroidAppInfoLoader.PACKAGE_INFO_LOADED, OnPackageInfoLoaded);
+
+		string msg = "";
+		msg += "versionName: " + AndroidAppInfoLoader.instance.PacakgeInfo.versionName + "\n";
+		msg += "versionCode: " + AndroidAppInfoLoader.instance.PacakgeInfo.versionCode + "\n";
+		msg += "packageName" + AndroidAppInfoLoader.instance.PacakgeInfo.packageName + "\n";
+		msg += "lastUpdateTime:" + System.Convert.ToString(AndroidAppInfoLoader.instance.PacakgeInfo.lastUpdateTime) + "\n";
+		msg += "sharedUserId" + AndroidAppInfoLoader.instance.PacakgeInfo.sharedUserId + "\n";
+		msg += "sharedUserLabel"  + AndroidAppInfoLoader.instance.PacakgeInfo.sharedUserLabel;
+
+		AndroidNative.showMessage("App Info Loaded", msg);
+	}
+
+}
