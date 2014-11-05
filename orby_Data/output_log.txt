@@ -1,0 +1,152 @@
+Initialize engine version: 4.6.0b20 (a3ecf55f1347)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 770 (ID=0x1184)
+    Vendor:   NVIDIA
+    VRAM:     1986 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\IFacebook.dll (this message is harmless)
+Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\IFacebook.dll into Unity Child Domain
+- Completed reload, in  0.087 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\System.Core.dll (this message is harmless)
+Profiler is only supported with Pro License
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/Runtime/Profiler/ProfilerConnection.cpp Line: 218)
+
+Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\System.dll (this message is harmless)
+0
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+yetiClass:OnMouseUp() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\yetiClass.cs:30)
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:17)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:175)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:145)
+ 
+(Filename: D Line: 0)
+
+UnloadTime: 2.605478 ms
+System memory in use before: 16.0 MB.
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 14.660111 ms (FindLiveObjects: 0.021395 ms CreateObjectMapping: 0.014766 ms MarkObjects: 0.221492 ms  DeleteObjects: 14.031193 ms)
+
+UnloadTime: 0.442382 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.608125 ms (FindLiveObjects: 0.022299 ms CreateObjectMapping: 0.014464 ms MarkObjects: 0.216972 ms  DeleteObjects: 0.018985 ms)
+
+UnloadTime: 0.507173 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.728063 ms (FindLiveObjects: 0.030737 ms CreateObjectMapping: 0.016574 ms MarkObjects: 0.277544 ms  DeleteObjects: 0.051229 ms)
+
+UnloadTime: 0.448108 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.648205 ms (FindLiveObjects: 0.022601 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.220287 ms  DeleteObjects: 0.049421 ms)
+
+UnloadTime: 0.442081 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.602400 ms (FindLiveObjects: 0.021094 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.212753 ms  DeleteObjects: 0.016574 ms)
+
+UnloadTime: 0.425205 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.594866 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.214260 ms  DeleteObjects: 0.017779 ms)
+
+UnloadTime: 0.459861 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.739213 ms (FindLiveObjects: 0.025916 ms CreateObjectMapping: 0.015670 ms MarkObjects: 0.323048 ms  DeleteObjects: 0.023505 ms)
+
+UnloadTime: 0.430027 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.617166 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.218177 ms  DeleteObjects: 0.018985 ms)
+
+UnloadTime: 0.457149 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.629521 ms (FindLiveObjects: 0.024409 ms CreateObjectMapping: 0.015971 ms MarkObjects: 0.231738 ms  DeleteObjects: 0.019889 ms)
+
+UnloadTime: 0.429424 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.623494 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.013862 ms MarkObjects: 0.235656 ms  DeleteObjects: 0.018683 ms)
+
+UnloadTime: 0.445999 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.631932 ms (FindLiveObjects: 0.024409 ms CreateObjectMapping: 0.014163 ms MarkObjects: 0.229026 ms  DeleteObjects: 0.020491 ms)
+
+UnloadTime: 0.431835 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.604811 ms (FindLiveObjects: 0.020190 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.224204 ms  DeleteObjects: 0.016574 ms)
+
+UnloadTime: 0.439972 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.621385 ms (FindLiveObjects: 0.019889 ms CreateObjectMapping: 0.013862 ms MarkObjects: 0.235053 ms  DeleteObjects: 0.017478 ms)
+
+UnloadTime: 0.432438 ms
+System memory in use before: 16.0 MB.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 16.0 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
+Total: 0.609331 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.014766 ms MarkObjects: 0.216369 ms  DeleteObjects: 0.018985 ms)
+
+Waiting for finish
