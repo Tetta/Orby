@@ -10,58 +10,61 @@
 using System;
 using System.Collections.Generic;
 
-
-public delegate void EventHandlerFunction();
-public delegate void DataEventHandlerFunction(CEvent e);
-
-public interface IDispatcher {
-	
-
-	//--------------------------------------
-	// ADD LISTENER'S
-	//--------------------------------------
-
-	void addEventListener(string eventName, 	EventHandlerFunction handler);
-	void addEventListener(int eventID, 			EventHandlerFunction handler);
-	void addEventListener(string eventName, 	DataEventHandlerFunction handler);
-	void addEventListener(int eventID, 			DataEventHandlerFunction handler);
+namespace UnionAssets.FLE {
 
 
-	//--------------------------------------
-	// REMOVE LISTENER'S
-	//--------------------------------------
+	public delegate void EventHandlerFunction();
+	public delegate void DataEventHandlerFunction(CEvent e);
 
-	void removeEventListener(string eventName, 	EventHandlerFunction handler);
-	void removeEventListener(int eventID, 		EventHandlerFunction handler);
-	void removeEventListener(string eventName,  DataEventHandlerFunction handler);
-	void removeEventListener(int eventID, 		DataEventHandlerFunction handler);
-	
+	public interface IDispatcher {
+		
 
-	//--------------------------------------
-	// DISPATCH I1
-	//--------------------------------------
+		//--------------------------------------
+		// ADD LISTENER'S
+		//--------------------------------------
 
-	void dispatchEvent(int eventID);
-	void dispatchEvent(int eventID, object data);
-	void dispatchEvent(string eventName);
-	void dispatchEvent(string eventName, object data);
-	
-
-	//--------------------------------------
-	// DISPATCH I2
-	//--------------------------------------
+		void addEventListener(string eventName, 	EventHandlerFunction handler);
+		void addEventListener(int eventID, 			EventHandlerFunction handler);
+		void addEventListener(string eventName, 	DataEventHandlerFunction handler);
+		void addEventListener(int eventID, 			DataEventHandlerFunction handler);
 
 
-	void dispatch(int eventID);
-	void dispatch(int eventID, object data);
-	void dispatch(string eventName);
-	void dispatch(string eventName, object data);
-	
+		//--------------------------------------
+		// REMOVE LISTENER'S
+		//--------------------------------------
 
-	//--------------------------------------
-	// METHODS
-	//--------------------------------------
+		void removeEventListener(string eventName, 	EventHandlerFunction handler);
+		void removeEventListener(int eventID, 		EventHandlerFunction handler);
+		void removeEventListener(string eventName,  DataEventHandlerFunction handler);
+		void removeEventListener(int eventID, 		DataEventHandlerFunction handler);
+		
 
-	void clearEvents();
+		//--------------------------------------
+		// DISPATCH I1
+		//--------------------------------------
 
+		void dispatchEvent(int eventID);
+		void dispatchEvent(int eventID, object data);
+		void dispatchEvent(string eventName);
+		void dispatchEvent(string eventName, object data);
+		
+
+		//--------------------------------------
+		// DISPATCH I2
+		//--------------------------------------
+
+
+		void dispatch(int eventID);
+		void dispatch(int eventID, object data);
+		void dispatch(string eventName);
+		void dispatch(string eventName, object data);
+		
+
+		//--------------------------------------
+		// METHODS
+		//--------------------------------------
+
+		void clearEvents();
+
+	}
 }

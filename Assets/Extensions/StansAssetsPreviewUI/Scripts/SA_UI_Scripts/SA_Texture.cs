@@ -5,16 +5,16 @@ public class SA_Texture : MonoBehaviour {
 
 
 	void Awake () {
-		renderer.material =new Material(renderer.material);
+		GetComponent<Renderer>().material =new Material(GetComponent<Renderer>().material);
 	}
 	
 	public Texture  texture {
 		get {
-			return renderer.material.mainTexture;
+			return GetComponent<Renderer>().material.mainTexture;
 		}
 
 		set {
-			renderer.material.mainTexture = value;
+			GetComponent<Renderer>().material.mainTexture = value;
 		}
 	}
 }

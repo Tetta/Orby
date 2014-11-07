@@ -43,6 +43,22 @@ public class AndroidNative {
 		CallActivityFunction("loadState", stateKey.ToString());
 	}
 
+	//--------------------------------------
+	// Saved Games 
+	//------------------------------------
+
+	public static void ShowSavedGamesUI(string title, int maxNumberOfSavedGamesToShow)  {
+		CallActivityFunction("showSavedGamesUI", title, maxNumberOfSavedGamesToShow.ToString());
+	}
+
+	public static void CreateNewSpanShot(string name, string description, string ImageData, string Data)  {
+		CallActivityFunction("createNewSpanShot", name, description, ImageData, Data);
+	}
+
+	public static void ResolveSpanShotConflict(int index) {
+		CallActivityFunction("resolveSpanShotConflict", index.ToString());
+	}
+
 	
 	// --------------------------------------
 	// Google Cloud Message
@@ -306,45 +322,7 @@ public class AndroidNative {
 	}
 
 	
-	//--------------------------------------
-	//  MESSAGING
-	//--------------------------------------
 
-
-	public static void showDialog(string title, string message) {
-		showDialog (title, message, "Yes", "No");
-	}
-
-	public static void showDialog(string title, string message, string yes, string no) {
-		CallActivityFunction("showDialog", title, message, yes, no);
-	}
-
-
-	public static void showMessage(string title, string message) {
-		showMessage (title, message, "Ok");
-	}
-
-
-	public static void showMessage(string title, string message, string ok) {
-		CallActivityFunction("ShowMessage", title, message, ok);
-	}
-
-	public static void OpenAppRatePage(string url) {
-		CallActivityFunction("OpenAppRatePage", url);
-	}
-	
-
-	public static void showRateDialog(string title, string message, string yes, string laiter, string no, string url) {
-		CallActivityFunction("ShowRateDialog", title, message, yes, laiter, no, url);
-	}
-
-	public static void ShowPreloader(string title, string message) {
-		CallActivityFunction("ShowPreloader",  title, message);
-	}
-	
-	public static void HidePreloader() {
-		CallActivityFunction("HidePreloader");
-	}
 	
 
 	//--------------------------------------
@@ -364,110 +342,7 @@ public class AndroidNative {
 		CallActivityFunction("LoadPackageInfo");
 	}
 
-
-	//--------------------------------------
-	// Google Ad
-	//--------------------------------------
-
-	public static void InitMobileAd(string id) {
-		CallActivityFunction("InitMobileAd", id);
-	}
-
-	public static void ChangeBannersUnitID(string id) {
-		CallActivityFunction("ChangeBannersUnitID", id);
-	}
-
-	public static void ChangeInterstisialsUnitID(string id) {
-		CallActivityFunction("ChangeInterstisialsUnitID", id);
-	}
-
-	public static void CreateBannerAd(int gravity, int size, int id) {
-		CallActivityFunction("CreateBannerAd", gravity.ToString(), size.ToString(), id.ToString());
-	}
-
-	public static void CreateBannerAdPos(int x, int y, int size, int id) {
-		CallActivityFunction("CreateBannerAdPos", x.ToString(), y.ToString(), size.ToString(), id.ToString());
-	}
-
-
-	// By nastrandsky
-	public static void SetBannerPosition(int gravity, int bannerId) {
-		CallActivityFunction ("SetBannerPosition", gravity.ToString(), bannerId.ToString());
-	}
 	
-	// By nastrandsky
-	public static void SetBannerPosition(int x, int y, int bannerId) {
-		CallActivityFunction ("SetBannerPosition", x.ToString(), y.ToString(), bannerId.ToString());
-	}
-
-
-
-	public static void HideAd(int id) { 
-		CallActivityFunction ("HideAd", id.ToString());
-	}
-
-	public static void ShowAd(int id) { 
-		CallActivityFunction ("ShowAd", id.ToString());
-	}
-
-	public static void RefreshAd(int id) { 
-		CallActivityFunction ("RefreshAd", id.ToString());
-	}
-
-
-	public static void DestroyBanner(int id) { 
-		CallActivityFunction ("DestroyBanner", id.ToString());
-	}
-
-
-	
-	public static void StartInterstitialAd() {
-		CallActivityFunction ("StartInterstitialAd");
-	}
-	
-	public static void LoadInterstitialAd() {
-		CallActivityFunction ("LoadInterstitialAd");
-	}
-	
-	public static void ShowInterstitialAd() {
-		CallActivityFunction ("ShowInterstitialAd");
-	}
-
-	public static void RecordInAppResolution(int res) {
-		CallActivityFunction ("RecordInAppResolution", res.ToString());
-	}
-
-	public static void AddKeyword(string keyword) {
-		CallActivityFunction ("AddKeyword", keyword);
-	}
-	
-
-	public static void SetBirthday(int year, int month, int day) {
-		CallActivityFunction ("SetBirthday", year.ToString(), month.ToString(), day.ToString());
-	}
-	
-	public static void TagForChildDirectedTreatment(bool tagForChildDirectedTreatment) {
-		if(tagForChildDirectedTreatment) {
-			CallActivityFunction ("TagForChildDirectedTreatment", "1");
-		} else {
-			CallActivityFunction ("TagForChildDirectedTreatment", "0");
-		}
-		
-	}
-
-	public static void AddTestDevice(string deviceId) {
-		CallActivityFunction ("AddTestDevice", deviceId);
-	}
-
-	// By nastrandsky: Ad various test devices at once.
-	public static void AddTestDevices(string cvsDeviceIds) {
-		CallActivityFunction ("AddTestDevices", cvsDeviceIds);
-	}
-
-	public static void SetGender(int gender) {
-		CallActivityFunction ("SetGender", gender.ToString());
-	}
-
 
 	// --------------------------------------
 	// Analytics
@@ -527,6 +402,11 @@ public class AndroidNative {
 	public static void SetDryRun(string mode) {
 		CallActivityFunction("SetDryRun", mode);
 	}
+
+	public static void EnableAdvertisingIdCollection(string mode) {
+		CallActivityFunction("enableAdvertisingIdCollection", mode);
+	}
+	
 
 
 	// --------------------------------------
@@ -604,6 +484,15 @@ public class AndroidNative {
 
 	public static void loadGoogleAccountNames() {
 		CallActivityFunction("loadGoogleAccountNames");
+	}
+
+	public static void clearDefaultAccount() {
+		CallActivityFunction("clearDefaultAccount");
+
+	}
+	
+	public static void revokeAccessAndDisconnect() {
+		CallActivityFunction("revokeAccessAndDisconnect");
 	}
 	
 

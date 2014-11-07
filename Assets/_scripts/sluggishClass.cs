@@ -25,7 +25,6 @@ public class sluggishClass : MonoBehaviour {
 			berry.transform.position = transform.position;
 			sluggishState = "collision";
 			Debug.Log ("collision");
-
 		}
 	}
 
@@ -43,15 +42,12 @@ public class sluggishClass : MonoBehaviour {
 
 			sluggishState = "active";
 			line.SetActive(true);
-			Debug.Log ("OnMouseDown");
 		}
 		
 	}
 
 	void OnMouseDrag() {
 		if (sluggishState == "active") {
-			Debug.Log ("OnMouseDrag");
-
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 			Vector3 relative = transform.InverseTransformPoint(mousePosition);
 			float angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;

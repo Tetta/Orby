@@ -14,6 +14,7 @@ public class mGooglePlayClass : MonoBehaviour {
 	}
 
 	void OnClick() {
+		NGUIDebug.Log("mGooglePlayClass OnClick");
 		GooglePlayManager.instance.showAchievementsUI ();
 	}
 }

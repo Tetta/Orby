@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
  
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class GameBillingManagerExample : MonoBehaviour {
@@ -35,8 +36,8 @@ public class GameBillingManagerExample : MonoBehaviour {
 		
 		//Filling product list
 		//You can skip this if you alredy did this in Editor settings menu
-		AndroidInAppPurchaseManager.instance.addProduct(COINS_ITEM);
-		AndroidInAppPurchaseManager.instance.addProduct(COINS_BOOST);
+		//AndroidInAppPurchaseManager.instance.addProduct(COINS_ITEM);
+		//AndroidInAppPurchaseManager.instance.addProduct(COINS_BOOST);
 
 		
 		//listening for purchase and consume events
@@ -178,6 +179,13 @@ public class GameBillingManagerExample : MonoBehaviour {
 
 
 	private static void UpdateStoreData() {
+
+		foreach(GoogleProductTemplate p in AndroidInAppPurchaseManager.instance.inventory.products) {
+			Debug.Log(p.title);
+			Debug.Log(p.price);
+		} 
+
+
 		//chisking if we already own some consuamble product but forget to consume those
 		if(AndroidInAppPurchaseManager.instance.inventory.IsProductPurchased(COINS_ITEM)) {
 			consume(COINS_ITEM);

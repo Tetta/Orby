@@ -9,6 +9,8 @@
 
 
 using UnityEngine;
+using System;
+using UnionAssets.FLE;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,9 +46,18 @@ public interface GoogleMobileAdInterface  {
 	bool IsInited {get;}
 	string BannersUunitId {get;}
 	string InterstisialUnitId {get;}
-	
-	
-	
+
+
+	//Actions
+	Action OnInterstitialLoaded 			{ get; set; }
+	Action OnInterstitialFailedLoading 	{ get; set; }
+	Action OnInterstitialOpened 			{ get; set; }
+	Action OnInterstitialClosed 			{ get; set; }
+	Action OnInterstitialLeftApplication  	{ get; set; }
+	Action<string> OnAdInAppRequest			{ get; set; }
+
+
+	//Events
 	void addEventListener(string eventName, EventHandlerFunction handler);
 	void addEventListener(string eventName, DataEventHandlerFunction handler);
 

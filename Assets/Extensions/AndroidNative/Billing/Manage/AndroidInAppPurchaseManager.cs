@@ -7,20 +7,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseManager> {
 
-
+	//Events
 	public const string ON_PRODUCT_PURCHASED   = "on_product_purchased";
 	public const string ON_PRODUCT_CONSUMED    = "on_product_consumed";
 
 	public const string ON_BILLING_SETUP_FINISHED   = "on_billing_setup_finished";
 	public const string ON_RETRIEVE_PRODUC_FINISHED = "on_retrieve_produc_finished";
 
+	//Actions
+	public static Action<BillingResult>  ActionProductPurchased   = delegate {};
+	public static Action<BillingResult>  ActionProductConsumed    = delegate {};
+	
+	public static Action<BillingResult>  ActionBillingSetupFinished   = delegate {};
+	public static Action<BillingResult>  ActionRetrieveProducsFinished = delegate {};
+
 	private List<string> _productsIds =  new List<string>();
 
+
+	private string _processedSKU;
 	private AndroidInventory _inventory;
 
 
@@ -63,14 +73,17 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 	}
 
 	public void purchase(string SKU) {
+		_processedSKU = SKU;
 		AndroidNative.purchase (SKU);
 	}
 
 	public void subscribe(string SKU) {
+		_processedSKU = SKU;
 		AndroidNative.subscribe (SKU);
 	}
 
 	public void consume(string SKU) {
+		_processedSKU = SKU;
 		AndroidNative.consume (SKU);
 	}
 
@@ -148,15 +161,15 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 
 
 	public void OnPurchaseFinishedCallback(string data) {
+		Debug.Log(data);
 		string[] storeData;
 		storeData = data.Split(AndroidNative.DATA_SPLITTER [0]);
 
 		int resp = System.Convert.ToInt32 (storeData[0]);
-		GooglePurchaseTemplate purchase = null;
+		GooglePurchaseTemplate purchase = new GooglePurchaseTemplate ();
 
 
 		if(resp == BillingResponseCodes.BILLING_RESPONSE_RESULT_OK) {
-			purchase = new GooglePurchaseTemplate ();
 
 			purchase.SKU 						= storeData[2];
 			purchase.packageName 				= storeData[3];
@@ -172,12 +185,14 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 				_inventory.addPurchase (purchase);
 			}
 
+		} else {
+			purchase.SKU 						= _processedSKU;
 		}
 
 
 		BillingResult result = new BillingResult (resp, storeData [1], purchase);
 
-
+		ActionProductPurchased(result);
 		dispatch (ON_PRODUCT_PURCHASED, result);
 	}
 
@@ -208,7 +223,7 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 
 		BillingResult result = new BillingResult (resp, storeData [1], purchase);
 
-
+		ActionProductConsumed(result);
 		dispatch (ON_PRODUCT_CONSUMED, result);
 	}
 
@@ -224,6 +239,8 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 		_IsConnectd = true;
 		_IsConnectingToServiceInProcess = false;
 		BillingResult result = new BillingResult (resp, storeData [1]);
+
+		ActionBillingSetupFinished(result);
 		dispatch (ON_BILLING_SETUP_FINISHED, result);
 	}
 
@@ -238,6 +255,8 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 
 		_IsInventoryLoaded = true;
 		_IsProductRetrievingInProcess = false;
+
+		ActionRetrieveProducsFinished(result);
 		dispatch (ON_RETRIEVE_PRODUC_FINISHED, result);
 	}
 

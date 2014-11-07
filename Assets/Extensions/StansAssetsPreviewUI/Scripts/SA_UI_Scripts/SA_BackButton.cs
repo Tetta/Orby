@@ -21,11 +21,11 @@ public class SA_BackButton : DefaultPreviewButton {
 
 	void FixedUpdate() {
 		if(Application.loadedLevelName.Equals(firstLevel)) {
-			renderer.enabled = false;
-			collider.enabled = false;
+			GetComponent<Renderer>().enabled = false;
+			GetComponent<Collider>().enabled = false;
 		} else {
-			renderer.enabled = true;
-			collider.enabled = true;
+			GetComponent<Renderer>().enabled = true;
+			GetComponent<Collider>().enabled = true;
 		}
 	}
 

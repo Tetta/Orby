@@ -9,6 +9,7 @@
 
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class TwitterAndroidUseExample : MonoBehaviour {
@@ -252,11 +253,11 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 		if(result.IsSucceeded) {
 
 			
-			AndroidNative.showMessage("Ids Request Succeeded", "Totals ids loaded: " + result.ids.Count);
+			AN_PoupsProxy.showMessage("Ids Request Succeeded", "Totals ids loaded: " + result.ids.Count);
 			Debug.Log(result.ids.Count);
 		} else {
 			Debug.Log(result.responce);
-			AndroidNative.showMessage("Ids Request Failed", result.responce);
+			AN_PoupsProxy.showMessage("Ids Request Failed", result.responce);
 		}
 	}
 
@@ -272,11 +273,11 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 			msg+= "\n";
 			msg+= "User Name:" + result.users[0].name;
 			
-			AndroidNative.showMessage("User Info Loaded", msg);
+			AN_PoupsProxy.showMessage("User Info Loaded", msg);
 			Debug.Log(msg);
 		} else {
 			Debug.Log(result.responce);
-			AndroidNative.showMessage("User Info Failed", result.responce);
+			AN_PoupsProxy.showMessage("User Info Failed", result.responce);
 		}
 	}
 
@@ -289,11 +290,11 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 			string msg = "Tweet text:" + "\n";
 			msg+= result.tweets[0].text;
 			
-			AndroidNative.showMessage("Tweet Search Request Succeeded", msg);
+			AN_PoupsProxy.showMessage("Tweet Search Request Succeeded", msg);
 			Debug.Log(msg);
 		} else {
 			Debug.Log(result.responce);
-			AndroidNative.showMessage("Tweet Search Request Failed", result.responce);
+			AN_PoupsProxy.showMessage("Tweet Search Request Failed", result.responce);
 		}
 		
 	}
@@ -307,11 +308,11 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 			string msg = "Last Tweet text:" + "\n";
 			msg+= result.tweets[0].text;
 			
-			AndroidNative.showMessage("Time Line Request Succeeded", msg);
+			AN_PoupsProxy.showMessage("Time Line Request Succeeded", msg);
 			Debug.Log(msg);
 		} else {
 			Debug.Log(result.responce);
-			AndroidNative.showMessage("Time Line Request Failed", result.responce);
+			AN_PoupsProxy.showMessage("Time Line Request Failed", result.responce);
 		}
 
 	}

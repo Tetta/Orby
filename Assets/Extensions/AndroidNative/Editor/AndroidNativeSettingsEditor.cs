@@ -9,12 +9,16 @@ using System.Reflection;
 public class AndroidNativeSettingsEditor : Editor {
 
 
+	GUIContent PlusApiLabel   = new GUIContent("Enable Plus API [?]:", "API used for account managment");
 	GUIContent GamesApiLabel   = new GUIContent("Enable Games API [?]:", "API used for achivements and leaderboards");
 	GUIContent AppSateApiLabel = new GUIContent("Enable App State API [?]:", "API used for cloud data save");
+	GUIContent DriveApiLabel = new GUIContent("Enable Drive API [?]:", "API used for saved games");
 
 
 	GUIContent Base64KeyLabel = new GUIContent("Base64 Key[?]:", "Base64 Key app key.");
 	GUIContent SdkVersion   = new GUIContent("Plugin Version [?]", "This is Plugin version.  If you have problems or compliments please include this so we know exactly what version to look out for.");
+	GUIContent GPSdkVersion   = new GUIContent("Google Play SDK Version [?]", "Version of Google Play SDK used by the plugin");
+	GUIContent FBdkVersion   = new GUIContent("Facebook SDK Version [?]", "Version of Unity Facebook SDK Plugin");
 	GUIContent SupportEmail = new GUIContent("Support [?]", "If you have any technical quastion, feel free to drop an e-mail");
 
 
@@ -29,6 +33,23 @@ public class AndroidNativeSettingsEditor : Editor {
 	}
 
 	public override void OnInspectorGUI() {
+		#if UNITY_WEBPLAYER
+		EditorGUILayout.HelpBox("Editing Android Native Settings not avaliable with web player platfrom. Please swith to any other platfrom under Build Seting menu", MessageType.Warning);
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.Space();
+		if(GUILayout.Button("Switch To Android Platfrom",  GUILayout.Width(180))) {
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+		}
+		EditorGUILayout.EndHorizontal();
+
+		if(Application.isEditor) {
+			return;
+		}
+
+
+		#endif
+
+
 		settings = target as AndroidNativeSettings;
 
 		GUI.changed = false;
@@ -36,6 +57,7 @@ public class AndroidNativeSettingsEditor : Editor {
 
 
 		GeneralOptions();
+
 
 		PlayServiceSettings();
 
@@ -67,7 +89,7 @@ public class AndroidNativeSettingsEditor : Editor {
 
 	public static bool IsInstalled {
 		get {
-			if(FileStaticAPI.IsFileExists(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "androidnative.jar")) {
+			if(FileStaticAPI.IsFileExists(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "androidnative.jar") && FileStaticAPI.IsFileExists(version_info_file)) {
 				return true;
 			} else {
 				return false;
@@ -138,7 +160,7 @@ public class AndroidNativeSettingsEditor : Editor {
 				Color c = GUI.color;
 				GUI.color = Color.cyan;
 				if(GUILayout.Button("Update to " + AndroidNativeSettings.VERSION_NUMBER,  GUILayout.Width(250))) {
-					PluginsInstalationUtil.Android_UpdatePlugin();
+					AN_Plugin_Update();
 					UpdateVersionInfo();
 				}
 
@@ -148,7 +170,7 @@ public class AndroidNativeSettingsEditor : Editor {
 
 			} else {
 				EditorGUILayout.HelpBox("Android Native Plugin v" + AndroidNativeSettings.VERSION_NUMBER + " is installed", MessageType.Info);
-				Actions();
+				PluginSetting();
 			}
 		}
 
@@ -170,7 +192,7 @@ public class AndroidNativeSettingsEditor : Editor {
 				string file = "AndroidManifest.xml";
 				FileStaticAPI.DeleteFile(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + file);
 				
-				PluginsInstalationUtil.Android_UpdatePlugin();
+				AN_Plugin_Update();
 				UpdateVersionInfo();
 			}
 			
@@ -193,7 +215,7 @@ public class AndroidNativeSettingsEditor : Editor {
 				string file = "AndroidManifest.xml";
 				FileStaticAPI.DeleteFile(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + file);
 				
-				PluginsInstalationUtil.Android_UpdatePlugin();
+				AN_Plugin_Update();
 				UpdateVersionInfo();
 			}
 			
@@ -214,9 +236,10 @@ public class AndroidNativeSettingsEditor : Editor {
 				GUI.enabled = false;
 			}	
 
-			if(GUILayout.Button("Remove Facebook SDK",  GUILayout.Width(160))) {
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
 
-			
+			if(GUILayout.Button("Remove Facebook SDK",  GUILayout.Width(160))) {
 				bool result = EditorUtility.DisplayDialog(
 					"Removing Facebook SDK",
 					"Warning action can not be undone without reimporting the plugin",
@@ -232,17 +255,125 @@ public class AndroidNativeSettingsEditor : Editor {
 				}
 
 			}
+
 			GUI.enabled = true;
+			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Space();
 
 
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+			if(GUILayout.Button("Reset Settings",  GUILayout.Width(160))) {
 
+				SocialPlatfromSettingsEditor.ResetSettings();
+
+				FileStaticAPI.DeleteFile("Extensions/AndroidNative/Resources/AndroidNativeSettings.asset");
+				AndroidNativeSettings.Instance.ShowActions = true;
+				Selection.activeObject = AndroidNativeSettings.Instance;
+
+				return;
+			}
+
+			if(GUILayout.Button("Load Example Settings",  GUILayout.Width(160))) {
+				SocialPlatfromSettingsEditor.LoadExampleSettings();
+				FileStaticAPI.DeleteFile("Extensions/AndroidNative/Resources/AndroidNativeSettings.asset");
+				FileStaticAPI.CopyFile("Extensions/AndroidNative/Resources/AndroidNativeSettings_example.asset", "Extensions/AndroidNative/Resources/AndroidNativeSettings.asset");
+			}
+
+
+			EditorGUILayout.EndHorizontal();
 
 		}
 	}
-	
+
+
+	private void PluginSetting() {
+		EditorGUILayout.Space();
+		EditorGUILayout.HelpBox("Plugin Settings", MessageType.None);
+
+
+
+
+		AndroidNativeSettings.Instance.ShowPluginSettings = EditorGUILayout.Foldout(AndroidNativeSettings.Instance.ShowPluginSettings, "Android Native APIs");
+		if(AndroidNativeSettings.Instance.ShowPluginSettings) {
+
+			EditorGUILayout.BeginHorizontal();
+
+			EditorGUILayout.LabelField("Enable Native API");
+			GUI.enabled = false;
+			EditorGUILayout.Toggle(true);
+			GUI.enabled = true;
+			EditorGUILayout.EndHorizontal();
+
+
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Enable Billing API");
+			settings.EnableBillingAPI	 	= EditorGUILayout.Toggle(settings.EnableBillingAPI);
+			EditorGUILayout.EndHorizontal();
+
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Enable Google Play API");
+			settings.EnablePSAPI	 	= EditorGUILayout.Toggle(settings.EnablePSAPI);
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Enable Social API");
+			settings.EnableSocialAPI	 	= EditorGUILayout.Toggle(settings.EnableSocialAPI);
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Enable Camera API");
+			settings.EnableCameraAPI	 	= EditorGUILayout.Toggle(settings.EnableCameraAPI);
+			EditorGUILayout.EndHorizontal();
+
+		
+		}
+
+		if(GUI.changed) {
+			UpdateAPIsInstalation();
+		}
+
+
+		Actions();
+
+		EditorGUILayout.Space();
+	}
+
+	public static void UpdateAPIsInstalation() {
+
+
+		if(AndroidNativeSettings.Instance.EnableBillingAPI) {
+			PluginsInstalationUtil.EnableBillingAPI();
+		} else {
+			PluginsInstalationUtil.DisableBillingAPI();
+		}
+		
+		if(AndroidNativeSettings.Instance.EnablePSAPI) {
+			PluginsInstalationUtil.EnableGooglePlayAPI();
+		} else {
+			PluginsInstalationUtil.DisableGooglePlayAPI();
+		}
+
+
+		if(AndroidNativeSettings.Instance.EnableSocialAPI) {
+			PluginsInstalationUtil.EnableSocialAPI();
+		} else {
+			PluginsInstalationUtil.DisableSocialAPI();
+		}
+
+
+		if(AndroidNativeSettings.Instance.EnableCameraAPI) {
+			PluginsInstalationUtil.EnableCameraAPI();
+		} else {
+			PluginsInstalationUtil.DisableCameraAPI();
+		}
+
+	}
 
 	private void PlayServiceSettings() {
-		EditorGUILayout.HelpBox("(Optional) Google API Settings", MessageType.None);
+		EditorGUILayout.HelpBox("Google API Settings", MessageType.None);
 		AndroidNativeSettings.Instance.ShowPSSettings = EditorGUILayout.Foldout(AndroidNativeSettings.Instance.ShowPSSettings, "PlayService Settings");
 		if(AndroidNativeSettings.Instance.ShowPSSettings) {
 
@@ -250,15 +381,31 @@ public class AndroidNativeSettingsEditor : Editor {
 			EditorGUILayout.LabelField("API:");
 			EditorGUI.indentLevel++;
 
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField(PlusApiLabel);
+			settings.EnablePlusAPI	 	= EditorGUILayout.Toggle(settings.EnablePlusAPI);
+			EditorGUILayout.EndHorizontal();
+
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(GamesApiLabel);
 			settings.EnableGamesAPI	 	= EditorGUILayout.Toggle(settings.EnableGamesAPI);
+			EditorGUILayout.EndHorizontal();
+
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField(DriveApiLabel);
+			settings.EnableDriveAPI	 	= EditorGUILayout.Toggle(settings.EnableDriveAPI);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(AppSateApiLabel);
 			settings.EnableAppStateAPI	 	= EditorGUILayout.Toggle(settings.EnableAppStateAPI);
 			EditorGUILayout.EndHorizontal();
+
+
+
+
 			EditorGUI.indentLevel--;
 
 
@@ -304,7 +451,10 @@ public class AndroidNativeSettingsEditor : Editor {
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(Base64KeyLabel);
 			settings.base64EncodedPublicKey	 	= EditorGUILayout.TextField(settings.base64EncodedPublicKey);
-			settings.base64EncodedPublicKey 	= settings.base64EncodedPublicKey.Trim();
+			if(settings.base64EncodedPublicKey.Length > 0) {
+				settings.base64EncodedPublicKey 	= settings.base64EncodedPublicKey.Trim();
+			}
+
 			EditorGUILayout.EndHorizontal();
 
 
@@ -317,7 +467,9 @@ public class AndroidNativeSettingsEditor : Editor {
 			foreach(string str in settings.InAppProducts) {
 				EditorGUILayout.BeginHorizontal();
 				settings.InAppProducts[i]	 	= EditorGUILayout.TextField(settings.InAppProducts[i]);
-				settings.InAppProducts[i]		= settings.InAppProducts[i].Trim();
+				if(settings.InAppProducts[i].Length > 0) {
+					settings.InAppProducts[i]		= settings.InAppProducts[i].Trim();
+				}
 				if(GUILayout.Button("Remove",  GUILayout.Width(80))) {
 					settings.InAppProducts.Remove(str);
 					break;
@@ -348,7 +500,10 @@ public class AndroidNativeSettingsEditor : Editor {
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField("Sender Id");
 			settings.GCM_SenderId	 	= EditorGUILayout.TextField(settings.GCM_SenderId);
-			settings.GCM_SenderId		= settings.GCM_SenderId.Trim();
+			if(settings.GCM_SenderId.Length > 0) {
+				settings.GCM_SenderId		= settings.GCM_SenderId.Trim();
+			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 	}
@@ -362,37 +517,44 @@ public class AndroidNativeSettingsEditor : Editor {
 		}
 	}
 
-	private void CameraAndGalleryParams() {
+	public static void CameraAndGalleryParams() {
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.LabelField("Camera Capture Mode");
-		settings.CameraCaptureMode	 	= (AN_CameraCaptureType) EditorGUILayout.EnumPopup(settings.CameraCaptureMode);
+		AndroidNativeSettings.Instance.CameraCaptureMode	 	= (AN_CameraCaptureType) EditorGUILayout.EnumPopup(AndroidNativeSettings.Instance.CameraCaptureMode);
 		EditorGUILayout.EndHorizontal();
 		
 		
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.LabelField("Max Loaded Image Size");
-		settings.MaxImageLoadSize	 	= EditorGUILayout.IntField(settings.MaxImageLoadSize);
+		AndroidNativeSettings.Instance.MaxImageLoadSize	 	= EditorGUILayout.IntField(AndroidNativeSettings.Instance.MaxImageLoadSize);
 		EditorGUILayout.EndHorizontal();
 		
 		
 		
-		GUI.enabled = !settings.UseProductNameAsFolderName;
-		if(settings.UseProductNameAsFolderName) {
-			settings.GalleryFolderName = PlayerSettings.productName.Trim();
+		GUI.enabled = !AndroidNativeSettings.Instance.UseProductNameAsFolderName;
+		if(AndroidNativeSettings.Instance.UseProductNameAsFolderName) {
+			if(PlayerSettings.productName.Length > 0) {
+				AndroidNativeSettings.Instance.GalleryFolderName = PlayerSettings.productName.Trim();
+			}
+
+
 		}
 		
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.LabelField("App Gallery Folder");
-		settings.GalleryFolderName	 	= EditorGUILayout.TextField(settings.GalleryFolderName);
-		settings.GalleryFolderName		= settings.GalleryFolderName.Trim();
-		settings.GalleryFolderName		= settings.GalleryFolderName.Trim('/');
+		AndroidNativeSettings.Instance.GalleryFolderName	 	= EditorGUILayout.TextField(AndroidNativeSettings.Instance.GalleryFolderName);
+		if(AndroidNativeSettings.Instance.GalleryFolderName.Length > 0) {
+			AndroidNativeSettings.Instance.GalleryFolderName		= AndroidNativeSettings.Instance.GalleryFolderName.Trim();
+			AndroidNativeSettings.Instance.GalleryFolderName		= AndroidNativeSettings.Instance.GalleryFolderName.Trim('/');
+		}
+
 		EditorGUILayout.EndHorizontal();
 		
 		GUI.enabled = true;
 		
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.LabelField("Use Product Name As Folder Name");
-		settings.UseProductNameAsFolderName	 	= EditorGUILayout.Toggle(settings.UseProductNameAsFolderName);
+		AndroidNativeSettings.Instance.UseProductNameAsFolderName	 	= EditorGUILayout.Toggle(AndroidNativeSettings.Instance.UseProductNameAsFolderName);
 		EditorGUILayout.EndHorizontal();
 	}
 
@@ -405,7 +567,14 @@ public class AndroidNativeSettingsEditor : Editor {
 
 		EditorGUILayout.HelpBox("About the Plugin", MessageType.None);
 		
-		SelectableLabelField(SdkVersion, AndroidNativeSettings.VERSION_NUMBER);
+		SelectableLabelField(SdkVersion,   AndroidNativeSettings.VERSION_NUMBER);
+		if(FileStaticAPI.IsFolderExists("Facebook")) {
+			SelectableLabelField(FBdkVersion, SocialPlatfromSettings.FB_SDK_VERSION_NUMBER);
+		}	
+		SelectableLabelField(GPSdkVersion, AndroidNativeSettings.GOOGLE_PLAY_SDK_VERSION_NUMBER);
+
+
+
 		SelectableLabelField(SupportEmail, "stans.assets@gmail.com");
 		
 		
@@ -422,6 +591,11 @@ public class AndroidNativeSettingsEditor : Editor {
 		if(AndroidNativeSettings.Instance.UseProductNameAsFolderName) {
 			AndroidNativeSettings.Instance.GalleryFolderName = PlayerSettings.productName;
 		}
+	}
+
+	public static void AN_Plugin_Update() {
+		PluginsInstalationUtil.Android_UpdatePlugin();
+		AndroidNativeSettingsEditor.UpdateAPIsInstalation();
 	}
 
 

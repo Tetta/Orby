@@ -10,6 +10,8 @@
  
 
 using UnityEngine;
+using System;
+using UnionAssets.FLE;
 using System.Collections;
 
 public interface GoogleMobileAdBanner  {
@@ -32,7 +34,18 @@ public interface GoogleMobileAdBanner  {
 
 	GADBannerSize size {get;}
 	TextAnchor anchor {get;}
+
+
+
+	//Actions
+	Action<GoogleMobileAdBanner> OnLoadedAction 			{ get; set; }
+	Action<GoogleMobileAdBanner> OnFailedLoadingAction 	{ get; set; }
+	Action<GoogleMobileAdBanner> OnOpenedAction 			{ get; set; }
+	Action<GoogleMobileAdBanner> OnClosedAction 			{ get; set; }
+	Action<GoogleMobileAdBanner> OnLeftApplicationAction  { get; set; }
 	
+
+	//Events
 
 	void addEventListener(string eventName, EventHandlerFunction handler);
 	void addEventListener(string eventName, DataEventHandlerFunction handler);

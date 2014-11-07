@@ -7,6 +7,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using UnityEngine;
+using System;
+using UnionAssets.FLE;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,6 +16,8 @@ public class AndroidMessage : BaseAndroidPopup {
 	
 	
 	public string ok;
+
+	public Action OnComplete = delegate {} ;
 	
 	//--------------------------------------
 	// INITIALIZE
@@ -41,7 +45,7 @@ public class AndroidMessage : BaseAndroidPopup {
 	//--------------------------------------
 	
 	public void init() {
-		AndroidNative.showMessage(title, message, ok);
+		AN_PoupsProxy.showMessage(title, message, ok);
 	}
 	
 	//--------------------------------------
@@ -53,6 +57,7 @@ public class AndroidMessage : BaseAndroidPopup {
 	//--------------------------------------
 	
 	public void onPopUpCallBack(string buttonIndex) {
+		OnComplete();
 		dispatch(BaseEvent.COMPLETE);
 		Destroy(gameObject);	
 	}

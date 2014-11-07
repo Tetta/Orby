@@ -10,6 +10,7 @@
  
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class GooglePlayerTemplate {

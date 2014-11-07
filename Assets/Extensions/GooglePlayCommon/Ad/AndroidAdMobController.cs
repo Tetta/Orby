@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,6 +21,14 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 	private string _BannersUunitId;
 	private string _InterstisialUnitId;
 
+
+	//Actions
+	private Action _OnInterstitialLoaded 			= delegate {};
+	private Action _OnInterstitialFailedLoading 	= delegate {};
+	private Action _OnInterstitialOpened 			= delegate {};
+	private Action _OnInterstitialClosed 			= delegate {};
+	private Action _OnInterstitialLeftApplication  	= delegate {};
+	private Action<string> _OnAdInAppRequest		= delegate {};
 
 
 
@@ -44,7 +53,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 
 		_banners =  new Dictionary<int, AndroidADBanner>();
 
-		AndroidNative.InitMobileAd(ad_unit_id);
+		AN_GoogleAdProxy.InitMobileAd(ad_unit_id);
 	}
 
 
@@ -63,12 +72,12 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 
 	public void SetBannersUnitID(string ad_unit_id) {
 		_BannersUunitId = ad_unit_id;
-		AndroidNative.ChangeBannersUnitID(ad_unit_id);
+		AN_GoogleAdProxy.ChangeBannersUnitID(ad_unit_id);
 	}
 
 	public void SetInterstisialsUnitID(string ad_unit_id) {
 		_InterstisialUnitId = ad_unit_id;
-		AndroidNative.ChangeInterstisialsUnitID(ad_unit_id);
+		AN_GoogleAdProxy.ChangeInterstisialsUnitID(ad_unit_id);
 	}
 
 
@@ -87,7 +96,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.AddKeyword(keyword);
+		AN_GoogleAdProxy.AddKeyword(keyword);
 	}
 
 
@@ -97,7 +106,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 		
-		AndroidNative.SetBirthday(year, (int) month, day);
+		AN_GoogleAdProxy.SetBirthday(year, (int) month, day);
 	}
 
 	public void TagForChildDirectedTreatment(bool tagForChildDirectedTreatment)  {
@@ -106,7 +115,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.TagForChildDirectedTreatment(tagForChildDirectedTreatment);
+		AN_GoogleAdProxy.TagForChildDirectedTreatment(tagForChildDirectedTreatment);
 	}
 
 
@@ -118,7 +127,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.AddTestDevice(deviceId);
+		AN_GoogleAdProxy.AddTestDevice(deviceId);
 	}
 
 
@@ -135,7 +144,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 		}
 
 
-		AndroidNative.AddTestDevice(string.Join(DEVICES_SEPARATOR, ids));
+		AN_GoogleAdProxy.AddTestDevice(string.Join(DEVICES_SEPARATOR, ids));
 	}
 
 
@@ -147,7 +156,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.SetGender((int) gender);
+		AN_GoogleAdProxy.SetGender((int) gender);
 	}
 
 
@@ -194,7 +203,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 				AndroidADBanner banner = _banners[id];
 				if(banner.IsLoaded) {
 					_banners.Remove(id);
-					AndroidNative.DestroyBanner(id);
+					AN_GoogleAdProxy.DestroyBanner(id);
 				} else {
 					banner.DestroyAfterLoad();
 				}
@@ -210,7 +219,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.StartInterstitialAd();
+		AN_GoogleAdProxy.StartInterstitialAd();
 	}
 	
 	public void LoadInterstitialAd() {
@@ -219,7 +228,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.LoadInterstitialAd();
+		AN_GoogleAdProxy.LoadInterstitialAd();
 	}
 	
 	public void ShowInterstitialAd() {
@@ -228,12 +237,12 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 			return;
 		}
 
-		AndroidNative.ShowInterstitialAd();
+		AN_GoogleAdProxy.ShowInterstitialAd();
 	}
 
 
 	public void RecordInAppResolution(GADInAppResolution resolution) {
-		AndroidNative.RecordInAppResolution((int) resolution);
+		AN_GoogleAdProxy.RecordInAppResolution((int) resolution);
 	}
 	
 	//--------------------------------------
@@ -287,14 +296,74 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 	}
 
 
+	//--------------------------------------
+	//  Actions 
+	//--------------------------------------
+
+	public Action OnInterstitialLoaded {
+		get {
+			return _OnInterstitialLoaded;
+		}
+
+		set {
+			_OnInterstitialLoaded = value;
+		}
+	}
+
+	public Action OnInterstitialFailedLoading {
+		get {
+			return _OnInterstitialFailedLoading;
+		}
+		
+		set {
+			_OnInterstitialFailedLoading = value;
+		}
+	}
 
 
-	//--------------------------------------
-	//  EVENTS 
-	//--------------------------------------
+	public Action OnInterstitialOpened {
+		get {
+			return _OnInterstitialOpened;
+		}
+		
+		set {
+			_OnInterstitialOpened = value;
+		}
+	}
+
+	public Action OnInterstitialClosed {
+		get {
+			return _OnInterstitialClosed;
+		}
+		
+		set {
+			_OnInterstitialClosed = value;
+		}
+	}
+
+
+	public Action OnInterstitialLeftApplication {
+		get {
+			return _OnInterstitialLeftApplication;
+		}
+		
+		set {
+			_OnInterstitialLeftApplication = value;
+		}
+	}
+
+
+	public Action<string> OnAdInAppRequest {
+		get {
+			return _OnAdInAppRequest;
+		}
+		
+		set {
+			_OnAdInAppRequest = value;
+		}
+	}
 	
 
-	
 	//--------------------------------------
 	//  EVENTS BANNER AD
 	//--------------------------------------
@@ -358,22 +427,27 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 
 	
 	private void OnInterstitialAdLoaded()  {
+		_OnInterstitialLoaded();
 		dispatch(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_LOADED);
 	}
 	
 	private void OnInterstitialAdFailedToLoad() {
+		_OnInterstitialFailedLoading();
 		dispatch(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_FAILED_LOADING);
 	}
 	
 	private void OnInterstitialAdOpened() {
+		_OnInterstitialOpened();
 		dispatch(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_OPENED);
 	}
 	
 	private void OnInterstitialAdClosed() {
+		_OnInterstitialClosed();
 		dispatch(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_CLOSED);
 	}
 	
 	private void OnInterstitialAdLeftApplication() {
+		_OnInterstitialLeftApplication();
 		dispatch(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_LEFT_APPLICATION);
 	}
 	
@@ -382,6 +456,7 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 	//--------------------------------------
 
 	private void OnInAppPurchaseRequested(string productId) {
+		_OnAdInAppRequest(productId);
 		dispatch(GoogleMobileAdEvents.ON_AD_IN_APP_REQUEST, productId);
 	}
 

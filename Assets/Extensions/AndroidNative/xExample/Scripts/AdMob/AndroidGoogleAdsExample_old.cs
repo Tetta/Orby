@@ -197,6 +197,7 @@ public class AndroidGoogleAdsExample_old : MonoBehaviour {
 		}
 		StartX += 170;
 		if(GUI.Button(new Rect(StartX, StartY, 150, 50), "Destroy")) {
+
 			AndroidAdMobController.instance.DestroyBanner(banner1.id);
 			banner1 = null;
 

@@ -10,6 +10,7 @@
  
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class GoogleCloudUseExample : MonoBehaviour {
@@ -78,7 +79,7 @@ public class GoogleCloudUseExample : MonoBehaviour {
 
 	private void OnStateConflict(CEvent e) {
 		GoogleCloudResult result = e.data as GoogleCloudResult;
-		AndroidNative.showMessage ("OnStateUpdated", result.message 
+		AN_PoupsProxy.showMessage ("OnStateUpdated", result.message 
 		                           + "\n State ID: " + result.stateKey 
 		                           + "\n State Data: " + result.stateData
 		                           + "\n State Conflict: " + result.serverConflictData
@@ -95,13 +96,13 @@ public class GoogleCloudUseExample : MonoBehaviour {
 	private void OnStateUpdated(CEvent e) {
 		GoogleCloudResult result = e.data as GoogleCloudResult;
 
-		AndroidNative.showMessage ("State Updated", result.message + "\n State ID: " + result.stateKey + "\n State Data: " + result.stateDataString);
+		AN_PoupsProxy.showMessage ("State Updated", result.message + "\n State ID: " + result.stateKey + "\n State Data: " + result.stateDataString);
 	}
 
 
 	private void OnAllLoaded(CEvent e) {
 		GoogleCloudResult result = e.data as GoogleCloudResult;
-		AndroidNative.showMessage ("All States Loaded", result.message + "\n" + "Total states: " + GoogleCloudManager.instance.states.Count);
+		AN_PoupsProxy.showMessage ("All States Loaded", result.message + "\n" + "Total states: " + GoogleCloudManager.instance.states.Count);
 	}
 
 	private void OnStateDeleted(CEvent e) {
@@ -109,7 +110,7 @@ public class GoogleCloudUseExample : MonoBehaviour {
 		GoogleCloudResult result = e.data as GoogleCloudResult;
 
 
-		AndroidNative.showMessage ("KeyDeleted", result.message + "\n for state key: " + result.stateKey.ToString());
+		AN_PoupsProxy.showMessage ("KeyDeleted", result.message + "\n for state key: " + result.stateKey.ToString());
 	}
 
 	

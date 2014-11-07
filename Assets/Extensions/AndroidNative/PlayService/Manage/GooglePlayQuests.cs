@@ -6,13 +6,16 @@ using System.Collections.Generic;
 public class GooglePlayQuests : SA_Singleton<GooglePlayQuests> {
 
 
-	public Action<GooglePlayResult> OnQuestsLoaded =  delegate{};
-	public Action<GP_QuestResult> OnQuestsAccepted =  delegate{};
-	public Action<GP_QuestResult> OnQuestsCompleted =  delegate{};
 
+	//Events
 	public const string QUEST_ACCEPTED      = "quest_accepted";
 	public const string QUESTS_LOADED       = "quests_loaded";
 	public const string QUESTS_COMPLETE     = "quests_complete";
+
+	//Actions
+	public Action<GooglePlayResult> OnQuestsLoaded =  delegate{};
+	public Action<GP_QuestResult> OnQuestsAccepted =  delegate{};
+	public Action<GP_QuestResult> OnQuestsCompleted =  delegate{};
 
 
 

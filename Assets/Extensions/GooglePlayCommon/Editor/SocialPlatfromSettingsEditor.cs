@@ -9,12 +9,13 @@ using System.Reflection;
 public class SocialPlatfromSettingsEditor : Editor {
 
 
-	
+
 
 	static GUIContent TConsumerKey   = new GUIContent("API Key [?]:", "Twitter register app consumer key");
 	static GUIContent TConsumerSecret   = new GUIContent("API Secret [?]:", "Twitter register app consumer secret");
+	static GUIContent FBdkVersion   = new GUIContent("Facebook SDK Version [?]", "Version of Unity Facebook SDK Plugin");
 
-
+	
 	
 	static GUIContent SdkVersion   = new GUIContent("Plugin Version [?]", "This is Plugin version.  If you have problems or compliments please include this so we know exactly what version to look out for.");
 	static GUIContent SupportEmail = new GUIContent("Support [?]", "If you have any technical quastion, feel free to drop an e-mail");
@@ -32,13 +33,39 @@ public class SocialPlatfromSettingsEditor : Editor {
 	public override void OnInspectorGUI() {
 
 
+		
+		#if UNITY_WEBPLAYER
+		EditorGUILayout.HelpBox("Editing Mobile Social Settins not avaliable with web player platfrom. Please swith to any other platfrom under Build Seting menu", MessageType.Warning);
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.Space();
+		if(GUILayout.Button("Switch To Android",  GUILayout.Width(130))) {
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+		}
+
+		if(GUILayout.Button("Switch To IOS",  GUILayout.Width(130))) {
+
+			#if UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iPhone);
+			#else
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
+			#endif
+
+		}
+		EditorGUILayout.EndHorizontal();
+		
+		if(Application.isEditor) {
+			return;
+		}
+
+		#endif
+
 		GUI.changed = false;
 
 
-		if(IsFullVersion) {
-			GeneralOptions();
-			EditorGUILayout.Space();
-		}
+
+		GeneralOptions();
+		EditorGUILayout.Space();
+
 
 		FacebookSettings();
 		EditorGUILayout.Space();
@@ -108,7 +135,11 @@ public class SocialPlatfromSettingsEditor : Editor {
 
 	private void GeneralOptions() {
 		
-
+		if(!IsFullVersion) {
+			EditorGUILayout.HelpBox("Mobile Social Plugin v" + SocialPlatfromSettings.VERSION_NUMBER + " is installed", MessageType.Info);
+			Actions();
+			return;
+		}
 		
 		if(!IsInstalled) {
 			EditorGUILayout.HelpBox("Install Required ", MessageType.Error);
@@ -136,7 +167,7 @@ public class SocialPlatfromSettingsEditor : Editor {
 					EditorGUILayout.BeginHorizontal();
 					EditorGUILayout.Space();
 					
-					if(GUILayout.Button("Remove AndroidManifest and Update to " + AndroidNativeSettings.VERSION_NUMBER,  GUILayout.Width(250))) {
+					if(GUILayout.Button("Remove AndroidManifest and Update to " + SocialPlatfromSettings.VERSION_NUMBER,  GUILayout.Width(250))) {
 						
 						string file = "AndroidManifest.xml";
 						FileStaticAPI.DeleteFile(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + file);
@@ -174,8 +205,7 @@ public class SocialPlatfromSettingsEditor : Editor {
 
 			}
 		}
-		
-		
+
 		EditorGUILayout.Space();
 		
 	}
@@ -185,35 +215,65 @@ public class SocialPlatfromSettingsEditor : Editor {
 		EditorGUILayout.Space();
 		SocialPlatfromSettings.Instance.ShowActions = EditorGUILayout.Foldout(SocialPlatfromSettings.Instance.ShowActions, "More Actions");
 		if(SocialPlatfromSettings.Instance.ShowActions) {
-			
+				
 			if(!FileStaticAPI.IsFolderExists("Facebook")) {
 				GUI.enabled = false;
 			}	
-			
+				
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+				
 			if(GUILayout.Button("Remove Facebook SDK",  GUILayout.Width(160))) {
-				
-				
 				bool result = EditorUtility.DisplayDialog(
 					"Removing Facebook SDK",
 					"Warning action can not be undone without reimporting the plugin",
 					"Remove",
 					"Cansel");
-				
 				if(result) {
 					FileStaticAPI.DeleteFolder(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "facebook");
 					FileStaticAPI.DeleteFolder("Facebook");
 					FileStaticAPI.DeleteFolder("Extensions/GooglePlayCommon/Social/Facebook");
-					FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAndroidUseExample.cs");
-					
+					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSPFacebookUseExample.cs");
+					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAnalyticsExample.cs");
 				}
-				
+					
 			}
+				
 			GUI.enabled = true;
-			
+			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Space();
+				
+				
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+			if(GUILayout.Button("Reset Settings",  GUILayout.Width(160))) {
+				ResetSettings();
+			}
+				
+			if(GUILayout.Button("Load Example Settings",  GUILayout.Width(160))) {
+				LoadExampleSettings();
+			}
+				
+				
+			EditorGUILayout.EndHorizontal();
+				
 		}
 	}
 
+	public static void LoadExampleSettings() {
 
+		SocialPlatfromSettings.Instance.TWITTER_CONSUMER_KEY = "wEvDyAUr2QabVAsWPDiGwg";
+		SocialPlatfromSettings.Instance.TWITTER_CONSUMER_SECRET = "igRxZbOrkLQPNLSvibNC3mdNJ5tOlVOPH3HNNKDY0";
+
+	}
+
+	public static void ResetSettings() {
+		FileStaticAPI.DeleteFile("Extensions/GooglePlayCommon/Resources/SocialSettings.asset");
+		SocialPlatfromSettings.Instance.ShowActions = true;
+		Selection.activeObject = SocialPlatfromSettings.Instance;
+	}
+	
+	
 	private static string newPermition = "";
 	public static void FacebookSettings() {
 		EditorGUILayout.HelpBox("Facebook Settings", MessageType.None);
@@ -302,6 +362,9 @@ public class SocialPlatfromSettingsEditor : Editor {
 		EditorGUILayout.Space();
 		
 		SelectableLabelField(SdkVersion, SocialPlatfromSettings.VERSION_NUMBER);
+		if(FileStaticAPI.IsFolderExists("Facebook")) {
+			SelectableLabelField(FBdkVersion, SocialPlatfromSettings.FB_SDK_VERSION_NUMBER);
+		}
 		SelectableLabelField(SupportEmail, "stans.assets@gmail.com");
 
 		

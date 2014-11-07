@@ -10,6 +10,8 @@
  
 
 using UnityEngine;
+using System;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
@@ -30,6 +32,13 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 	private int _height = 0;
 
 
+	private Action<GoogleMobileAdBanner> _OnLoadedAction 				= delegate {};
+	private Action<GoogleMobileAdBanner> _OnFailedLoadingAction 		= delegate {};
+	private Action<GoogleMobileAdBanner> _OnOpenedAction 				= delegate {};
+	private Action<GoogleMobileAdBanner> _OnClosedAction 				= delegate {};
+	private Action<GoogleMobileAdBanner> _OnLeftApplicationAction 	= delegate {};
+
+
 
 	//--------------------------------------
 	// INITIALIZE
@@ -41,7 +50,7 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 		_anchor = anchor;
 	
 
-		AndroidNative.CreateBannerAd (gravity, (int) _size, _id);
+		AN_GoogleAdProxy.CreateBannerAd (gravity, (int) _size, _id);
 
 	}
 
@@ -50,7 +59,7 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 		_size = size;
 		
 		
-		AndroidNative.CreateBannerAdPos (x, y, (int) _size, _id);
+		AN_GoogleAdProxy.CreateBannerAdPos (x, y, (int) _size, _id);
 		
 	}
 
@@ -65,7 +74,7 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 		}
 
 		_IsOnScreen = false;
-		AndroidNative.HideAd (_id);
+		AN_GoogleAdProxy.HideAd (_id);
 	}
 
 
@@ -76,7 +85,7 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 		}
 
 		_IsOnScreen = true;
-		AndroidNative.ShowAd (_id);
+		AN_GoogleAdProxy.ShowAd (_id);
 	}
 
 
@@ -86,18 +95,18 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 			return;
 		}
 
-		AndroidNative.RefreshAd (_id);
+		AN_GoogleAdProxy.RefreshAd (_id);
 	}
 
 
 	public void SetBannerPosition(int x, int y) {
-		AndroidNative.SetBannerPosition(x, y, id);
+		AN_GoogleAdProxy.SetBannerPosition(x, y, id);
 	}
 
 
 	public void SetBannerPosition(TextAnchor anchor) {
 		_anchor = anchor;
-		AndroidNative.SetBannerPosition(gravity, id);
+		AN_GoogleAdProxy.SetBannerPosition(gravity, id);
 	}
 
 
@@ -202,6 +211,58 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 	}
 
 
+	
+	//--------------------------------------
+	//  Actions
+	//--------------------------------------
+
+
+	public Action<GoogleMobileAdBanner> OnLoadedAction {
+		get {
+			return _OnLoadedAction;
+		}
+		set {
+			_OnLoadedAction = value;
+		}
+	}
+
+	public Action<GoogleMobileAdBanner> OnFailedLoadingAction {
+		get {
+			return _OnFailedLoadingAction;
+		}
+		set {
+			_OnFailedLoadingAction = value;
+		}
+	}
+
+	public Action<GoogleMobileAdBanner> OnOpenedAction {
+		get {
+			return _OnOpenedAction;
+		}
+		set {
+			_OnOpenedAction = value;
+		}
+	}
+
+	public Action<GoogleMobileAdBanner> OnClosedAction {
+		get {
+			return _OnClosedAction;
+		}
+		set {
+			_OnClosedAction = value;
+		}
+	}
+
+	public Action<GoogleMobileAdBanner> OnLeftApplicationAction {
+		get {
+			return _OnLeftApplicationAction;
+		}
+		set {
+			_OnLeftApplicationAction = value;
+		}
+	}
+
+
 
 
 	//--------------------------------------
@@ -213,7 +274,7 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 	public void OnBannerAdLoaded()  {
 
 		if(destroyOnLoad) {
-			AndroidNative.DestroyBanner(id);
+			AN_GoogleAdProxy.DestroyBanner(id);
 			return;
 		}
 		_IsLoaded = true;
@@ -222,22 +283,27 @@ public class AndroidADBanner : EventDispatcherBase, GoogleMobileAdBanner {
 			firstLoad = false;
 		}
 
+		_OnLoadedAction(this);
 		dispatch(GoogleMobileAdEvents.ON_BANNER_AD_LOADED);
 	}
 	
 	public void OnBannerAdFailedToLoad() {
+		_OnFailedLoadingAction(this);
 		dispatch(GoogleMobileAdEvents.ON_BANNER_AD_FAILED_LOADING);
 	}
 	
 	public void OnBannerAdOpened() {
+		_OnOpenedAction(this);
 		dispatch(GoogleMobileAdEvents.ON_BANNER_AD_OPENED);
 	}
 	
 	public void OnBannerAdClosed() {
+		_OnClosedAction(this);
 		dispatch(GoogleMobileAdEvents.ON_BANNER_AD_CLOSED);
 	}
 	
 	public void OnBannerAdLeftApplication() {
+		_OnLeftApplicationAction(this);
 		dispatch(GoogleMobileAdEvents.ON_BANNER_AD_LEFT_APPLICATION);
 	}
 

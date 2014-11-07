@@ -25,7 +25,7 @@ public class AnalyticsUseExample : MonoBehaviour {
 
 
 	void Start() {
-		//Tracking firest screen
+		//Tracking first screen
 		AndroidGoogleAnalytics.instance.SendView("Home Screen");
 
 		//Send event example + 1 more implementation
@@ -39,6 +39,8 @@ public class AnalyticsUseExample : MonoBehaviour {
 		//Set session key
 		AndroidGoogleAnalytics.instance.SetKey("SCREEN", "MAIN");
 
+		AndroidGoogleAnalytics.instance.EnableAdvertisingIdCollection(true);
+
 
 		//To remove session key use
 		//AndroidGoogleAnalytics.instance.ClearKey("SCREEN");
@@ -49,6 +51,7 @@ public class AnalyticsUseExample : MonoBehaviour {
 
 		//To disable data sending use
 		//AndroidGoogleAnalytics.instance.SetDryRun(true);
+
 
 
 

@@ -86,19 +86,19 @@ public class NotoficationsExample : MonoBehaviour {
 
 
 	private void OnRegFailed() {
-		AndroidNative.showMessage ("Reg Failed", "GCM Registration failed :(");
+		AN_PoupsProxy.showMessage ("Reg Failed", "GCM Registration failed :(");
 	}
 
 	private void OnNotificationIdLoaded (int notificationid){
-		AndroidNative.showMessage ("Loaded", "App was laucnhed with notification id: " + notificationid);
+		AN_PoupsProxy.showMessage ("Loaded", "App was laucnhed with notification id: " + notificationid);
 	}
 	
 	private void OnRegstred() {
-		AndroidNative.showMessage ("Regstred", "GCM REG ID: " + GoogleCloudMessageService.instance.registrationId);
+		AN_PoupsProxy.showMessage ("Regstred", "GCM REG ID: " + GoogleCloudMessageService.instance.registrationId);
 	}
 	
 	private void OnMessageLoaded() {
-		AndroidNative.showMessage ("Message Loaded", "Last GCM Message: " + GoogleCloudMessageService.instance.lastMessage);
+		AN_PoupsProxy.showMessage ("Message Loaded", "Last GCM Message: " + GoogleCloudMessageService.instance.lastMessage);
 	}
 	
 	//--------------------------------------

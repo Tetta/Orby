@@ -6,10 +6,14 @@ using System.Collections.Generic;
 public class GooglePlayEvents : SA_Singleton<GooglePlayEvents> {
 
 
+	//events
+	public const string EVENTS_LOADED      = "events_loaded";
+
+	//actions
 	public Action<GooglePlayResult> OnEventsLoaded =  delegate{};
 
 
-	public const string EVENTS_LOADED      = "events_loaded";
+
 
 	private List<GP_Event> _Events =  new List<GP_Event>() ;
 

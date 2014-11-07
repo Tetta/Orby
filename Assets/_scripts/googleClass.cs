@@ -13,6 +13,11 @@ public class googleClass : MonoBehaviour {
 	}
 
 	void OnClick() {
-		GooglePlayConnection.instance.connect ();
+		NGUIDebug.Log(initClass.progress["googlePlay"]);
+		if (initClass.progress["googlePlay"] == 0) {
+			GooglePlayConnection.instance.connect ();
+		} else {
+			GooglePlayConnection.instance.disconnect ();
+		}
 	}
 }

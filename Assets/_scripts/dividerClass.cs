@@ -3,8 +3,8 @@ using System.Collections;
 
 public class dividerClass : MonoBehaviour {
 
-	private string dividerState = "";
-	private Vector2 enterPoint;
+	//private string dividerState = "";
+	//private Vector2 enterPoint;
 	private Vector2 exitPoint;
 	// Use this for initialization
 	void Start () {
@@ -14,7 +14,7 @@ public class dividerClass : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (transform.position.magnitude > 10) {
-			dividerState = "";
+			//dividerState = "";
 			rigidbody2D.isKinematic = true;
 			transform.localPosition = new Vector2(0, 0);
 			gameObject.SetActive(false);
@@ -38,7 +38,7 @@ public class dividerClass : MonoBehaviour {
 		if (collider.name == "terrain") {
 			//Debug.Log ("exit: " + collider.name + transform.position);
 			exitPoint = transform.position;
-			dividerState = "";
+			//dividerState = "";
 			rigidbody2D.isKinematic = true;
 			transform.localPosition = new Vector2(0, 0);
 			gameObject.SetActive(false);
@@ -55,11 +55,13 @@ public class dividerClass : MonoBehaviour {
 				if (i == terrainCount - 1) {
 					Vector2 posA = terrain.pathVerts[0] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+					//pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+					pos = lineIntersectPos(exitPoint, exitPoint, posA, posB);
 				} else {
 					Vector2 posA = terrain.pathVerts[i + 1] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+					//pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+					pos = lineIntersectPos(exitPoint, exitPoint, posA, posB);
 					//Debug.Log("posA: " + posA);
 					//Debug.Log("posB: " + posB);
 				}

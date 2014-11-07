@@ -1,3 +1,69 @@
+4.9:
+
+New Features:
+Google Play Saved Games API. Read more: http://goo.gl/k0v8zT
+Google Analytics API migrated to v4
+Ability to enable / disable separate APIs
+Editor Setting improvements 
+
+
+Updates:
+Android native jar spliced, now you can choose API to include in your project.
+
+Fixes:
+Billing exaction fixed when working with more than 20 products.
+Billing handling ActivityResult fixed
+AndroidCamera class instantiation fixed
+
+PlayMaker:
+AN_GetScore action added
+
+4.8.1:
+Playmaker Action compilation fix
+Notifications Manager minor fix
+Editor setting version parsing fixed
+
+
+4.8:
+Google Play API,
+Native Popups API,
+In-App Purchasing API:
+C# Actions added, now you can choose between using C# Actions or FL event system 
+
+Refactor:
+Flash Like event system now use own namespace: UnionAssets.FLE
+
+Fixes:
+Twitter profile background loaded bug fixed
+Max photo size limit fixed
+In apps Fail event fixed
+
+Updates:
+Google Play SDK updated to v 6111000
+
+Read More about update
+http://goo.gl/IrG3Jl
+
+4.7:
+
+New Plus API methods:
+GooglePlusAPI.instance.clearDefaultAccount();
+
+Ad Mob:
+API now supports C# Action 
+
+New PlayMaker Actions:
+AN_ISProductPurchased
+AN_ClearDefaultAcc
+
+AN_CancelAllLocalNotifications
+AN_CancelLocalNotification
+AN_ScheduleLocalNotification
+AN_ShowToastNotification
+
+Other:
+Post Proces Script improved
+
 4.6:
 New Features:
 Build Post Processing added

@@ -9,6 +9,7 @@
 
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class AndroidGoogleAdsExample : MonoBehaviour {
@@ -18,7 +19,7 @@ public class AndroidGoogleAdsExample : MonoBehaviour {
 	
 	//replace with your ids
 	private const string MY_BANNERS_AD_UNIT_ID		 = "ca-app-pub-6101605888755494/1824764765"; 
-	private const string MY_INTERSTISIALS_AD_UNIT_ID = "ca-app-pub-6101605888755494/3301497967"; 
+	private const string MY_INTERSTISIALS_AD_UNIT_ID =  "ca-app-pub-6101605888755494/3301497967"; 
 
 	
 	private GoogleMobileAdBanner banner1;
@@ -66,7 +67,7 @@ public class AndroidGoogleAdsExample : MonoBehaviour {
 		AndroidAdMobController.instance.TagForChildDirectedTreatment(false);
 
 		//Causes a device to receive test ads. The deviceId can be obtained by viewing the logcat output after creating a new ad
-		AndroidAdMobController.instance.AddTestDevice("6B9FA8031AEFDC4758B7D8987F77A5A6");
+		//AndroidAdMobController.instance.AddTestDevice("6B9FA8031AEFDC4758B7D8987F77A5A6");
 
 
 		AndroidAdMobController.instance.addEventListener(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_LOADED, OnInterstisialsLoaded);
@@ -287,7 +288,7 @@ public class AndroidGoogleAdsExample : MonoBehaviour {
 	private void OnInAppRequest(CEvent e) {
 		//getting product id
 		string productId = (string) e.data;
-		AndroidNative.showMessage ("In App Request", "In App Request for product Id: " + productId + " received");
+		AN_PoupsProxy.showMessage ("In App Request", "In App Request for product Id: " + productId + " received");
 
 
 		//Then you should perfrom purchase  for this product id, using this or another game billing plugin

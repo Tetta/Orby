@@ -4,7 +4,7 @@ using System.Collections;
 public enum GP_ConnectionResultCode  {
 
 	//results description can be found at:
-	//http://developer.android.com/reference/com/google/android/gms/common/ConnectionResult.html#CANCELED
+	//http://developer.android.com/reference/com/google/android/gms/common/ConnectionResult.html
 
 	CANCELED = 13,
 	DATE_INVALID = 12,

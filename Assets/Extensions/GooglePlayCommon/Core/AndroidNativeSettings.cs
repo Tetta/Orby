@@ -10,11 +10,14 @@ using UnityEditor;
 
 public class AndroidNativeSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "4.6";
+	public const string VERSION_NUMBER = "4.9";
+	public const string GOOGLE_PLAY_SDK_VERSION_NUMBER = "6111000";
 
 
+	public bool EnablePlusAPI 		= true;
 	public bool EnableGamesAPI 		= true;
 	public bool EnableAppStateAPI 	= true;
+	public bool EnableDriveAPI 		= false;
 	public bool LoadProfileIcons 	= true;
 	public bool LoadProfileImages 	= true;
 
@@ -28,6 +31,14 @@ public class AndroidNativeSettings : ScriptableObject {
 	public string GalleryFolderName = string.Empty;
 	public int MaxImageLoadSize = 512;
 	public AN_CameraCaptureType CameraCaptureMode;
+
+
+
+	public bool ShowPluginSettings = false;
+	public bool EnableBillingAPI = true;
+	public bool EnablePSAPI = true;
+	public bool EnableSocialAPI = true;
+	public bool EnableCameraAPI = true;
 
 
 

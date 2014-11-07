@@ -77,9 +77,9 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 
 	void OnPackageCheckResult (AN_PackageCheckResult res) {
 		if(res.IsSucceeded) {
-			AndroidNative.showMessage("On Package Check Result" , "Application  " + res.packageName + " is installed on this device");
+			AN_PoupsProxy.showMessage("On Package Check Result" , "Application  " + res.packageName + " is installed on this device");
 		} else {
-			AndroidNative.showMessage("On Package Check Result" , "Application  " + res.packageName + " is not installed on this device");
+			AN_PoupsProxy.showMessage("On Package Check Result" , "Application  " + res.packageName + " is not installed on this device");
 		}
 
 		AndroidNativeUtility.instance.OnPackageCheckResult -= OnPackageCheckResult;
@@ -89,14 +89,14 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 
 	void OnContactsLoaded () {
 		AddressBookController.instance.OnContactsLoadedAction -= OnContactsLoaded;
-		AndroidNative.showMessage("On Contacts Loaded" , "Andress book has " + AddressBookController.instance.contacts.Count + " Contacts");
+		AN_PoupsProxy.showMessage("On Contacts Loaded" , "Andress book has " + AddressBookController.instance.contacts.Count + " Contacts");
 	}
 	
 
 	private void OnImagePicked(AndroidImagePickResult result) {
 		Debug.Log("OnImagePicked");
 		if(result.IsSucceeded) {
-			image.renderer.material.mainTexture = result.image;
+			image.GetComponent<Renderer>().material.mainTexture = result.image;
 		}
 
 		AndroidCamera.instance.OnImagePicked -= OnImagePicked;
@@ -107,10 +107,10 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 		AndroidCamera.instance.OnImageSaved -= OnImageSaved;
 
 		if(result.IsSucceeded) {
-			AndroidNative.showMessage("Saved", "Image saved to gallery \n" + "Path: " + result.imagePath);
+			AN_PoupsProxy.showMessage("Saved", "Image saved to gallery \n" + "Path: " + result.imagePath);
 			SA_StatusBar.text =  "Image saved to gallery";
 		} else {
-			AndroidNative.showMessage("Failed", "Image save to gallery failed");
+			AN_PoupsProxy.showMessage("Failed", "Image save to gallery failed");
 			SA_StatusBar.text =  "Image save to gallery failed";
 		}
 
@@ -127,7 +127,7 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 		msg += "sharedUserId" + AndroidAppInfoLoader.instance.PacakgeInfo.sharedUserId + "\n";
 		msg += "sharedUserLabel"  + AndroidAppInfoLoader.instance.PacakgeInfo.sharedUserLabel;
 
-		AndroidNative.showMessage("App Info Loaded", msg);
+		AN_PoupsProxy.showMessage("App Info Loaded", msg);
 	}
 
 }

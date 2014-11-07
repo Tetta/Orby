@@ -10,6 +10,7 @@
  
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class GPaymnetManagerExample : MonoBehaviour {
@@ -43,14 +44,19 @@ public class GPaymnetManagerExample : MonoBehaviour {
 
 
 		//listening for purchase and consume events
-		AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_PRODUCT_PURCHASED, OnProductPurchased);
-		AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_PRODUCT_CONSUMED,  OnProductConsumed);
+		AndroidInAppPurchaseManager.ActionProductPurchased += OnProductPurchased;  
+		AndroidInAppPurchaseManager.ActionProductConsumed  += OnProductConsumed;
 
-		//initilaizing store
-		AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_BILLING_SETUP_FINISHED, OnBillingConnected);
 
-		////you may use loadStore function without parametr if you have filled base64EncodedPublicKey in plugin settings
+		//listening for store initilaizing finish
+		AndroidInAppPurchaseManager.ActionBillingSetupFinished += OnBillingConnected;
+	
+
+		//you may use loadStore function without parametr if you have filled base64EncodedPublicKey in plugin settings
 		AndroidInAppPurchaseManager.instance.loadStore();
+
+		//or You can pass base64EncodedPublicKey using scirption:
+		//AndroidInAppPurchaseManager.instance.loadStore(YOU_BASE_64_KEY_HERE);
 
 
 
@@ -92,8 +98,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 		//some stuff for processing product consume. Reduse tip anount, reduse gold token, etc
 	}
 
-	private static void OnProductPurchased(CEvent e) {
-		BillingResult result = e.data as BillingResult;
+	private static void OnProductPurchased(BillingResult result) {
 
 
 		if(result.isSuccess) {
@@ -108,8 +113,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 	}
 
 
-	private static void OnProductConsumed(CEvent e) {
-		BillingResult result = e.data as BillingResult;
+	private static void OnProductConsumed(BillingResult result) {
 
 		if(result.isSuccess) {
 			AndroidMessage.Create ("Product Consumed", result.purchase.SKU);
@@ -122,15 +126,14 @@ public class GPaymnetManagerExample : MonoBehaviour {
 	}
 	
 
-	private static void OnBillingConnected(CEvent e) {
-		BillingResult result = e.data as BillingResult;
-		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_BILLING_SETUP_FINISHED, OnBillingConnected);
+	private static void OnBillingConnected(BillingResult result) {
+		AndroidInAppPurchaseManager.ActionBillingSetupFinished -= OnBillingConnected;
 
 
 		if(result.isSuccess) {
 			//Store connection is Successful. Next we loading product and customer purchasing details
 			AndroidInAppPurchaseManager.instance.retrieveProducDetails();
-			AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+			AndroidInAppPurchaseManager.ActionRetrieveProducsFinished += OnRetriveProductsFinised;
 		} 
 
 		AndroidMessage.Create("Connection Responce", result.response.ToString() + " " + result.message);
@@ -140,9 +143,9 @@ public class GPaymnetManagerExample : MonoBehaviour {
 
 
 
-	private static void OnRetriveProductsFinised(CEvent e) {
-		BillingResult result = e.data as BillingResult;
-		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+	private static void OnRetriveProductsFinised(BillingResult result) {
+		AndroidInAppPurchaseManager.ActionRetrieveProducsFinished -= OnRetriveProductsFinised;
+
 
 		if(result.isSuccess) {
 			_isInited = true;

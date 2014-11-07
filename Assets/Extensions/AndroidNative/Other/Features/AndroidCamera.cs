@@ -17,6 +17,7 @@ public class AndroidCamera : SA_Singleton<AndroidCamera>  {
 	private static string _lastImageName = string.Empty;
 
 	void Awake() {
+		DontDestroyOnLoad(gameObject);
 
 		int mode = (int) AndroidNativeSettings.Instance.CameraCaptureMode;
 		AndroidNative.InitCameraAPI(AndroidNativeSettings.Instance.GalleryFolderName, AndroidNativeSettings.Instance.MaxImageLoadSize, mode);

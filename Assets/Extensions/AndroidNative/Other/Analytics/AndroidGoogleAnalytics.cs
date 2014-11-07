@@ -105,6 +105,14 @@ public class AndroidGoogleAnalytics : SA_Singleton<AndroidGoogleAnalytics> {
 		}
 	}
 
+	public void EnableAdvertisingIdCollection(bool mode) {
+		if(mode) {
+			AndroidNative.EnableAdvertisingIdCollection("true");
+		} else {
+			AndroidNative.EnableAdvertisingIdCollection("false");
+		}
+	}
+
 	
 	
 	

@@ -14,9 +14,7 @@ Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly
 Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\IFacebook.dll (this message is harmless)
-Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\IFacebook.dll into Unity Child Domain
-- Completed reload, in  0.087 seconds
+- Completed reload, in  0.040 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
@@ -26,127 +24,64 @@ Profiler is only supported with Pro License
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/Runtime/Profiler/ProfilerConnection.cpp Line: 218)
 
 Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\System.dll (this message is harmless)
-0
+Play Serice Connection State -> STATE_CONNECTING
 UnityEngine.Debug:Internal_Log(Int32, String, Object)
 UnityEngine.Debug:Log(Object)
-yetiClass:OnMouseUp() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\yetiClass.cs:30)
-UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
-UnityEngine.HitInfo:SendMessage(String) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:17)
-UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:175)
-UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32) (at C:\BuildAgent\work\d63dfc6385190b60\Runtime\Export\MouseEvents.cs:145)
+GooglePlayConnection:OnStateChange(GPConnectionState) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:201)
+GooglePlayConnection:connect(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:84)
+GooglePlayConnection:connect() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:75)
+initClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\initClass.cs:32)
  
 (Filename: D Line: 0)
 
-UnloadTime: 2.605478 ms
-System memory in use before: 16.0 MB.
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
+GooglePlayManager was created
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+GooglePlayManager:Create() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayManager.cs:88)
+GooglePlayConnection:connect(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:86)
+GooglePlayConnection:connect() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:75)
+initClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\initClass.cs:32)
+ 
+(Filename: D Line: 0)
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 14.660111 ms (FindLiveObjects: 0.021395 ms CreateObjectMapping: 0.014766 ms MarkObjects: 0.221492 ms  DeleteObjects: 14.031193 ms)
+UnloadTime: 3.359759 ms
+System memory in use before: 20.0 MB.
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 19.9 MB.
 
-UnloadTime: 0.442382 ms
-System memory in use before: 16.0 MB.
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 880.
+Total: 1.032126 ms (FindLiveObjects: 0.037970 ms CreateObjectMapping: 0.015971 ms MarkObjects: 0.521336 ms  DeleteObjects: 0.006931 ms)
+
+UnloadTime: 0.528267 ms
+System memory in use before: 19.8 MB.
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
+System memory in use after: 19.7 MB.
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.608125 ms (FindLiveObjects: 0.022299 ms CreateObjectMapping: 0.014464 ms MarkObjects: 0.216972 ms  DeleteObjects: 0.018985 ms)
+Unloading 63 unused Assets to reduce memory usage. Loaded Objects now: 805.
+Total: 0.846494 ms (FindLiveObjects: 0.022902 ms CreateObjectMapping: 0.011451 ms MarkObjects: 0.371565 ms  DeleteObjects: 0.110294 ms)
 
-UnloadTime: 0.507173 ms
-System memory in use before: 16.0 MB.
+Init shoudl be called only once. Call ignored
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogWarning(Object)
+AndroidAdMobController:Init(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\GooglePlayCommon\Ad\AndroidAdMobController.cs:47)
+guiGiftClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\guiGiftClass.cs:12)
+ 
+(Filename: D Line: 0)
+
+UnloadTime: 0.545746 ms
+System memory in use before: 19.9 MB.
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
+System memory in use after: 19.9 MB.
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.728063 ms (FindLiveObjects: 0.030737 ms CreateObjectMapping: 0.016574 ms MarkObjects: 0.277544 ms  DeleteObjects: 0.051229 ms)
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 880.
+Total: 0.828413 ms (FindLiveObjects: 0.022902 ms CreateObjectMapping: 0.014464 ms MarkObjects: 0.443286 ms  DeleteObjects: 0.006027 ms)
 
-UnloadTime: 0.448108 ms
-System memory in use before: 16.0 MB.
+UnloadTime: 0.473422 ms
+System memory in use before: 19.9 MB.
 Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
+System memory in use after: 19.8 MB.
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.648205 ms (FindLiveObjects: 0.022601 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.220287 ms  DeleteObjects: 0.049421 ms)
-
-UnloadTime: 0.442081 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.602400 ms (FindLiveObjects: 0.021094 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.212753 ms  DeleteObjects: 0.016574 ms)
-
-UnloadTime: 0.425205 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.594866 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.214260 ms  DeleteObjects: 0.017779 ms)
-
-UnloadTime: 0.459861 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.739213 ms (FindLiveObjects: 0.025916 ms CreateObjectMapping: 0.015670 ms MarkObjects: 0.323048 ms  DeleteObjects: 0.023505 ms)
-
-UnloadTime: 0.430027 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.617166 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.218177 ms  DeleteObjects: 0.018985 ms)
-
-UnloadTime: 0.457149 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.629521 ms (FindLiveObjects: 0.024409 ms CreateObjectMapping: 0.015971 ms MarkObjects: 0.231738 ms  DeleteObjects: 0.019889 ms)
-
-UnloadTime: 0.429424 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.623494 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.013862 ms MarkObjects: 0.235656 ms  DeleteObjects: 0.018683 ms)
-
-UnloadTime: 0.445999 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.631932 ms (FindLiveObjects: 0.024409 ms CreateObjectMapping: 0.014163 ms MarkObjects: 0.229026 ms  DeleteObjects: 0.020491 ms)
-
-UnloadTime: 0.431835 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.604811 ms (FindLiveObjects: 0.020190 ms CreateObjectMapping: 0.013259 ms MarkObjects: 0.224204 ms  DeleteObjects: 0.016574 ms)
-
-UnloadTime: 0.439972 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.621385 ms (FindLiveObjects: 0.019889 ms CreateObjectMapping: 0.013862 ms MarkObjects: 0.235053 ms  DeleteObjects: 0.017478 ms)
-
-UnloadTime: 0.432438 ms
-System memory in use before: 16.0 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 16.0 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 783.
-Total: 0.609331 ms (FindLiveObjects: 0.018081 ms CreateObjectMapping: 0.014766 ms MarkObjects: 0.216369 ms  DeleteObjects: 0.018985 ms)
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 831.
+Total: 0.766636 ms (FindLiveObjects: 0.022299 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.357100 ms  DeleteObjects: 0.020190 ms)
 
 Waiting for finish

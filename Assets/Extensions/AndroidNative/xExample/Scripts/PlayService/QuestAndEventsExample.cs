@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class QuestAndEventsExample : MonoBehaviour {
@@ -29,7 +30,7 @@ public class QuestAndEventsExample : MonoBehaviour {
 	void Start() {
 		
 		playerLabel.text = "Player Diconnected";
-		defaulttexture = avatar.renderer.material.mainTexture;
+		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 		
 		//listen for GooglePlayConnection events
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
@@ -70,10 +71,10 @@ public class QuestAndEventsExample : MonoBehaviour {
 	void FixedUpdate() {
 		if(GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
 			if(GooglePlayManager.instance.player.icon != null) {
-				avatar.renderer.material.mainTexture = GooglePlayManager.instance.player.icon;
+				avatar.GetComponent<Renderer>().material.mainTexture = GooglePlayManager.instance.player.icon;
 			}
 		}  else {
-			avatar.renderer.material.mainTexture = defaulttexture;
+			avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 		}
 		
 		
@@ -151,12 +152,12 @@ public class QuestAndEventsExample : MonoBehaviour {
 
 	private void OnEventsLoaded (GooglePlayResult result) {
 		Debug.Log ("Total Events: " + GooglePlayEvents.instance.Events.Count);
-		AndroidNative.showMessage ("Events Loaded", "Total Events: " + GooglePlayEvents.instance.Events.Count);
+		AN_PoupsProxy.showMessage ("Events Loaded", "Total Events: " + GooglePlayEvents.instance.Events.Count);
 		SA_StatusBar.text = "OnEventsLoaded:  " + result.response.ToString();
 	}
 
 	private void OnQuestsAccepted (GP_QuestResult result) {
-		AndroidNative.showMessage ("On Quests Accepted", "Quests Accepted, ID: " + result.questId);
+		AN_PoupsProxy.showMessage ("On Quests Accepted", "Quests Accepted, ID: " + result.questId);
 
 		SA_StatusBar.text = "OnQuestsAccepted:  " + result.response.ToString();
 	}
@@ -164,14 +165,14 @@ public class QuestAndEventsExample : MonoBehaviour {
 	private void OnQuestsCompleted (GP_QuestResult result) {
 		Debug.Log ("Quests Completed, Reward: " + result.reward);
 
-		AndroidNative.showMessage ("On Quests Completed", "Quests Completed, Reward: " + result.reward);
+		AN_PoupsProxy.showMessage ("On Quests Completed", "Quests Completed, Reward: " + result.reward);
 
 		SA_StatusBar.text = "OnQuestsCompleted:  " + result.response.ToString();
 	}
 
 	private void OnQuestsLoaded (GooglePlayResult result) {
 		Debug.Log ("Total Quests: " + GooglePlayQuests.instance.GetQuests().Count);
-		AndroidNative.showMessage ("Quests Loaded", "Total Quests: " + GooglePlayQuests.instance.GetQuests().Count);
+		AN_PoupsProxy.showMessage ("Quests Loaded", "Total Quests: " + GooglePlayQuests.instance.GetQuests().Count);
 
 		SA_StatusBar.text = "OnQuestsLoaded:  " + result.response.ToString();
 	}

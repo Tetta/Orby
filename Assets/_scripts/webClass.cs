@@ -6,7 +6,6 @@ public class webClass : MonoBehaviour {
 	public GameObject holder;
 	public GameObject web;
 	public GameObject web2;
-	public GameObject orby;
 	public GameObject chainPrefab;
 	public GameObject pointB;
 	public Vector3 pointBAchor;
@@ -26,8 +25,11 @@ public class webClass : MonoBehaviour {
 	private float chainPositionZ = -5;
 	private HingeJoint2D jointWeb;
 	private int normalChainCount = 20;
+	private GameObject berry;
 
 	void Start () {
+		berry = GameObject.Find("berry");
+
 		//blocks = GameObject.FindGameObjectsWithTag("block"); 
 		chain = new GameObject[100];
 		maxDiffC = chainLength * maxChainCount;
@@ -64,7 +66,7 @@ public class webClass : MonoBehaviour {
 		if (webState == "creatingWeb") {
 			for (int j = 0; j < 8; j++) {
 				if (chainCount < maxChainCount && webState == "creatingWeb") {
-					createWeb(orby.transform.position, new Vector3(0, 0, 0));
+					createWeb(berry.transform.position, new Vector3(0, 0, 0));
 			
 				}
 			}
@@ -132,7 +134,7 @@ public class webClass : MonoBehaviour {
 			
 			//chainClass script = chain[i].GetComponent <chainClass>();
 		} else {
-			if (!orby.collider2D.OverlapPoint(chain[1].transform.position)) {
+			if (!berry.collider2D.OverlapPoint(chain[1].transform.position)) {
 				for (int y = 1; y <= i; y++) {
 					chain[y].transform.position = new Vector3(web.transform.position.x + diffX * (i - y), web.transform.position.y + diffY * (i - y), chainPositionZ);
 				}
@@ -141,15 +143,15 @@ public class webClass : MonoBehaviour {
 			joint.connectedBody = chain[i - 1].rigidbody2D;
 			joint.enabled = true;
 			jointWeb.connectedBody = chain[i].rigidbody2D;
-			if (orby.collider2D.OverlapPoint(chain[1].transform.position) && i >= 20) {
+			if (berry.collider2D.OverlapPoint(chain[1].transform.position) && i >= 20) {
 				HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
 
 				jointChain.useLimits = false;
 				//jointChain.limits = new JointAngleLimits2D { min = 180, max = 0};
-				jointChain.connectedAnchor = orby.transform.InverseTransformPoint(chain[1].transform.position);
+				jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
 				Debug.Log(jointChain.connectedAnchor );
 
-				jointChain.connectedBody = orby.rigidbody2D;
+				jointChain.connectedBody = berry.rigidbody2D;
 				//jointChain.connectedAnchor = new Vector2(0, 0);
 				jointChain.enabled = true;	
 				webState = "afterCollisionOrby";
@@ -178,7 +180,7 @@ public class webClass : MonoBehaviour {
 		//Debug.Log("OnMouseDown");
 		if (webState == "") {
 			//i = 0;
-			diff = orby.transform.position - web.transform.position;
+			diff = berry.transform.position - web.transform.position;
 			float orbyDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			diffX = maxDiffC / orbyDiffC * diff.x / maxChainCount;
 			diffY = maxDiffC / orbyDiffC * diff.y / maxChainCount;

@@ -1,5 +1,6 @@
 //#define SA_DEBUG_MODE
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class RTM_Game_Example : AndroidNativeExampleBase {
@@ -29,7 +30,7 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 	void Start() {
 		
 		playerLabel.text = "Player Diconnected";
-		defaulttexture = avatar.renderer.material.mainTexture;
+		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 		
 		//listen for GooglePlayConnection events
 		GooglePlayRTM.instance.addEventListener (GooglePlayRTM.ON_INVITATION_RECEIVED, OnInvite);
@@ -147,10 +148,10 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 
 		if(GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
 			if(GooglePlayManager.instance.player.icon != null) {
-				avatar.renderer.material.mainTexture = GooglePlayManager.instance.player.icon;
+				avatar.GetComponent<Renderer>().material.mainTexture = GooglePlayManager.instance.player.icon;
 			}
 		}  else {
-			avatar.renderer.material.mainTexture = defaulttexture;
+			avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 		}
 		
 		

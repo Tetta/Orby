@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class PlayServiceCustomLBExample : MonoBehaviour {
 
 	//example
-	private const string LEADERBOARD_ID = "CgkInJa4l7YVEAIQBg";
+	private const string LEADERBOARD_ID = "CgkIipfs2qcGEAIQAA";
 	//private const string LEADERBOARD_ID = "REPLACE_WITH_YOUR_ID";
 
 
@@ -50,7 +51,7 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 		
 		playerLabel.text = "Player Diconnected";
-		defaulttexture = avatar.renderer.material.mainTexture;
+		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 
 		foreach(CustomLeaderboardFiledsHolder line in lines) {
 			line.Disable();
@@ -177,16 +178,16 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 					if(player != null) {
 						line.playerName.text =  player.name;
 						if(player.hasIconImage) {
-							line.avatar.renderer.material.mainTexture = player.icon;
+							line.avatar.GetComponent<Renderer>().material.mainTexture = player.icon;
 						} else {
-							line.avatar.renderer.material.mainTexture = defaulttexture;
+							line.avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 						}
 
 					} else {
 						line.playerName.text = "--";
-						line.avatar.renderer.material.mainTexture = defaulttexture;
+						line.avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 					}
-					line.avatar.renderer.enabled = true;
+					line.avatar.GetComponent<Renderer>().enabled = true;
 
 				} else {
 					line.Disable();
@@ -212,10 +213,10 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 		SubmitScoreButton.text = "Submit Score: " + score;
 		if(GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
 			if(GooglePlayManager.instance.player.icon != null) {
-				avatar.renderer.material.mainTexture = GooglePlayManager.instance.player.icon;
+				avatar.GetComponent<Renderer>().material.mainTexture = GooglePlayManager.instance.player.icon;
 			}
 		}  else {
-			avatar.renderer.material.mainTexture = defaulttexture;
+			avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 		}
 
 

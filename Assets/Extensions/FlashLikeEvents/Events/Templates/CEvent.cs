@@ -7,121 +7,125 @@
 ////////////////////////////////////////////////////////////////////////////////
  
 
-public class CEvent {
-	private int _id;
-	private string _name;
-	private object _data;
 
-	private IDispatcher _dispatcher;
-	private bool _isStoped = false;
-	private bool _isLocked = false;
+namespace UnionAssets.FLE {
 
+	public class CEvent {
+		private int _id;
+		private string _name;
+		private object _data;
 
-	public object _currentTarget;
-
-
-	//--------------------------------------
-	// INITIALIZE
-	//--------------------------------------
-
-	public CEvent(int id, string name, object data, IDispatcher dispatcher) {
-		_id = id;
-		_name = name;
-		_data = data;
-		_dispatcher = dispatcher;
-	}
+		private IDispatcher _dispatcher;
+		private bool _isStoped = false;
+		private bool _isLocked = false;
 
 
-	//--------------------------------------
-	// PUBLIC METHODS
-	//--------------------------------------
-	
+		public object _currentTarget;
 
-	public void stopPropagation() {
-		_isStoped = true;
-	}
 
-	public void stopImmediatePropagation() {
-		_isStoped = true;
-		_isLocked = true;
-	}
+		//--------------------------------------
+		// INITIALIZE
+		//--------------------------------------
 
-	public bool canBeDisptached(object val) {
-		if(_isLocked) {
-			return false;
+		public CEvent(int id, string name, object data, IDispatcher dispatcher) {
+			_id = id;
+			_name = name;
+			_data = data;
+			_dispatcher = dispatcher;
 		}
 
-		if(_isStoped) {
-			if(_currentTarget == val) {
-				return true;
-			} else {
+
+		//--------------------------------------
+		// PUBLIC METHODS
+		//--------------------------------------
+		
+
+		public void stopPropagation() {
+			_isStoped = true;
+		}
+
+		public void stopImmediatePropagation() {
+			_isStoped = true;
+			_isLocked = true;
+		}
+
+		public bool canBeDisptached(object val) {
+			if(_isLocked) {
 				return false;
 			}
-		} else {
-			_currentTarget = val;
-			return true;
+
+			if(_isStoped) {
+				if(_currentTarget == val) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				_currentTarget = val;
+				return true;
+			}
 		}
-	}
 
-	
+		
 
 
-	//--------------------------------------
-	// GET / SET
-	//--------------------------------------
+		//--------------------------------------
+		// GET / SET
+		//--------------------------------------
 
-	public int id {
-		get {
-			return _id;
+		public int id {
+			get {
+				return _id;
+			}
 		}
-	}
 
-	public string name {
-		get {
-			return _name;
+		public string name {
+			get {
+				return _name;
+			}
 		}
-	}
 
-	public object data {
-		get {
-			return _data;
+		public object data {
+			get {
+				return _data;
+			}
 		}
-	}
 
-	public IDispatcher target {
-		get {
-			return _dispatcher;
+		public IDispatcher target {
+			get {
+				return _dispatcher;
+			}
 		}
-	}
 
-	public IDispatcher dispatcher {
-		get {
-			return _dispatcher;
+		public IDispatcher dispatcher {
+			get {
+				return _dispatcher;
+			}
 		}
-	}
 
 
-	public object currentTarget {
-		get {
-			return _currentTarget;
+		public object currentTarget {
+			get {
+				return _currentTarget;
+			}
 		}
-	}
-	
+		
 
 
-	public bool isStoped {
-		get {
-			return _isStoped;
+		public bool isStoped {
+			get {
+				return _isStoped;
+			}
 		}
-	}
 
 
-	public bool isLocked {
-		get {
-			return _isLocked;
+		public bool isLocked {
+			get {
+				return _isLocked;
+			}
 		}
-	}
 
+
+	}
 
 }
-

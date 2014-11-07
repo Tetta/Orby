@@ -11,7 +11,7 @@ public class CustomPlayerUIRow : MonoBehaviour {
 	public TextMesh hasImage;
 
 	void Awake() {
-		avatar.renderer.material =  new Material(avatar.renderer.material);
+		avatar.GetComponent<Renderer>().material =  new Material(avatar.GetComponent<Renderer>().material);
 	}
 
 
@@ -21,6 +21,6 @@ public class CustomPlayerUIRow : MonoBehaviour {
 		playerId.text = "";
 		playerName.text = "";
 
-		avatar.renderer.enabled = false;
+		avatar.GetComponent<Renderer>().enabled = false;
 	}
 }

@@ -23,8 +23,17 @@ public class GooglePlayResult {
 	// INITIALIZE
 	//--------------------------------------
 
+	public GooglePlayResult(GP_GamesStatusCodes code) {
+		SetCode(code);
+	}
+
 	public GooglePlayResult(string code) {
-		_response = (GP_GamesStatusCodes) System.Convert.ToInt32(code);
+		SetCode((GP_GamesStatusCodes) System.Convert.ToInt32(code));
+
+	}
+
+	private void SetCode(GP_GamesStatusCodes code) {
+		_response = code;
 		_message = _response.ToString ();
 	}
 

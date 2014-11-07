@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class PlayServicFridnsLoadExample_New : MonoBehaviour {
@@ -18,7 +19,7 @@ public class PlayServicFridnsLoadExample_New : MonoBehaviour {
 	void Awake() {
 
 		playerLabel.text = "Player Diconnected";
-		defaulttexture = avatar.renderer.material.mainTexture;
+		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 
 
 
@@ -78,11 +79,11 @@ public class PlayServicFridnsLoadExample_New : MonoBehaviour {
 					rows[i].hasImage.text = "No";
 				}
 
-				rows[i].avatar.renderer.enabled = true;
+				rows[i].avatar.GetComponent<Renderer>().enabled = true;
 				if(p.hasIconImage && p.icon != null) {
-					rows[i].avatar.renderer.material.mainTexture = p.icon;
+					rows[i].avatar.GetComponent<Renderer>().material.mainTexture = p.icon;
 				} else {
-					rows[i].avatar.renderer.material.mainTexture = defaulttexture;
+					rows[i].avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 				}
 			}
 
@@ -100,10 +101,10 @@ public class PlayServicFridnsLoadExample_New : MonoBehaviour {
 	void FixedUpdate() {
 		if(GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
 			if(GooglePlayManager.instance.player.icon != null) {
-				avatar.renderer.material.mainTexture = GooglePlayManager.instance.player.icon;
+				avatar.GetComponent<Renderer>().material.mainTexture = GooglePlayManager.instance.player.icon;
 			}
 		}  else {
-			avatar.renderer.material.mainTexture = defaulttexture;
+			avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 		}
 		
 		

@@ -13,7 +13,7 @@ public class SA_PartisipantUI : MonoBehaviour {
 	private Texture defaulttexture;
 
 	void Awake() {
-		defaulttexture = avatar.renderer.material.mainTexture;
+		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 	}
 
 	public void SetPartisipant(GP_Partisipant p) {
@@ -23,7 +23,7 @@ public class SA_PartisipantUI : MonoBehaviour {
 		playerName.text = "";
 		status.text = GP_RTM_ParticipantStatus.STATUS_UNRESPONSIVE.ToString();
 
-		avatar.renderer.material.mainTexture = defaulttexture;
+		avatar.GetComponent<Renderer>().material.mainTexture = defaulttexture;
 
 
 		GooglePlayerTemplate player = GooglePlayManager.instance.GetPlayerById(p.playerId);
@@ -32,7 +32,7 @@ public class SA_PartisipantUI : MonoBehaviour {
 			playerName.text = "Name: " + player.name;
 
 			if(player.icon != null) {
-				avatar.renderer.material.mainTexture = player.icon;
+				avatar.GetComponent<Renderer>().material.mainTexture = player.icon;
 			}
 
 		}

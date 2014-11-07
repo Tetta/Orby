@@ -14,7 +14,13 @@ public class destroyerClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		enterPoint = transform.position;
+		GameObject[] terrains = GameObject.FindGameObjectsWithTag("terrain");
+		foreach (GameObject terrain in terrains) {
+			Ferr2DT_PathTerrain pathTerrain = terrain.GetComponent<Ferr2DT_PathTerrain>();
+			pathTerrain.RecreatePath();
+			pathTerrain.RecreateCollider();	
 
+		}
 	}
 	
 	// Update is called once per frame
@@ -102,14 +108,17 @@ public class destroyerClass : MonoBehaviour {
 					Vector2 posA = terrain.pathVerts[i + 1] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
-					/*
-					Debug.Log("enterPoint: " + enterPoint);
-					Debug.Log("exitPoint: " + exitPoint);
-					Debug.Log("posA: " + posA);
-					Debug.Log("posB: " + posB);
-					Debug.Log("pos: " + pos);
-					*/
+
+					//Debug.Log("enterPoint: " + enterPoint);
+					//Debug.Log("exitPoint: " + exitPoint);
+					//Debug.Log("posA: " + posA.magnitude);
+					//Debug.Log("posB: " + posB.magnitude);
+					//Debug.Log("pos: " + pos.magnitude);
+					if (Mathf.Abs(pos.magnitude - posA.magnitude) <= 0.02F) { pos = posA; Debug.Log(123);}
+					if (Mathf.Abs(pos.magnitude - posB.magnitude) <= 0.02F) { pos = posB; Debug.Log(222);}
+
 				}
+
 				if (pos.x != 10000) {
 					if (firstPointA == -1) {
 						firstPointA = i;
@@ -147,7 +156,7 @@ public class destroyerClass : MonoBehaviour {
 					if (i >= terrainCount) i = 0;
 					if (i == firstPointA) flag = false;
 					//Debug.Log (i);
-					firstFigure.Add(terrain.pathVerts[i]);
+					if (terrain.pathVerts[i] != firstPoint && terrain.pathVerts[i] != secondPoint) firstFigure.Add(terrain.pathVerts[i]);
 					i ++;
 					
 				}
@@ -161,7 +170,7 @@ public class destroyerClass : MonoBehaviour {
 					}
 					if (i >= terrainCount) i = 0;
 					if (i == secondPointA) flag = false;
-					secondFigure.Add(terrain.pathVerts[i]);
+					if (terrain.pathVerts[i] != firstPoint && terrain.pathVerts[i] != secondPoint) secondFigure.Add(terrain.pathVerts[i]);
 					i ++;
 					
 				}

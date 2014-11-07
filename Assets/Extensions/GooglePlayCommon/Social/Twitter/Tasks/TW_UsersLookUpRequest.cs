@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 using System.Collections.Generic;
 

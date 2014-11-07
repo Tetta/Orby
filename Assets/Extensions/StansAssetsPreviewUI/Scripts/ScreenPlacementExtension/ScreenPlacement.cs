@@ -43,8 +43,8 @@ public class ScreenPlacement : MonoBehaviour {
 	
 		
 		// Get mesh origin and farthest extent (this works best with simple convex meshes)
-	    Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(tf.renderer.bounds.min.x, tf.renderer.bounds.max.y, 0f));
-	    Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(tf.renderer.bounds.max.x, tf.renderer.bounds.min.y, 0f));
+		Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(tf.GetComponent<Renderer>().bounds.min.x, tf.GetComponent<Renderer>().bounds.max.y, 0f));
+		Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(tf.GetComponent<Renderer>().bounds.max.x, tf.GetComponent<Renderer>().bounds.min.y, 0f));
 
 	    // Create rect in screen space and return - does not account for camera perspective
 	    Rect size =  new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);

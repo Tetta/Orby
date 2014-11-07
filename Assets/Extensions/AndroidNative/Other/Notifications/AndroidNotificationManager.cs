@@ -22,7 +22,9 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 	private const string DATA_SPLITTER = "|";
 
 
-
+	void Awake() {
+		DontDestroyOnLoad(gameObject);
+	}
 
 	
 	//--------------------------------------

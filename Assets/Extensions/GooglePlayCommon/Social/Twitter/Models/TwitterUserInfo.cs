@@ -9,6 +9,7 @@
 
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 
 public class TwitterUserInfo : EventDispatcherBase {
@@ -278,7 +279,7 @@ public class TwitterUserInfo : EventDispatcherBase {
 	}
 
 	private void OnProfileBackgroundLoaded(CEvent e) {
-		e.dispatcher.removeEventListener(BaseEvent.LOADED, OnProfileImageLoaded);
+		e.dispatcher.removeEventListener(BaseEvent.LOADED, OnProfileBackgroundLoaded);
 		_profile_background = e.data as Texture2D;
 
 		dispatch(PROFILE_BACKGROUND_LOADED);

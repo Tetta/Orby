@@ -10,6 +10,7 @@
  
 
 using UnityEngine;
+using UnionAssets.FLE;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,17 +32,17 @@ public class AndroidPopUpExamples : MonoBehaviour {
 
 	private void RateDialogPopUp() {
 		AndroidRateUsPopUp rate = AndroidRateUsPopUp.Create("Rate Us", rateText, rateUrl);
-		rate.addEventListener(BaseEvent.COMPLETE, OnRatePopUpClose);
+		rate.OnComplete += OnRatePopUpClose;
 	}
 
 	private void DialogPopUp() {
 		AndroidDialog dialog = AndroidDialog.Create("Dialog Titile", "Dialog message");
-		dialog.addEventListener(BaseEvent.COMPLETE, OnDialogClose);
+		dialog.OnComplete += OnDialogClose;
 	}
 
 	private void MessagePopUp() {
 		AndroidMessage msg = AndroidMessage.Create("Message Titile", "Message message");
-		msg.addEventListener(BaseEvent.COMPLETE, OnMessageClose);
+		msg.OnComplete += OnMessageClose;
 	}
 
 	private void ShowPreloader() {
@@ -72,22 +73,30 @@ public class AndroidPopUpExamples : MonoBehaviour {
 	//  EVENTS
 	//--------------------------------------
 	
-	private void OnRatePopUpClose(CEvent e) {
-		(e.dispatcher as AndroidRateUsPopUp).removeEventListener(BaseEvent.COMPLETE, OnRatePopUpClose);
-		string result = e.data.ToString();
-		AndroidNative.showMessage("Result", result + " button pressed");
+	private void OnRatePopUpClose(AndroidDialogResult result) {
+
+		switch(result) {
+		case AndroidDialogResult.RATED:
+			Debug.Log ("RATED button pressed");
+			break;
+		case AndroidDialogResult.REMIND:
+			Debug.Log ("REMIND button pressed");
+			break;
+		case AndroidDialogResult.DECLINED:
+			Debug.Log ("DECLINED button pressed");
+			break;
+			
+		}
+
+		AN_PoupsProxy.showMessage("Result", result.ToString() + " button pressed");
 	}
 
 
 
-	private void OnDialogClose(CEvent e) {
-
-
-		//removing listner
-		(e.dispatcher as AndroidDialog).removeEventListener(BaseEvent.COMPLETE, OnDialogClose);
+	private void OnDialogClose(AndroidDialogResult result) {
 
 		//parsing result
-		switch((AndroidDialogResult)e.data) {
+		switch(result) {
 		case AndroidDialogResult.YES:
 			Debug.Log ("Yes button pressed");
 			break;
@@ -97,14 +106,13 @@ public class AndroidPopUpExamples : MonoBehaviour {
 
 		}
 			
-		AndroidNative.showMessage("Result", e.data.ToString() + " button pressed");
+		AN_PoupsProxy.showMessage("Result", result.ToString() + " button pressed");
 	}
 
 
 
-	private void OnMessageClose(CEvent e) {
-		(e.dispatcher as AndroidMessage).removeEventListener(BaseEvent.COMPLETE,  OnMessageClose);
-		AndroidNative.showMessage("Result", "Message Closed");
+	private void OnMessageClose() {
+		AN_PoupsProxy.showMessage("Result", "Message Closed");
 	}
 	
 
