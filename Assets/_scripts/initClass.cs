@@ -16,17 +16,20 @@ public class initClass : MonoBehaviour {
 	public static UILabel starsLabel;
 	private int i;
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
+	public float percentageLoaded = 0;
 
 	// Use this for initialization
 	void Start () {
+		//Application.
+
 		//goldLabel = GameObject.Find("goldLabel").GetComponent<UILabel>();
 		//starsLabel = GameObject.Find("starsLabel").GetComponent<UILabel>();
 		goldLabel = gold;
 		starsLabel = stars;
 
 		if (progress.Count == 0) getProgress();
-		NGUIDebug.Log(progress.Count);
-		NGUIDebug.Log(progress["gold"]);
+		//NGUIDebug.Log(progress.Count);
+		//NGUIDebug.Log(progress["gold"]);
 
 		goldLabel.text = progress["gold"].ToString();
 		starsLabel.text = progress["stars"].ToString();
@@ -38,6 +41,8 @@ public class initClass : MonoBehaviour {
 		//listen for GooglePlayConnection events
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
+
+		//NGUIDebug.Log("end");
 
 	}
 	
@@ -79,10 +84,11 @@ public class initClass : MonoBehaviour {
 	}
 	
 	static public void getProgress() {
-		string strProgressDefault = "googlePlay=0;currentLevel=1;gold=10;stars=0;level1=0;level2=0;level3=0;";
+		string strProgressDefault = "googlePlay=0;currentLevel=1;gold=10;stars=0;level1=0;level2=0;level3=0;" +
+			"level4=0;level5=0;level6=0;level7=0;level8=0;level9=0;";
 		//PlayerPrefs.SetString("progress", strProgressDefault);
 		string strProgress = PlayerPrefs.GetString("progress");
-		NGUIDebug.Log(strProgress);
+		//NGUIDebug.Log(strProgress);
 		if (strProgress == "") strProgress = strProgressDefault;
 		string strKey = "", strValue = "";
 		bool flag = true;
@@ -117,4 +123,9 @@ public class initClass : MonoBehaviour {
 
 	}
 	*/
+
+	void handleLog(string logString, string stackTrace, LogType type)
+	{
+		NGUIDebug.Log(type+": " + logString + "\n" + stackTrace);
+	}
 }
