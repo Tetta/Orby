@@ -52,8 +52,9 @@ public class gWebClass : MonoBehaviour {
 					jointChain.enabled = true;	
 					jointChain.useLimits = false;
 					for (int y = 1; y <= chainCount; y ++){
-						chain[y].rigidbody2D.drag = 2;
-						chain[y].rigidbody2D.angularDrag = 2;
+						chain[y].rigidbody2D.drag = 100;
+						chain[y].rigidbody2D.angularDrag =100;
+						//chain[y].rigidbody2D.centerOfMass = new Vector2(0, -0.3F);
 					}
 
 					//i = maxChainCount / 2;
