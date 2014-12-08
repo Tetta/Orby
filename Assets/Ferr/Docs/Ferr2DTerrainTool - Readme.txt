@@ -1,7 +1,7 @@
-Thanks for buying Simbryo's Ferr2D Terrain Tool for Unity3D! We hope your experience with it is the best ever, and should it ever be less than that, please drop us a note and let us know!
+Thanks for buying the Ferr2D Terrain Tool for Unity3D! We hope your experience with it is the best ever, and should it ever be less than that, please drop us a note and let us know!
 
 For documentation and tutorial videos go here! Or check out the quickstart guide and reference in the same folder as this file.
-http://www.simbryocorp.com/Ferr2DTerrain
+http://ferrlib.com/page/Ferr2D_Terrain_Tool
 
 We can always be reached either by email, or on twitter!
 support@simbryocorp.com
@@ -21,11 +21,25 @@ GameObject->Create Ferr2D Terrain->Create Decorative 2D Terrain (Ctrl+Shift+T)
 GameObject->Create Ferr2D Terrain->Create Terrain Material OR
 Project Window->Create->Create Terrain Material
 	This creates a basic empty terrain material prefab. Hook up some materials to it, define some sides, and go!
+	
+Assets->Prebuild Ferr2D Terrain
+	This tells Ferr2D to go through all prefabs, and ensure they're up-to-date. This is automatically called on Play, so this is mostly a debug feature.
 
+Assets->Rebuild Ferr2D Component Cache
+	This will search the project for all Ferr2D objects, and cache them. This is done automatically on initial load, so this is also primarily for debugging.
+	
+Edit->Preferences->Ferr
+	Various configuration options for visual and default values.
 
-PATH CONTROLS
+KEY CONTROLS
+SHIFT+CTRL:  drag select path points
 SHIFT+Click: add path point
-CTRL +Click: removes path points
+ALT  +Click: removes path points
+CTRL +Click: snap move points
+CTRL +Q:     override tab mode
+CTRL +W:     scale tab mode
+CTRL +E:     hide tabs
+Ctrl +R:     toggle smart snap
 
 KNOWN ISSUES
 -If you drag your mouse outside the material editor window and let go while dragging a region, no undo data will be saved.
@@ -34,6 +48,37 @@ KNOWN ISSUES
 
 VERSION LOG
 
+v1.0.8 2014-10
++Path Terrain
+ -Added per-node path scaling
+ -Added scene toolbar for improved UI experience
+ -Added a parallax edge tilt option
+ -Added lightmap UV support
+ -Added sharp collider corners option
+ -Terrain objects now use a single draw call on terrain objects that only use 1 material
+ -Added options for 2D Sort Layer and Order in Layer
+ -Default values are now editable in preferences for PPU and Smoothing
+ -Terrain collision mesh now updates while playing if modified in the editor
++Path
+ -Added multi select and edit
+ -Improved snapping (Ctrl is now snapping, delete is attached to Alt)
+ -Added smart snapping, for snapping to other path point axes
+ -Improved path point handle movement in non-2D views
++Shaders
+ -Added lit shaders + Lighting demo scene
+ -Added wavy shaders for underwater or wind effects
+ -Added tinted unlit shaders
+ -Improved unlit shader performance
++Editor
+ -Faster build time due to improved component finding
+ -Better prefab mesh saving
+ -Bug fixes and small improvements to the material editor
+ -Textures can now be resized without destrying the atlas
++Demos
+ -Added a blob shadow component
+ -Better loop seams on demo materials
+ -Added FerrLib logo
+ 
 v1.0.7 2014-3
 +Improved smoothed terrain support, it's very useable now =D
 +Improved triangulation performance, and no more weird holes!

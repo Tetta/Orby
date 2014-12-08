@@ -83,7 +83,7 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 
 
 		//listen for GooglePlayManager events
-		GooglePlayManager.instance.addEventListener (GooglePlayManager.ACHIEVEMENT_UPDATED, OnAchivmentUpdated);
+		GooglePlayManager.instance.addEventListener (GooglePlayManager.ACHIEVEMENT_UPDATED, OnAchievementUpdated);
 		GooglePlayManager.instance.addEventListener (GooglePlayManager.SCORE_SUBMITED, OnScoreSubmited);
 		GooglePlayManager.instance.addEventListener (GooglePlayManager.SCORE_REQUEST_RECEIVED, OnScoreUpdated);
 
@@ -93,8 +93,8 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 		GooglePlayManager.instance.addEventListener (GooglePlayManager.PENDING_GAME_REQUESTS_DETECTED, OnPendingGiftsDetected);
 		GooglePlayManager.instance.addEventListener (GooglePlayManager.GAME_REQUESTS_ACCEPTED, OnGameRequestAccepted);
 
-		GooglePlayManager.ActionOAuthTockenLoaded += ActionOAuthTockenLoaded;
-		GooglePlayManager.ActionAvaliableDeviceAccountsLoaded += ActionAvaliableDeviceAccountsLoaded;
+		GooglePlayManager.ActionOAuthTokenLoaded += ActionOAuthTokenLoaded;
+		GooglePlayManager.ActionAvailableDeviceAccountsLoaded += ActionAvailableDeviceAccountsLoaded;
 
 		GooglePlayManager.instance.addEventListener (GooglePlayManager.ACHIEVEMENTS_LOADED, OnAchievmnetsLoadedInfoListner);
 
@@ -116,15 +116,15 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 		}
 
 		if(!GooglePlayManager.IsDestroyed) {
-			GooglePlayManager.instance.removeEventListener (GooglePlayManager.ACHIEVEMENT_UPDATED, OnAchivmentUpdated);
+			GooglePlayManager.instance.removeEventListener (GooglePlayManager.ACHIEVEMENT_UPDATED, OnAchievementUpdated);
 			GooglePlayManager.instance.removeEventListener (GooglePlayManager.SCORE_SUBMITED, OnScoreSubmited);
 			
 			GooglePlayManager.instance.removeEventListener (GooglePlayManager.SEND_GIFT_RESULT_RECEIVED, OnGiftResult);
 			GooglePlayManager.instance.removeEventListener (GooglePlayManager.PENDING_GAME_REQUESTS_DETECTED, OnPendingGiftsDetected);
 			GooglePlayManager.instance.removeEventListener (GooglePlayManager.GAME_REQUESTS_ACCEPTED, OnGameRequestAccepted);
 			
-			GooglePlayManager.ActionAvaliableDeviceAccountsLoaded -= ActionAvaliableDeviceAccountsLoaded;
-			GooglePlayManager.ActionOAuthTockenLoaded -= ActionOAuthTockenLoaded;
+			GooglePlayManager.ActionAvailableDeviceAccountsLoaded -= ActionAvailableDeviceAccountsLoaded;
+			GooglePlayManager.ActionOAuthTokenLoaded -= ActionOAuthTokenLoaded;
 
 
 			
@@ -144,85 +144,85 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 	}
 
 	private void GetAccs() {
-		GooglePlayManager.instance.RetriveDeviceGoogleAccounts();
+		GooglePlayManager.instance.RetrieveDeviceGoogleAccounts();
 	}
 
-	private void RetriveToken() {
-		GooglePlayManager.instance.LoadTocken();
+	private void RetrieveToken() {
+		GooglePlayManager.instance.LoadToken();
 	}
 
 
 	private void showLeaderBoardsUI() {
-		GooglePlayManager.instance.showLeaderBoardsUI ();
+		GooglePlayManager.instance.ShowLeaderBoardsUI ();
 		SA_StatusBar.text = "Showing Leader Boards UI";
 	}
 
 	private void loadLeaderBoards() {
 
 		//listening for load event 
-		GooglePlayManager.instance.addEventListener (GooglePlayManager.LEADERBOARDS_LOEADED, OnLeaderBoardsLoaded);
-		GooglePlayManager.instance.loadLeaderBoards ();
+		GooglePlayManager.instance.addEventListener (GooglePlayManager.LEADERBOARDS_LOADED, OnLeaderBoardsLoaded);
+		GooglePlayManager.instance.LoadLeaderBoards ();
 		SA_StatusBar.text = "Loading Leader Boards Data...";
 	}
 
 	private void showLeaderBoard() {
-		GooglePlayManager.instance.showLeaderBoardById (LEADERBOARD_ID);
+		GooglePlayManager.instance.ShowLeaderBoardById (LEADERBOARD_ID);
 		SA_StatusBar.text = "Shwoing Leader Board UI for " + LEADERBOARD_ID;
 	}
 
 	private void submitScore() {
 		score++;
-		GooglePlayManager.instance.submitScore (LEADERBOARD_NAME, score);
+		GooglePlayManager.instance.SubmitScore (LEADERBOARD_NAME, score);
 		SA_StatusBar.text = "Score " + score.ToString() + " Submited for " + LEADERBOARD_NAME;
 	}
 
 
 	private void ResetBoard() {
-		GooglePlayManager.instance.resetLeaderBoard(LEADERBOARD_ID);
+		GooglePlayManager.instance.ResetLeaderBoard(LEADERBOARD_ID);
 		UpdateBoardInfo();
 	}
 
 
 
 
-	private void showAchivmentsUI() {
-		GooglePlayManager.instance.showAchievementsUI ();
-		SA_StatusBar.text = "Showing Achivments UI";
+	private void showAchievementsUI() {
+		GooglePlayManager.instance.ShowAchievementsUI ();
+		SA_StatusBar.text = "Showing Achievements UI";
 
 	}
 
 	private void loadAchievements() {
-		GooglePlayManager.instance.addEventListener (GooglePlayManager.ACHIEVEMENTS_LOADED, OnAchivmentsLoaded);
-		GooglePlayManager.instance.loadAchievements ();
+		GooglePlayManager.instance.addEventListener (GooglePlayManager.ACHIEVEMENTS_LOADED, OnAchievementsLoaded);
+		GooglePlayManager.instance.LoadAchievements ();
 
-		SA_StatusBar.text = "Loading Achivments Data...";
+		SA_StatusBar.text = "Loading Achievements Data...";
 	}
 
 	private void reportAchievement() {
-		GooglePlayManager.instance.reportAchievement ("achievement_simple_achievement_example");
+		GooglePlayManager.instance.UnlockAchievement ("achievement_simple_achievement_example");
 		SA_StatusBar.text = "Reporting achievement_prime...";
 	}
 
 	private void incrementAchievement() {
-		GooglePlayManager.instance.incrementAchievementById (INCREMENTAL_ACHIEVEMENT_ID, 1);
+		GooglePlayManager.instance.IncrementAchievementById (INCREMENTAL_ACHIEVEMENT_ID, 1);
 		SA_StatusBar.text = "Incrementing achievement_bored...";
 	}
 
 
 	private void revealAchievement() {
-		GooglePlayManager.instance.revealAchievement ("achievement_hidden_achievement_example");
+		GooglePlayManager.instance.RevealAchievement ("achievement_hidden_achievement_example");
 		SA_StatusBar.text = "Revealing achievement_humble...";
 	}
 
 	private void ResetAchievement() {
-		GooglePlayManager.instance.resetAchievement(INCREMENTAL_ACHIEVEMENT_ID);
+		GooglePlayManager.instance.ResetAchievement(INCREMENTAL_ACHIEVEMENT_ID);
 
-		AN_PoupsProxy.showMessage ("Reset Complete: ", "Reset Complete, but since this is feature for testing only, achivment data cache will be updated after next interaction with acheivment");
+		AN_PoupsProxy.showMessage ("Reset Complete: ", "Reset Complete, but since this is feature for testing only, achievement data cache will be updated after next interaction with acheivment");
 	}
 
 	private void ResetAllAchievements() {
 		GooglePlayManager.instance.ResetAllAchievements();
-		AN_PoupsProxy.showMessage ("Reset Complete: ", "Reset Complete, but since this is feature for testing only, achivment data cache will be updated after next interaction with acheivment");
+		AN_PoupsProxy.showMessage ("Reset Complete: ", "Reset Complete, but since this is feature for testing only, achievement data cache will be updated after next interaction with acheivment");
 
 	}
 
@@ -244,7 +244,7 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 
 	
 	public void clearDefaultAccount() {
-		GooglePlusAPI.instance.clearDefaultAccount();
+		GooglePlusAPI.instance.ClearDefaultAccount();
 	}
 
 
@@ -309,8 +309,8 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 		}
 	}
 
-	private void OnAchivmentsLoaded(CEvent e) {
-		GooglePlayManager.instance.removeEventListener (GooglePlayManager.ACHIEVEMENTS_LOADED, OnAchivmentsLoaded);
+	private void OnAchievementsLoaded(CEvent e) {
+		GooglePlayManager.instance.removeEventListener (GooglePlayManager.ACHIEVEMENTS_LOADED, OnAchievementsLoaded);
 		GooglePlayResult result = e.data as GooglePlayResult;
 		if(result.isSuccess) {
 
@@ -325,8 +325,8 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 				Debug.Log(achievement.totalSteps);
 			}
 
-			SA_StatusBar.text = "Total Achivments: " + GooglePlayManager.instance.achievements.Count.ToString();
-			AN_PoupsProxy.showMessage ("Achievments Loaded", "Total Achivments: " + GooglePlayManager.instance.achievements.Count.ToString());
+			SA_StatusBar.text = "Total Achievement: " + GooglePlayManager.instance.achievements.Count.ToString();
+			AN_PoupsProxy.showMessage ("Achievments Loaded", "Total Achievements: " + GooglePlayManager.instance.achievements.Count.ToString());
 		} else {
 			SA_StatusBar.text = result.message;
 			AN_PoupsProxy.showMessage ("Achievments Loaded error: ", result.message);
@@ -334,7 +334,7 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 
 	}
 
-	private void OnAchivmentUpdated(CEvent e) {
+	private void OnAchievementUpdated(CEvent e) {
 		GP_GamesResult result = e.data as GP_GamesResult;
 		SA_StatusBar.text = "Achievment Updated: Id: " + result.achievementId + "\n status: " + result.message;
 		AN_PoupsProxy.showMessage ("Achievment Updated ", "Id: " + result.achievementId + "\n status: " + result.message);
@@ -343,7 +343,7 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 	
 
 	private void OnLeaderBoardsLoaded(CEvent e) {
-		GooglePlayManager.instance.removeEventListener (GooglePlayManager.LEADERBOARDS_LOEADED, OnLeaderBoardsLoaded);
+		GooglePlayManager.instance.removeEventListener (GooglePlayManager.LEADERBOARDS_LOADED, OnLeaderBoardsLoaded);
 
 		GooglePlayResult result = e.data as GooglePlayResult;
 		if(result.isSuccess) {
@@ -445,18 +445,29 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 	}
 
 
-	private void ActionAvaliableDeviceAccountsLoaded(List<string> accounts) {
+	private void ActionAvailableDeviceAccountsLoaded(List<string> accounts) {
 		string msg = "Device contains following google accounts:" + "\n";
 		foreach(string acc in GooglePlayManager.instance.deviceGoogleAccountList) {
 			msg += acc + "\n";
 		} 
 
-		AN_PoupsProxy.showMessage("Accounts Loaded", msg);
+		AndroidDialog dialog = AndroidDialog.Create("Accounts Loaded", msg, "Sign With Fitst one", "Do Nothing");
+		dialog.OnComplete += SighDialogComplete;
+		
 	}
 
-	private void ActionOAuthTockenLoaded(string token) {
+	private void SighDialogComplete (AndroidDialogResult res) {
+		if(res == AndroidDialogResult.YES) {
+			GooglePlayConnection.instance.connect(GooglePlayManager.instance.deviceGoogleAccountList[0]);
+		}
 
-		AN_PoupsProxy.showMessage("Toekn Loaded", GooglePlayManager.instance.loadedAuthTocken);
+	}
+
+
+
+	private void ActionOAuthTokenLoaded(string token) {
+
+		AN_PoupsProxy.showMessage("Token Loaded", GooglePlayManager.instance.loadedAuthToken);
 	}
 
 

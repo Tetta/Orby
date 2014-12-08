@@ -13,10 +13,15 @@ public class GooglePlayEvents : SA_Singleton<GooglePlayEvents> {
 	public Action<GooglePlayResult> OnEventsLoaded =  delegate{};
 
 
-
-
 	private List<GP_Event> _Events =  new List<GP_Event>() ;
 
+	//--------------------------------------
+	// INITIALIZATION
+	//--------------------------------------
+	
+	void Awake() {
+		DontDestroyOnLoad(gameObject);
+	}
 
 	//--------------------------------------
 	// PUBLIC METHODS
@@ -24,7 +29,7 @@ public class GooglePlayEvents : SA_Singleton<GooglePlayEvents> {
 
 	public void LoadEvents() {
 		if (!GooglePlayConnection.CheckState ()) { return; }
-		AndroidNative.loadEvents (); 
+		AN_GMSQuestsEventsProxy.loadEvents (); 
 	}
 
 	public void SumbitEvent(string eventId) {
@@ -33,7 +38,7 @@ public class GooglePlayEvents : SA_Singleton<GooglePlayEvents> {
 
 	public void SumbitEvent(string eventId, int count) {
 		if (!GooglePlayConnection.CheckState ()) { return; }
-		AndroidNative.sumbitEvent (eventId, count);
+		AN_GMSQuestsEventsProxy.sumbitEvent (eventId, count);
 	}
 
 

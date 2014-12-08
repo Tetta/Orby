@@ -3,13 +3,20 @@ Shader "Ferr/Unlit Textured Vertex Color" {
 		_MainTex("Texture (RGB)", 2D) = "white" {}
 	}
 	SubShader {
-		LOD 200
-		Cull Off
+		Tags {"IgnoreProjector"="True" "RenderType"="Opaque"}
+		Blend Off
+		
+		LOD 100
+		Cull      Off
+		Lighting  Off
+		Fog {Mode Off}
+		
 		
 		Pass {
 			CGPROGRAM
-			#pragma vertex   vert
-			#pragma fragment frag
+			#pragma vertex         vert
+			#pragma fragment       frag
+			#pragma fragmentoption ARB_precision_hint_fastest
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
@@ -17,13 +24,13 @@ Shader "Ferr/Unlit Textured Vertex Color" {
 
 			struct appdata_ferr {
 			    float4 vertex   : POSITION;
-			    float4 texcoord : TEXCOORD0;
+			    half4  texcoord : TEXCOORD0;
 			    fixed4 color    : COLOR;
 			};
 			struct VS_OUT {
 				float4 position : SV_POSITION;
-				float4 color    : COLOR;
-				float2 uv       : TEXCOORD0;
+				fixed4 color    : COLOR;
+				half2  uv       : TEXCOORD0;
 			};
 
 			VS_OUT vert (appdata_ferr input) {
@@ -35,9 +42,9 @@ Shader "Ferr/Unlit Textured Vertex Color" {
 				return result;
 			}
 
-			half4 frag (VS_OUT input) : COLOR {
-				half4 color = tex2D(_MainTex, input.uv);
-				return half4(color.rgb * input.color.rgb, 1);
+			fixed4 frag (VS_OUT input) : COLOR {
+				fixed4 color = tex2D(_MainTex, input.uv);
+				return color * input.color;
 			}
 			ENDCG
 		}

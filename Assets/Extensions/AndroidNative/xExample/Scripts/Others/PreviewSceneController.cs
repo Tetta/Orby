@@ -20,7 +20,7 @@ public class PreviewSceneController : MonoBehaviour {
 
 
 	public void OpenDocs() {
-		string url = "http://goo.gl/VmIFVQ";
+		string url = "http://goo.gl/pTcIR8";
 		Application.OpenURL(url);
 	}
 

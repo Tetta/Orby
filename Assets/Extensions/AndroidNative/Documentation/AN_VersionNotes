@@ -1,3 +1,70 @@
+5.1:
+
+New Features:
+Immersive mode does not requires main activity anymore
+Popup now use Holo Android theme
+App Licensing, read more at: http://goo.gl/z7sRoV
+
+Billing:
+Purchase method now accept developer payload as additional parameter.
+Original JSON filed now available with consume Response
+
+Saved Games:
+CreateNewSnapshot - PlayedTime param added
+GP_SnapshotMeta - TotalPlayedTime filed added
+ActionGameSaved - Action Added
+Snapshot Saving issue fixed
+
+Fixes:
+Local notification template saving with UTF8 fixed
+Local notification template loading fixed
+Auto reconnect not starting anymore if user has signed out suing external play service UI.
+AchievementBuffer leak fixed
+Analytics Start Tracking function fixed
+Facebook re auth bug fixed
+Receiving Push Notification when app is closed bug fixed
+GoogleGender constant values fixed
+
+
+
+Refactor:
+Google Play Manager methods name conventions fixed
+
+Spelling Fixes:
+Tocken => Token
+Loeaded => Loaded
+Achivment => Achievement
+Retrive => Retrieve
+Avaliable => Available
+SpanShot => Snapshot
+GooglePlaySavedGmaesManager => GooglePlaySavedGamesManager
+Note: please remove old GooglePlaySavedGmaesManager manually 
+
+NotoficationsExample -> NotificationsExample
+Note: please remove old NotoficationsExample manually 
+
+
+GoogleGenger -> GoogleGender 
+Note: please remove old GoogleGenger manually 
+
+5.0:
+New Features:
+Google+ button API added
+Google Saved Games API new methods:
+* LoadAvaliableSavedGames()
+* LoadSpanShotByName(string)
+Links to online documentation added
+
+Auto manifest generation. Read more: http://goo.gl/CqSwFR
+Instagram API added Read more:
+
+
+Fixes:
+Google Ad LoadInterstisial methods fixe
+Google Analytics v4 bugs fixed 
+Quest manager fixed
+Event manager fixed
+
 4.9:
 
 New Features:

@@ -33,8 +33,9 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 		
 		//listen for GooglePlayConnection events
-		GooglePlayRTM.instance.addEventListener (GooglePlayRTM.ON_INVITATION_RECEIVED, OnInvite);
-		GooglePlayRTM.instance.addEventListener (GooglePlayRTM.ON_ROOM_CREATED, OnRoomCreated);
+		GooglePlayRTM.ActionInvitationReceived += OnInvite;
+		GooglePlayRTM.ActionRoomCreated += OnRoomCreated;
+
 
 
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
@@ -47,8 +48,8 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 			OnPlayerConnected ();
 		} 
 
-		//networking eventd
-		GooglePlayRTM.instance.addEventListener(GooglePlayRTM.DATA_RECIEVED, OnGCDataReceived);
+		//networking event
+		GooglePlayRTM.ActionDataRecieved += OnGCDataReceived;
 
 
 	}
@@ -71,11 +72,17 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 
 
 	private void findMatch() {
-		GooglePlayRTM.instance.FindMatch(1, 2);
+		int minPlayers = 1;
+		int maxPlayers = 2;
+		int bitMask = 0;
+		
+		GooglePlayRTM.instance.FindMatch(minPlayers, maxPlayers, bitMask);
 	}
 
 	private void InviteFriends() {
-		GooglePlayRTM.instance.OpenInvitationBoxUI(1, 2);
+		int minPlayers = 1;
+		int maxPlayers = 2;
+		GooglePlayRTM.instance.OpenInvitationBoxUI(minPlayers, maxPlayers);
 	}
 
 
@@ -197,35 +204,28 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 		Debug.Log(result.code.ToString());
 	}
 
-	private string invitationId;
-	private void OnInvite(CEvent e) {
-		invitationId = (string) e.data;
+	private string inviteId;
+	private void OnInvite(string invitationId) {
 
+		inviteId = invitationId;
 		AndroidDialog dialog =  AndroidDialog.Create("Invite", "You have new invite from firend", "Start Playing", "Open Inbox");
-		dialog.addEventListener(BaseEvent.COMPLETE, OnInvDialogComplete);
-
-
+		dialog.OnComplete += OnInvDialogComplete;
 	}
 
-	private void OnRoomCreated(CEvent e) {
-		GP_GamesStatusCodes code = (GP_GamesStatusCodes) e.data;
-		
-
+	private void OnRoomCreated(GP_GamesStatusCodes code) {
 		SA_StatusBar.text = "Room Create Result:  " + code.ToString();
-		
 	}
 
 
 
-	private void OnInvDialogComplete(CEvent e) {
+	private void OnInvDialogComplete(AndroidDialogResult result) {
 		
-		//removing listner
-		(e.dispatcher as AndroidDialog).removeEventListener(BaseEvent.COMPLETE, OnInvDialogComplete);
+
 		
 		//parsing result
-		switch((AndroidDialogResult)e.data) {
+		switch(result) {
 		case AndroidDialogResult.YES:
-			GooglePlayRTM.instance.AcceptInviteToRoom(invitationId);
+			GooglePlayRTM.instance.AcceptInviteToRoom(inviteId);
 			break;
 		case AndroidDialogResult.NO:
 			GooglePlayRTM.instance.OpenInvitationInBoxUI();
@@ -235,10 +235,9 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 	}
 
 
-	private void OnGCDataReceived(CEvent e) {
+	private void OnGCDataReceived(GP_RTM_Network_Package package) {
 		#if (UNITY_ANDROID && !UNITY_EDITOR) || SA_DEBUG_MODE
 
-		GP_RTM_Network_Package package = e.data as GP_RTM_Network_Package;
 		
 		System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
 		string str = enc.GetString(package.buffer);

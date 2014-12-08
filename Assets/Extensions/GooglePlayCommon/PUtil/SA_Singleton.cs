@@ -71,11 +71,14 @@ public abstract class SA_Singleton<T> : EventDispatcher where T : MonoBehaviour 
 		base.OnDestroy();
 		_instance = null;
 		applicationIsQuitting = true;
+		Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnDestroy event");
 	}
 	
 	protected virtual void OnApplicationQuit () {
+		Debug.Log("OnApplicationQuit");
 		_instance = null;
 		applicationIsQuitting = true;
+		Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnApplicationQuit event");
 	}
 
 }

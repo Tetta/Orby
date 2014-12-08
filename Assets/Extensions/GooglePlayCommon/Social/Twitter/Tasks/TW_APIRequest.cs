@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnionAssets.FLE;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,9 +27,9 @@ public abstract class TW_APIRequest : EventDispatcher {
 
 
 	public void Send() {
-		if(TwitterApplicationOnlyTocken.instance.currentTocken == null) {
-			TwitterApplicationOnlyTocken.instance.addEventListener(BaseEvent.COMPLETE, OnTokenLoaded);
-			TwitterApplicationOnlyTocken.instance.RetriveTocken();
+		if(TwitterApplicationOnlyToken.instance.currentToken == null) {
+			TwitterApplicationOnlyToken.instance.addEventListener(BaseEvent.COMPLETE, OnTokenLoaded);
+			TwitterApplicationOnlyToken.instance.RetrieveToken();
 		} else {
 			StartCoroutine(Request());
 		}
@@ -74,7 +74,7 @@ public abstract class TW_APIRequest : EventDispatcher {
 		
 
 		Headers.Add("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-		Headers.Add("Authorization", "Bearer " + TwitterApplicationOnlyTocken.instance.currentTocken);
+		Headers.Add("Authorization", "Bearer " + TwitterApplicationOnlyToken.instance.currentToken);
 		
 
 		
@@ -101,12 +101,12 @@ public abstract class TW_APIRequest : EventDispatcher {
 
 	private void OnTokenLoaded() {
 
-		TwitterApplicationOnlyTocken.instance.removeEventListener(BaseEvent.COMPLETE, OnTokenLoaded);
+		TwitterApplicationOnlyToken.instance.removeEventListener(BaseEvent.COMPLETE, OnTokenLoaded);
 
-		if(TwitterApplicationOnlyTocken.instance.currentTocken != null) {
+		if(TwitterApplicationOnlyToken.instance.currentToken != null) {
 			StartCoroutine(Request());
 		} else {
-			dispatch(BaseEvent.COMPLETE, new TW_APIRequstResult(false, "Retirving auth tocken failed"));
+			dispatch(BaseEvent.COMPLETE, new TW_APIRequstResult(false, "Retirving auth tocen failed"));
 		}
 
 	}

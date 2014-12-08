@@ -1,19 +1,22 @@
-Shader "Ferr/Unlit Transparent Textured Vertex Color" {
+Shader "Ferr/Unlit Textured Vertex Color Transparent" {
 	Properties {
 		_MainTex("Texture (RGBA)", 2D) = "white" {}
 	}
 	SubShader {
-		Tags { "Queue"="Transparent" "RenderType"="Transparent"  }
+		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"  }
 		Blend SrcAlpha OneMinusSrcAlpha
 
-		LOD 200
-		ZWrite Off
-		Cull Off
+		LOD 100
+		Cull      Off
+		Lighting  Off
+		ZWrite    Off
+		Fog {Mode Off}
 		
 		Pass {
 			CGPROGRAM
-			#pragma vertex   vert
-			#pragma fragment frag
+			#pragma vertex         vert
+			#pragma fragment       frag
+			#pragma fragmentoption ARB_precision_hint_fastest
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
@@ -26,7 +29,7 @@ Shader "Ferr/Unlit Transparent Textured Vertex Color" {
 			};
 			struct VS_OUT {
 				float4 position : SV_POSITION;
-				float4 color    : COLOR;
+				fixed4 color    : COLOR;
 				float2 uv       : TEXCOORD0;
 			};
 
@@ -39,8 +42,8 @@ Shader "Ferr/Unlit Transparent Textured Vertex Color" {
 				return result;
 			}
 
-			half4 frag (VS_OUT input) : COLOR {
-				half4 color = tex2D(_MainTex, input.uv);
+			fixed4 frag (VS_OUT input) : COLOR {
+				fixed4 color = tex2D(_MainTex, input.uv);
 				return color * input.color;
 			}
 			ENDCG

@@ -154,6 +154,15 @@ public class QuestAndEventsExample : MonoBehaviour {
 		Debug.Log ("Total Events: " + GooglePlayEvents.instance.Events.Count);
 		AN_PoupsProxy.showMessage ("Events Loaded", "Total Events: " + GooglePlayEvents.instance.Events.Count);
 		SA_StatusBar.text = "OnEventsLoaded:  " + result.response.ToString();
+
+		foreach(GP_Event ev in GooglePlayEvents.instance.Events) {
+			Debug.Log(ev.Id);
+			Debug.Log(ev.Description);
+			Debug.Log(ev.FormattedValue);
+			Debug.Log(ev.Value);
+			Debug.Log(ev.IconImageUrl);
+			Debug.Log(ev.icon);
+		}
 	}
 
 	private void OnQuestsAccepted (GP_QuestResult result) {
@@ -175,6 +184,10 @@ public class QuestAndEventsExample : MonoBehaviour {
 		AN_PoupsProxy.showMessage ("Quests Loaded", "Total Quests: " + GooglePlayQuests.instance.GetQuests().Count);
 
 		SA_StatusBar.text = "OnQuestsLoaded:  " + result.response.ToString();
+
+		foreach(GP_Quest quest in GooglePlayQuests.instance.GetQuests()) {
+			Debug.Log(quest.Id);
+		}
 	}
 	
 	private void OnPlayerDisconnected() {

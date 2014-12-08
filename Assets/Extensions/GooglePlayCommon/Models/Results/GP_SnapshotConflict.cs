@@ -28,9 +28,9 @@ public class GP_SnapshotConflict  {
 
 	public void Resolve(GP_Snapshot snapshot) {
 		if(snapshot.Equals(_s1)) {
-			AndroidNative.ResolveSpanShotConflict(0);
+			AN_GooglePlayProxy.ResolveSnapshotsConflict_Bridge(0);
 		} else {
-			AndroidNative.ResolveSpanShotConflict(1);
+			AN_GooglePlayProxy.ResolveSnapshotsConflict_Bridge(1);
 		}
 	}
 }

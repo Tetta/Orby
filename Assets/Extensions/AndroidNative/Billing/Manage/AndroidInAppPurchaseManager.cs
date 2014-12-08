@@ -72,14 +72,28 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 		AndroidNative.retrieveProducDetails ();
 	}
 
+
+
+
 	public void purchase(string SKU) {
-		_processedSKU = SKU;
-		AndroidNative.purchase (SKU);
+		purchase(SKU, "");
 	}
 
-	public void subscribe(string SKU) {
+	public void purchase(string SKU, string DeveloperPayload) {
 		_processedSKU = SKU;
-		AndroidNative.subscribe (SKU);
+		AndroidNative.purchase (SKU, DeveloperPayload);
+	}
+
+
+
+	public void subscribe(string SKU) {
+		subscribe(SKU, "");
+	}
+
+
+	public void subscribe(string SKU, string DeveloperPayload) {
+		_processedSKU = SKU;
+		AndroidNative.subscribe (SKU, DeveloperPayload);
 	}
 
 	public void consume(string SKU) {
@@ -214,6 +228,7 @@ public class AndroidInAppPurchaseManager : SA_Singleton<AndroidInAppPurchaseMana
 			purchase.SetState(storeData[6]);
 			purchase.token 	        		= storeData[7];
 			purchase.signature 	        	= storeData[8];
+			purchase.originalJson 	        = storeData[9];
 
 			if(_inventory != null) {
 				_inventory.removePurchase (purchase);

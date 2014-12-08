@@ -85,11 +85,13 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 
 	public void LoadScore() {
-		GooglePlayManager.instance.loadPlayerCenteredScores(LEADERBOARD_ID, displayTime, displayCollection, 10);
+		GPBoardTimeSpan displayTime = GPBoardTimeSpan.ALL_TIME;
+		GPCollectionType displayCollection = GPCollectionType.FRIENDS;
+		GooglePlayManager.instance.LoadPlayerCenteredScores(LEADERBOARD_ID, displayTime, displayCollection, 10);
 	}
 
 	public void OpenUI() {
-		GooglePlayManager.instance.showLeaderBoardById(LEADERBOARD_ID);
+		GooglePlayManager.instance.ShowLeaderBoardById(LEADERBOARD_ID);
 	}
 	
 
@@ -139,14 +141,14 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 		if(loadedLeaderBoard != null) {
 
 
-			//Geting current player score
+			//Getting current player score
 			int displayRank;
 
 			GPScore currentPlayerScore = loadedLeaderBoard.GetCurrentPlayerScore(displayTime, displayCollection);
 			if(currentPlayerScore == null) {
 				//Player does not have rank at this collection / time
 				//so let's show the top score
-				//since we used loadPlayerCenteredScores function. we should have top scores loaded if player have to scores at this collection / time
+				//since we used loadPlayerCenteredScores function. we should have top scores loaded if player have no scores at this collection / time
 				//https://developer.android.com/reference/com/google/android/gms/games/leaderboard/Leaderboards.html#loadPlayerCenteredScores(com.google.android.gms.common.api.GoogleApiClient, java.lang.String, int, int, int)
 				//Asynchronously load the player-centered page of scores for a given leaderboard. If the player does not have a score on this leaderboard, this call will return the top page instead.
 				displayRank = 1;
@@ -300,8 +302,10 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 	}
 
+
+
 	private void SubmitScore() {
-		GooglePlayManager.instance.submitScoreById(LEADERBOARD_ID, score);
+		GooglePlayManager.instance.SubmitScoreById(LEADERBOARD_ID, score);
 		SA_StatusBar.text = "Submitiong score: " + (score +1).ToString();
 		score ++;
 	}
@@ -331,8 +335,8 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 		SA_StatusBar.text = "Score Submit Resul:  " + result.message;
 
 		//Reloading scores list:
-		GooglePlayManager.instance.loadTopScores(LEADERBOARD_ID, GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL, 10);
-		GooglePlayManager.instance.loadTopScores(LEADERBOARD_ID, GPBoardTimeSpan.ALL_TIME, GPCollectionType.FRIENDS, 10);
+		GooglePlayManager.instance.LoadTopScores(LEADERBOARD_ID, GPBoardTimeSpan.ALL_TIME, GPCollectionType.GLOBAL, 10);
+		GooglePlayManager.instance.LoadTopScores(LEADERBOARD_ID, GPBoardTimeSpan.ALL_TIME, GPCollectionType.FRIENDS, 10);
 
 	}
 }

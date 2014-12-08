@@ -14,74 +14,47 @@ Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly
 Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.040 seconds
+- Completed reload, in  0.074 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\System.Core.dll (this message is harmless)
-Profiler is only supported with Pro License
+The referenced script on this Behaviour is missing!
  
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/Runtime/Profiler/ProfilerConnection.cpp Line: 218)
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1789)
 
 Platform assembly: D:\Dropbox\work\unityProjects\Orby\orby_Data\Managed\System.dll (this message is harmless)
-Play Serice Connection State -> STATE_CONNECTING
-UnityEngine.Debug:Internal_Log(Int32, String, Object)
-UnityEngine.Debug:Log(Object)
-GooglePlayConnection:OnStateChange(GPConnectionState) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:201)
-GooglePlayConnection:connect(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:84)
-GooglePlayConnection:connect() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:75)
-initClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\initClass.cs:32)
- 
-(Filename: D Line: 0)
+UnloadTime: 6.910272 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-GooglePlayManager was created
-UnityEngine.Debug:Internal_Log(Int32, String, Object)
-UnityEngine.Debug:Log(Object)
-GooglePlayManager:Create() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayManager.cs:88)
-GooglePlayConnection:connect(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:86)
-GooglePlayConnection:connect() (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\AndroidNative\PlayService\Manage\GooglePlayConnection.cs:75)
-initClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\initClass.cs:32)
- 
-(Filename: D Line: 0)
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 747.
+Total: 1.429908 ms (FindLiveObjects: 0.068707 ms CreateObjectMapping: 0.026820 ms MarkObjects: 0.573470 ms  DeleteObjects: 0.028628 ms)
 
-UnloadTime: 3.359759 ms
-System memory in use before: 20.0 MB.
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 19.9 MB.
-
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 880.
-Total: 1.032126 ms (FindLiveObjects: 0.037970 ms CreateObjectMapping: 0.015971 ms MarkObjects: 0.521336 ms  DeleteObjects: 0.006931 ms)
-
-UnloadTime: 0.528267 ms
-System memory in use before: 19.8 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 19.7 MB.
-
-Unloading 63 unused Assets to reduce memory usage. Loaded Objects now: 805.
-Total: 0.846494 ms (FindLiveObjects: 0.022902 ms CreateObjectMapping: 0.011451 ms MarkObjects: 0.371565 ms  DeleteObjects: 0.110294 ms)
-
-Init shoudl be called only once. Call ignored
-UnityEngine.Debug:Internal_Log(Int32, String, Object)
-UnityEngine.Debug:LogWarning(Object)
-AndroidAdMobController:Init(String) (at D:\Dropbox\work\unityProjects\Orby\Assets\Extensions\GooglePlayCommon\Ad\AndroidAdMobController.cs:47)
-guiGiftClass:Start() (at D:\Dropbox\work\unityProjects\Orby\Assets\_scripts\guiGiftClass.cs:12)
- 
-(Filename: D Line: 0)
-
-UnloadTime: 0.545746 ms
-System memory in use before: 19.9 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 19.9 MB.
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 880.
-Total: 0.828413 ms (FindLiveObjects: 0.022902 ms CreateObjectMapping: 0.014464 ms MarkObjects: 0.443286 ms  DeleteObjects: 0.006027 ms)
-
-UnloadTime: 0.473422 ms
-System memory in use before: 19.9 MB.
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-System memory in use after: 19.8 MB.
-
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 831.
-Total: 0.766636 ms (FindLiveObjects: 0.022299 ms CreateObjectMapping: 0.012656 ms MarkObjects: 0.357100 ms  DeleteObjects: 0.020190 ms)
-
-Waiting for finish

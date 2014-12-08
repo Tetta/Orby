@@ -1,4 +1,4 @@
-﻿////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //  
 // @module Android Native Plugin for Unity3D 
 // @author Osipov Stanislav (Stan's Assets) 
@@ -43,7 +43,7 @@ public class AndroidGoogleAdsExample_old : MonoBehaviour {
 
 		
 		//Optional, add data for better ad targeting
-		AndroidAdMobController.instance.SetGender(GoogleGenger.Male);
+		AndroidAdMobController.instance.SetGender(GoogleGender.Male);
 		AndroidAdMobController.instance.AddKeyword("game");
 		AndroidAdMobController.instance.SetBirthday(1989, AndroidMonth.MARCH, 18);
 		AndroidAdMobController.instance.TagForChildDirectedTreatment(false);

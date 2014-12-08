@@ -13,7 +13,7 @@ public class iGooglePlusClass : MonoBehaviour {
 	}
 
 	void OnClick() {
-		NGUIDebug.Log(initClass.progress["googlePlay"]);
+		//NGUIDebug.Log(initClass.progress["googlePlay"]);
 		if (initClass.progress["googlePlay"] == 0) {
 			GooglePlayConnection.instance.connect ();
 		} else {

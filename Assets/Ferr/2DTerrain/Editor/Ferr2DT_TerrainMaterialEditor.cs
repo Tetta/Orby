@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using System;
@@ -16,7 +16,11 @@ public class Ferr2DT_TerrainMaterialEditor : Editor {
 		Ferr2DT_TerrainMaterial mat = target as Ferr2DT_TerrainMaterial;
 
         mat.edgeMaterial = (Material)EditorGUILayout.ObjectField("Edge Material", mat.edgeMaterial, typeof(Material), true);
-		mat.fillMaterial = (Material)EditorGUILayout.ObjectField("Fill Material", mat.fillMaterial, typeof(Material), true);
+		Material newMat = (Material)EditorGUILayout.ObjectField("Fill Material", mat.fillMaterial, typeof(Material), true);
+		if (mat.fillMaterial != newMat) {
+			mat.fillMaterial = newMat;
+			Ferr2DT_TerrainMaterialUtility.CheckMaterialRepeat(mat.fillMaterial);
+		}
         if (mat.edgeMaterial == null) EditorGUILayout.HelpBox("Please add an edge material to enable the material editor!", MessageType.Warning);
         else {
             if (GUILayout.Button("Open Material Editor")) Ferr2DT_TerrainMaterialWindow.Show(mat);
@@ -28,7 +32,7 @@ public class Ferr2DT_TerrainMaterialEditor : Editor {
             for (int i = 0; i < terrain.Length; i++)
             {
                 if(terrain[i].TerrainMaterial == mat)
-                    terrain[i].RecreatePath();
+                    terrain[i].RecreatePath(true);
             }
 		}
 	}

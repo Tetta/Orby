@@ -49,8 +49,6 @@ public class GooglePlayerTemplate {
 			_hasHiResImage = true;
 		}
 
-		Debug.Log(_iconImageUrl);
-		Debug.Log(_hiResImageUrl);
 
 		if(AndroidNativeSettings.Instance.LoadProfileIcons) {
 			LoadIcon();
@@ -86,7 +84,6 @@ public class GooglePlayerTemplate {
 			return;
 		}
 
-		Debug.Log("LoadIcon");
 
 		WWWTextureLoader loader = WWWTextureLoader.Create();
 		loader.addEventListener(BaseEvent.LOADED, OnProfileIconLoaded);
@@ -164,9 +161,7 @@ public class GooglePlayerTemplate {
 	}
 
 	private void OnProfileIconLoaded(CEvent e) {
-		Debug.Log("OnProfileIconLoaded");
 		e.dispatcher.removeEventListener(BaseEvent.LOADED, OnProfileIconLoaded);
-		Debug.Log(e.data);
 		if(e.data != null) {
 			_icon = e.data as Texture2D;
 		}

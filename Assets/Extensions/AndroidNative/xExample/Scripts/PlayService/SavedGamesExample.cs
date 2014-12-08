@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnionAssets.FLE;
 using System.Collections;
 
@@ -29,9 +29,9 @@ public class SavedGamesExample : MonoBehaviour {
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
 		GooglePlayConnection.instance.addEventListener(GooglePlayConnection.CONNECTION_RESULT_RECEIVED, OnConnectionResult);
 		
-		GooglePlaySavedGmaesManager.ActionNewGameSaveRequest += ActionNewGameSaveRequest;
-		GooglePlaySavedGmaesManager.ActionGameSaveLoaded += ActionGameSaveLoaded;
-		GooglePlaySavedGmaesManager.ActionConflict += ActionConflict;
+		GooglePlaySavedGamesManager.ActionNewGameSaveRequest += ActionNewGameSaveRequest;
+		GooglePlaySavedGamesManager.ActionGameSaveLoaded += ActionGameSaveLoaded;
+		GooglePlaySavedGamesManager.ActionConflict += ActionConflict;
 
 		
 		if(GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
@@ -49,10 +49,10 @@ public class SavedGamesExample : MonoBehaviour {
 			
 		}
 
-		if(GooglePlaySavedGmaesManager.HasInstance) {
-			GooglePlaySavedGmaesManager.ActionNewGameSaveRequest -= ActionNewGameSaveRequest;
-			GooglePlaySavedGmaesManager.ActionGameSaveLoaded -= ActionGameSaveLoaded;
-			GooglePlaySavedGmaesManager.ActionConflict -= ActionConflict;
+		if(GooglePlaySavedGamesManager.HasInstance) {
+			GooglePlaySavedGamesManager.ActionNewGameSaveRequest -= ActionNewGameSaveRequest;
+			GooglePlaySavedGamesManager.ActionGameSaveLoaded -= ActionGameSaveLoaded;
+			GooglePlaySavedGamesManager.ActionConflict -= ActionConflict;
 		}
 		
 	}
@@ -116,13 +116,52 @@ public class SavedGamesExample : MonoBehaviour {
 	//--------------------------------------
 
 
+	public void CreateNewSnapshot() {
+		StartCoroutine(MakeScreenshotAndSaveGameData());
+	}
 
 	private void ShowSavedGamesUI() {
 		int maxNumberOfSavedGamesToShow = 5;
-		GooglePlaySavedGmaesManager.instance.ShowSavedGamesUI("See My Saves", maxNumberOfSavedGamesToShow);
+		GooglePlaySavedGamesManager.instance.ShowSavedGamesUI("See My Saves", maxNumberOfSavedGamesToShow);
 	}
 
 
+	public void LoadSavedGames() {
+		GooglePlaySavedGamesManager.ActionAvailableGameSavesLoaded += ActionAvailableGameSavesLoaded;
+		GooglePlaySavedGamesManager.instance.LoadAvailableSavedGames();
+
+		SA_StatusBar.text = "Loading saved games.. ";
+	}
+
+	private void ActionAvailableGameSavesLoaded (GooglePlayResult res) {
+
+		GooglePlaySavedGamesManager.ActionAvailableGameSavesLoaded += ActionAvailableGameSavesLoaded;
+		if(res.isSuccess) {
+			foreach(GP_SnapshotMeta meta in GooglePlaySavedGamesManager.instance.AvailableGameSaves) {
+				Debug.Log("Meta.Title: " 					+ meta.Title);
+				Debug.Log("Meta.Description: " 				+ meta.Description);
+				Debug.Log("Meta.CoverImageUrl): " 			+ meta.CoverImageUrl);
+				Debug.Log("Meta.LastModifiedTimestamp: " 	+ meta.LastModifiedTimestamp);
+
+			}
+
+			if(GooglePlaySavedGamesManager.instance.AvailableGameSaves.Count > 0) {
+				GP_SnapshotMeta s =  GooglePlaySavedGamesManager.instance.AvailableGameSaves[0];
+				AndroidDialog dialog = AndroidDialog.Create("Load Snapshot?", "Would you like to load " + s.Title);
+				dialog.OnComplete += OnSpanshotLoadDialogComplete;
+			}
+
+		} else {
+			AndroidMessage.Create("Fail", "Available Game Saves Load failed");
+		}
+	}
+
+	void OnSpanshotLoadDialogComplete (AndroidDialogResult res) {
+		if(res == AndroidDialogResult.YES) {
+			GP_SnapshotMeta s =  GooglePlaySavedGamesManager.instance.AvailableGameSaves[0];
+			GooglePlaySavedGamesManager.instance.LoadSpanshotByName(s.Title);
+		}
+	}
 
 	//--------------------------------------
 	// EVENTS
@@ -132,6 +171,8 @@ public class SavedGamesExample : MonoBehaviour {
 		SA_StatusBar.text = "New  Game Save Requested, Creating new save..";
 		Debug.Log("New  Game Save Requested, Creating new save..");
 		StartCoroutine(MakeScreenshotAndSaveGameData());
+
+		AndroidMessage.Create("Result", "New Game Save Request");
 	}
 
 	private void ActionGameSaveLoaded (GP_SpanshotLoadResult result) {
@@ -139,27 +180,32 @@ public class SavedGamesExample : MonoBehaviour {
 		Debug.Log("ActionGameSaveLoaded: " + result.message);
 		if(result.isSuccess) {
 
-			Debug.Log("Snapshot.Title: " 					+ result.Snapshot.Title);
-			Debug.Log("Snapshot.Description: " 				+ result.Snapshot.Description);
-			Debug.Log("Snapshot.CoverImageUrl): " 			+ result.Snapshot.CoverImageUrl);
+			Debug.Log("Snapshot.Title: " 					+ result.Snapshot.meta.Title);
+			Debug.Log("Snapshot.Description: " 				+ result.Snapshot.meta.Description);
+			Debug.Log("Snapshot.CoverImageUrl): " 			+ result.Snapshot.meta.CoverImageUrl);
+			Debug.Log("Snapshot.LastModifiedTimestamp: " 	+ result.Snapshot.meta.LastModifiedTimestamp);
+
 			Debug.Log("Snapshot.stringData: " 				+ result.Snapshot.stringData);
-			Debug.Log("Snapshot.LastModifiedTimestamp: " 	+ result.Snapshot.LastModifiedTimestamp);
 			Debug.Log("Snapshot.bytes.Length: " 			+ result.Snapshot.bytes.Length);
+
+			AndroidMessage.Create("Snapshot Loaded", "Data: " + result.Snapshot.stringData);
 		} 
 
 		SA_StatusBar.text = "Games Loaded: " + result.message;
 
 	}
 
-	private void ActionGameSaveResult (GooglePlayResult result) {
-		GooglePlaySavedGmaesManager.ActionGameSaveResult -= ActionGameSaveResult;
+	private void ActionGameSaveResult (GP_SpanshotLoadResult result) {
+		GooglePlaySavedGamesManager.ActionGameSaveResult -= ActionGameSaveResult;
 		Debug.Log("ActionGameSaveResult: " + result.message);
 
 		if(result.isSuccess) {
-			SA_StatusBar.text = "Games Saved.";
+			SA_StatusBar.text = "Games Saved: " + result.Snapshot.meta.Title;
 		} else {
 			SA_StatusBar.text = "Games Save Failed";
 		}
+
+		AndroidMessage.Create("Game Save Result", SA_StatusBar.text);
 	}	
 
 	private void ActionConflict (GP_SnapshotConflict result) {
@@ -172,7 +218,7 @@ public class SavedGamesExample : MonoBehaviour {
 		// Resolve between conflicts by selecting the newest of the conflicting snapshots.
 		GP_Snapshot mResolvedSnapshot = snapshot;
 		
-		if (snapshot.LastModifiedTimestamp < conflictSnapshot.LastModifiedTimestamp) {
+		if (snapshot.meta.LastModifiedTimestamp < conflictSnapshot.meta.LastModifiedTimestamp) {
 			mResolvedSnapshot = conflictSnapshot;
 		}
 
@@ -215,13 +261,15 @@ public class SavedGamesExample : MonoBehaviour {
 		Screenshot.ReadPixels( new Rect(0, 0, width, height), 0, 0 );
 		Screenshot.Apply();
 		
-		
-		string currentSaveName =  "snapshotTemp-" + Random.Range(1, 281).ToString();
+
+		long TotalPlayedTime = 20000;
+		//string currentSaveName =  "snapshotTemp-" + Random.Range(1, 281).ToString();
+		string currentSaveName =  "TestingSameName";
 		string description  = "Modified data at: " + System.DateTime.Now.ToString("MM/dd/yyyy H:mm:ss");
 
 
-		GooglePlaySavedGmaesManager.ActionGameSaveResult += ActionGameSaveResult;
-		GooglePlaySavedGmaesManager.instance.CreateNewSpanShot(currentSaveName, description, Screenshot, "some save data, for example you can use JSON or byte array");
+		GooglePlaySavedGamesManager.ActionGameSaveResult += ActionGameSaveResult;
+		GooglePlaySavedGamesManager.instance.CreateNewSnapshot(currentSaveName, description, Screenshot, "some save data, for example you can use JSON or byte array", TotalPlayedTime);
 		
 		
 		

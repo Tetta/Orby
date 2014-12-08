@@ -34,11 +34,6 @@ public class AndroidNativeUtility : SA_Singleton<AndroidNativeUtility> {
 		AndroidNative.runPackage(packageName);
 	}
 
-	public void LoadGoogleAccountNames() {
-		AndroidNative.loadGoogleAccountNames();
-	}
-
-
 
 	//--------------------------------------
 	// Static Methods

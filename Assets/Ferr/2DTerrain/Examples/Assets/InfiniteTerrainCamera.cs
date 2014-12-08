@@ -6,15 +6,12 @@ public class InfiniteTerrainCamera : MonoBehaviour {
     public float      maxXOffset;
    
     float screenWidth;
-    float currSpeed;
     float camX;
 
-	void Start () {
+	void Start      () {
         screenWidth = GetViewSizeAtDistance(Mathf.Abs(followObject.transform.position.z - transform.position.z)).x;
 	}
-	
-	
-	void LateUpdate () {
+	void FixedUpdate () {
         if (followObject.transform.position.x < camX - screenWidth / 2) {
             followObject.transform.position = new Vector3(0, 9, 0);
             transform.position = new Vector3(0, 9, transform.position.z);

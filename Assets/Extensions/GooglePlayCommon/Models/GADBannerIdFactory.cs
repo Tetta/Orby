@@ -14,7 +14,7 @@ using System.Collections;
 
 public class GADBannerIdFactory  {
 
-	public static int _nextId = 0;
+	private static int _nextId = 0;
 
 	//--------------------------------------
 	// INITIALIZE

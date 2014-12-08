@@ -9,11 +9,13 @@ using UnityEditor;
 
 public class SocialPlatfromSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "3.9";
+	public const string VERSION_NUMBER = "4.1";
 	public const string FB_SDK_VERSION_NUMBER = "6.0.0";
 
 	public bool showPermitions = true;
 	public bool ShowActions = true;
+
+	public bool ShowAPIS = true;
 
 	public List<string> fb_scopes_list =  new List<string>();
 	
@@ -26,7 +28,13 @@ public class SocialPlatfromSettings : ScriptableObject {
 	private const string ISNSettingsPath = "Extensions/GooglePlayCommon/Resources";
 	private const string ISNSettingsAssetExtension = ".asset";
 
-	
+
+	public bool TwitterAPI = true;
+	public bool NativeSharingAPI = true;
+	public bool InstagramAPI = true;
+
+
+	public bool KeepManifestClean = true;
 
 	
 	private static SocialPlatfromSettings instance = null;

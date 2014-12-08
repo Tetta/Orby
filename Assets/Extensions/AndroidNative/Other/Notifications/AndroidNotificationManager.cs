@@ -151,13 +151,15 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 		if(PlayerPrefs.HasKey(PP_KEY)) {
 			data = PlayerPrefs.GetString(PP_KEY);
 		}
-
 		List<LocalNotificationTemplate>  tpls = new List<LocalNotificationTemplate>();
 
 		if(data != string.Empty) {
 			string[] notifications = data.Split(DATA_SPLITTER [0]);
 			foreach(string n in notifications) {
-				LocalNotificationTemplate notification = new LocalNotificationTemplate(n);
+
+				String templateData = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(n) );
+			
+				LocalNotificationTemplate notification = new LocalNotificationTemplate(templateData);
 				if(!notification.IsFired) {
 					tpls.Add(notification);
 				}

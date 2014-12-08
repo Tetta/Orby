@@ -12,6 +12,7 @@ public class AN_GoogleAdProxy  {
 
 	public static void InitMobileAd(string id) {
 		CallActivityFunction("Bridge_Init", id);
+
 	}
 	
 	public static void ChangeBannersUnitID(string id) {

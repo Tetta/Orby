@@ -52,7 +52,7 @@ public class InitAndroidInventoryTask : EventDispatcher {
 			Debug.Log("IsInventoryLoaded COMPLETE");
 			dispatch(BaseEvent.COMPLETE);
 		} else {
-			AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+			AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetrieveProductsFinised);
 			if(!AndroidInAppPurchaseManager.instance.IsProductRetrievingInProcess) {
 				AndroidInAppPurchaseManager.instance.retrieveProducDetails();
 			}
@@ -61,30 +61,19 @@ public class InitAndroidInventoryTask : EventDispatcher {
 	}
 
 
-	private void OnRetriveProductsFinised(CEvent e) {
-		Debug.Log("OnRetriveProductsFinised");
+	private void OnRetrieveProductsFinised(CEvent e) {
+		Debug.Log("OnRetrieveProductsFinised");
 		BillingResult result = e.data as BillingResult;
-		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetrieveProductsFinised);
 		
 		if(result.isSuccess) {
-			Debug.Log("OnRetriveProductsFinised COMPLETE");
+			Debug.Log("OnRetrieveProductsFinised COMPLETE");
 			dispatch(BaseEvent.COMPLETE);
 		} else {
-			Debug.Log("OnRetriveProductsFinised FAILED");
+			Debug.Log("OnRetrieveProductsFinised FAILED");
 			dispatch(BaseEvent.FAILED);
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 

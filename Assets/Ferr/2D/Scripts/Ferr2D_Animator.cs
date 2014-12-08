@@ -76,15 +76,12 @@ public class Ferr2D_Animator : MonoBehaviour {
     public Vector2 offset;
 
     Ferr2D_Animation anim;
-    Ferr2D_Sprite    sprite;
     float            time;
     int              cellsX;
-    bool             usingShader;
     
 	void Start () {
         cellsX = (int)(1f / cellSize.x);
-        for (int i = 0; i < animations.Count; i++)
-        {
+        for (int i = 0; i < animations.Count; i++) {
             animations[i].CalcMax();
         }
         if (HasAnim("default")) SetAnimation("default");
@@ -94,51 +91,41 @@ public class Ferr2D_Animator : MonoBehaviour {
 	
 	void Update () {
         time += Time.deltaTime;
-        if (anim != null)
-        {
+        if (anim != null) {
             SetFrame(anim.GetFrame(time));
             bool update = anim.UpdateTime(ref time);
 
-            if (update)
-            {
+            if (update) {
                 if (onAnimFinish != null              ) onAnimFinish(this, anim.name);
                 if (anim.loop  == Ferr2D_LoopMode.Next) SetAnimation(anim.next);
             }
         }
 	}
 
-    public void SetFrame(int aFrame) 
-    {
+    public void SetFrame(int aFrame) {
         renderer.material.SetTextureOffset("_MainTex", GetPos(aFrame));
     }
-    public void SetAnimation(string aName)
-    {
+    public void SetAnimation(string aName) {
         aName = aName.ToLower();
         if (anim != null && anim.name == aName) return;
-        if (HasAnim(aName))
-        {
+        if (HasAnim(aName)) {
             anim = GetAnim(aName);
             time = 0;
         }
     } 
-    public  bool             HasAnim(string aName)
-    {
-        for (int i = 0; i < animations.Count; i++)
-        {
+    public  bool             HasAnim(string aName) {
+        for (int i = 0; i < animations.Count; i++) {
             if (animations[i].name == aName) return true;
         }
         return false;
     }
-    public  Ferr2D_Animation GetAnim(string aName)
-    {
-        for (int i = 0; i < animations.Count; i++)
-        {
+    public  Ferr2D_Animation GetAnim(string aName) {
+        for (int i = 0; i < animations.Count; i++) {
             if (animations[i].name == aName) return animations[i];
         }
         return null;
     }
-    private Vector2          GetPos (int    i    )
-    {
+    private Vector2          GetPos (int    i    ) {
         return new Vector2((i / cellsX) * cellSize.x, (i % cellsX) * cellSize.y) + offset;
     }
 }

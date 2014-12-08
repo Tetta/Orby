@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
 
 [CustomEditor(typeof(Ferr2D_Animator))]
-public class Ferr2D_AnimatorEditor : Editor {
+public class Ferr2D_AnimatorEditor : UnityEditor.Editor {
     int activeAnim;
     string tName;
     public override void OnInspectorGUI()

@@ -26,7 +26,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 
 	public const string ANDROID_TEST_CANCELED = "android.test.canceled";
 	public const string ANDROID_TEST_REFUNDED = "android.test.refunded";
-	public const string ANDROID_TEST_ITEM_UNAVALIABLE = "android.test.item_unavailable";
+	public const string ANDROID_TEST_ITEM_UNAVAILABLE = "android.test.item_unavailable";
 
 
 
@@ -40,7 +40,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 		AndroidInAppPurchaseManager.instance.addProduct(ANDROID_TEST_PURCHASED);
 		AndroidInAppPurchaseManager.instance.addProduct(ANDROID_TEST_CANCELED);
 		AndroidInAppPurchaseManager.instance.addProduct(ANDROID_TEST_REFUNDED);
-		AndroidInAppPurchaseManager.instance.addProduct(ANDROID_TEST_ITEM_UNAVALIABLE);
+		AndroidInAppPurchaseManager.instance.addProduct(ANDROID_TEST_ITEM_UNAVAILABLE);
 
 
 		//listening for purchase and consume events
@@ -102,7 +102,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 
 
 		if(result.isSuccess) {
-			AndroidMessage.Create ("Product Purchased", result.purchase.SKU);
+			AndroidMessage.Create ("Product Purchased", result.purchase.SKU+ "\n Full Response: " + result.purchase.originalJson);
 			OnProcessingPurchasedProduct (result.purchase);
 		} else {
 			AndroidMessage.Create("Product Purchase Failed", result.response.ToString() + " " + result.message);
@@ -116,7 +116,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 	private static void OnProductConsumed(BillingResult result) {
 
 		if(result.isSuccess) {
-			AndroidMessage.Create ("Product Consumed", result.purchase.SKU);
+			AndroidMessage.Create ("Product Consumed", result.purchase.SKU + "\n Full Response: " + result.purchase.originalJson);
 			OnProcessingConsumeProduct (result.purchase);
 		} else {
 			AndroidMessage.Create("Product Cousume Failed", result.response.ToString() + " " + result.message);
@@ -133,7 +133,7 @@ public class GPaymnetManagerExample : MonoBehaviour {
 		if(result.isSuccess) {
 			//Store connection is Successful. Next we loading product and customer purchasing details
 			AndroidInAppPurchaseManager.instance.retrieveProducDetails();
-			AndroidInAppPurchaseManager.ActionRetrieveProducsFinished += OnRetriveProductsFinised;
+			AndroidInAppPurchaseManager.ActionRetrieveProducsFinished += OnRetrieveProductsFinised;
 		} 
 
 		AndroidMessage.Create("Connection Responce", result.response.ToString() + " " + result.message);
@@ -143,8 +143,8 @@ public class GPaymnetManagerExample : MonoBehaviour {
 
 
 
-	private static void OnRetriveProductsFinised(BillingResult result) {
-		AndroidInAppPurchaseManager.ActionRetrieveProducsFinished -= OnRetriveProductsFinised;
+	private static void OnRetrieveProductsFinised(BillingResult result) {
+		AndroidInAppPurchaseManager.ActionRetrieveProducsFinished -= OnRetrieveProductsFinised;
 
 
 		if(result.isSuccess) {

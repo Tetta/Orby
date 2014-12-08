@@ -4,7 +4,6 @@ using System.Collections;
 public class Toss : MonoBehaviour {
 	
 	Vector3 start;
-	Vector3 velocity;
 	
 	public GameObject visual;
 	public bool swipeToJump = false;

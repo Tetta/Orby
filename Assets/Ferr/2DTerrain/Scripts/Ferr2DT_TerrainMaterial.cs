@@ -126,7 +126,10 @@ public class Ferr2DT_TerrainMaterial : MonoBehaviour
     /// <summary>
     /// These describe all four edge options, how the top, left, right, and bottom edges should be drawn.
     /// </summary>
-    public Ferr2DT_SegmentDescription[] descriptors = new Ferr2DT_SegmentDescription[4];
+    [SerializeField]
+    private Ferr2DT_SegmentDescription[] descriptors = new Ferr2DT_SegmentDescription[4];
+    [SerializeField]
+    private bool isPixel = true;
     #endregion
 
     #region Constructor
@@ -179,6 +182,7 @@ public class Ferr2DT_TerrainMaterial : MonoBehaviour
     /// <param name="aDirection">Direction to get.</param>
     /// <returns>The given direction, or the first direction, or a default, based on what actually exists.</returns>
     public Ferr2DT_SegmentDescription GetDescriptor(Ferr2DT_TerrainDirection aDirection) {
+        ConvertToPercentage();
         for (int i = 0; i < descriptors.Length; i++) {
             if (descriptors[i].applyTo == aDirection) return descriptors[i];
         }
@@ -216,28 +220,66 @@ public class Ferr2DT_TerrainMaterial : MonoBehaviour
     /// <summary>
     /// Converts our internal pixel UV coordinates to UV values Unity will recognize.
     /// </summary>
-    /// <param name="aPixelUVs">A UV rect, using pixels.</param>
+    /// <param name="aNativeRect">A UV rect, using pixels.</param>
     /// <returns>A UV rect using Unity coordinates.</returns>
-	public Rect                       ToUV    (Rect aPixelUVs) {
-		if (edgeMaterial == null) return aPixelUVs;
+	public Rect                       ToUV    (Rect aNativeRect) {
+		if (edgeMaterial == null) return aNativeRect;
         return new Rect(
-            aPixelUVs.x        / edgeMaterial.mainTexture.width,
-            (1.0f - (aPixelUVs.height / edgeMaterial.mainTexture.height)) - (aPixelUVs.y / edgeMaterial.mainTexture.height),
-            aPixelUVs.width    / edgeMaterial.mainTexture.width,
-            aPixelUVs.height   / edgeMaterial.mainTexture.height);
+            aNativeRect.x ,
+            (1.0f - aNativeRect.height) - aNativeRect.y,
+            aNativeRect.width,
+            aNativeRect.height);
 	}
     /// <summary>
     /// Converts our internal pixel UV coordinates to UV values we can use on the screen! As 0-1.
     /// </summary>
-    /// <param name="aPixelUVs">A UV rect, using pixels.</param>
+    /// <param name="aNativeRect">A UV rect, using pixels.</param>
     /// <returns>A UV rect using standard UV coordinates.</returns>
-	public Rect                       ToScreen(Rect aPixelUVs) {
-		if (edgeMaterial == null) return aPixelUVs;
+	public Rect                       ToScreen(Rect aNativeRect) {
+		if (edgeMaterial == null) return aNativeRect;
+        return aNativeRect;
+    }
+
+    public Rect GetLCap     (Ferr2DT_TerrainDirection aDirection) {
+        return GetDescriptor(aDirection).leftCap;
+    }
+    public Rect GetRCap     (Ferr2DT_TerrainDirection aDirection) {
+        return GetDescriptor(aDirection).rightCap;
+    }
+    public Rect GetBody     (Ferr2DT_TerrainDirection aDirection, int aBodyID) {
+        return GetDescriptor(aDirection).body[aBodyID];
+    }
+    public int  GetBodyCount(Ferr2DT_TerrainDirection aDirection) {
+        return GetDescriptor(aDirection).body.Length;
+    }
+
+    private void ConvertToPercentage() {
+        if (isPixel) {
+            for (int i = 0; i < descriptors.Length; i++) {
+                for (int t = 0; t < descriptors[i].body.Length; t++) {
+                    descriptors[i].body[t] = ToNative(descriptors[i].body[t]);
+                }
+                descriptors[i].leftCap  = ToNative(descriptors[i].leftCap );
+                descriptors[i].rightCap = ToNative(descriptors[i].rightCap);
+            }
+            isPixel = false;
+        }
+    }
+    public Rect ToNative(Rect aPixelRect) {
+        if (edgeMaterial == null) return aPixelRect;
         return new Rect(
-            aPixelUVs.x        / edgeMaterial.mainTexture.width,
-            aPixelUVs.y        / edgeMaterial.mainTexture.height,
-            aPixelUVs.width    / edgeMaterial.mainTexture.width,
-            aPixelUVs.height   / edgeMaterial.mainTexture.height);
+            aPixelRect.x      / edgeMaterial.mainTexture.width,
+            aPixelRect.y      / edgeMaterial.mainTexture.height,
+            aPixelRect.width  / edgeMaterial.mainTexture.width,
+            aPixelRect.height / edgeMaterial.mainTexture.height);
+    }
+    public Rect ToPixels(Rect aNativeRect) {
+        if (edgeMaterial == null) return aNativeRect;
+        return new Rect(
+            aNativeRect.x      * edgeMaterial.mainTexture.width,
+            aNativeRect.y      * edgeMaterial.mainTexture.height,
+            aNativeRect.width  * edgeMaterial.mainTexture.width,
+            aNativeRect.height * edgeMaterial.mainTexture.height);
     }
     #endregion
 }

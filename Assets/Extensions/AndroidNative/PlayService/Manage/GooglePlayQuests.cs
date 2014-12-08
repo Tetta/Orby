@@ -35,8 +35,12 @@ public class GooglePlayQuests : SA_Singleton<GooglePlayQuests> {
 
 
 	//--------------------------------------
-	// INIT
+	// INITIALIZATION
 	//--------------------------------------
+
+	void Awake() {
+		DontDestroyOnLoad(gameObject);
+	}
 
 	public void Init() {
 		//empty for now, used juts to create GO
@@ -63,7 +67,7 @@ public class GooglePlayQuests : SA_Singleton<GooglePlayQuests> {
 		
 		questSelectors = questSelectors.TrimEnd(',');
 
-		AndroidNative.loadQuests(questSelectors, (int) sortOrder);
+		AN_GMSQuestsEventsProxy.loadQuests(questSelectors, (int) sortOrder);
 	}
 
 
@@ -85,12 +89,12 @@ public class GooglePlayQuests : SA_Singleton<GooglePlayQuests> {
 		questSelectors = questSelectors.TrimEnd(',');
 
 
-		AndroidNative.showSelectedQuests(questSelectors);
+		AN_GMSQuestsEventsProxy.showSelectedQuests(questSelectors);
 	}
 
 	public void AcceptQuest(string id) {
 		if (!GooglePlayConnection.CheckState ()) { return; }
-		AndroidNative.acceptQuest(id);
+		AN_GMSQuestsEventsProxy.acceptQuest(id);
 	}
 
 

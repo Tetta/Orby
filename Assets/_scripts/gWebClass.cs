@@ -10,9 +10,9 @@ public class gWebClass : MonoBehaviour {
 	public GameObject pointB;
 	public Vector3 pointBAchor;
 	private int globalCounter = 0;
+	private int maxChainCount2 = 80;
 	private int maxChainCount = 40;
 	private int chainCount = 0;
-	//private float  chainLength = 0.132F;
 	private float  chainLength = 0.078F;
 	private GameObject[] chain;
 	private float maxDiffC;
@@ -20,8 +20,6 @@ public class gWebClass : MonoBehaviour {
 	private string webState = "";
 	private float diffX;
 	private float diffY;
-	//private GameObject[] blocks;
-	//private float chainPositionZ = 0.1F;
 	private float chainPositionZ = 1;
 	private HingeJoint2D jointWeb;
 	private int normalChainCount = 20;
@@ -41,17 +39,23 @@ public class gWebClass : MonoBehaviour {
 			diffY = maxDiffC / pointBDiffC * diff.y / maxChainCount;
 			webState = "creatingWeb";
 			while (webState == "creatingWeb") {
-				createWeb(pointB.transform.position, pointBAchor);
+				createWeb(pointB.transform.position, pointBAchor, true);
 
 				int i = chainCount;
 				//chain[i].rigidbody2D.fixedAngle = true;
 				if (pointB.collider2D.OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
+
 					chainCount = i;
 					HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
 					jointChain.connectedBody = pointB.rigidbody2D;
 					jointChain.connectedAnchor = pointBAchor;
 					jointChain.enabled = true;	
 					jointChain.useLimits = false;
+					for (int y = 1; y <= chainCount; y ++){
+						chain[y].rigidbody2D.drag = 2;
+						chain[y].rigidbody2D.angularDrag = 2;
+					}
+
 					//i = maxChainCount / 2;
 					webState = "enableWeb";
 
@@ -66,7 +70,7 @@ public class gWebClass : MonoBehaviour {
 		if (webState == "creatingWeb") {
 			for (int j = 0; j < 8; j++) {
 				if (chainCount < maxChainCount && webState == "creatingWeb") {
-					createWeb(berry.transform.position, new Vector3(0, 0, 0));
+					createWeb(berry.transform.position, new Vector3(0, 0, 0), false);
 			
 				}
 			}
@@ -122,13 +126,14 @@ public class gWebClass : MonoBehaviour {
 		}
 		if (webState == "enableWeb" || webState == "creatingWeb") {
 			holder.GetComponent<LineRenderer>().SetVertexCount (chainCount);
-			for(int i = 1; i <= chainCount; i++)
+			for(int i = 1; i <= chainCount; i++) {
 				holder.GetComponent<LineRenderer>().SetPosition (i - 1, chain[i].transform.position);
+			}
 		}
 
 	}
 
-	void createWeb (Vector3 pointBPosition, Vector3 pointBAchor) {
+	void createWeb (Vector3 pointBPosition, Vector3 pointBAchor, bool start) {
 		chainCount ++; 
 		int i = chainCount;
 		Vector3 pos = new Vector3(transform.position.x, transform.position.y, 1);
@@ -180,7 +185,7 @@ public class gWebClass : MonoBehaviour {
 				//Debug.Log (Time.time + ": chainCount = " + chainCount);
 			} 
 		}
-		if (chainCount == maxChainCount) {
+		if ((chainCount == maxChainCount2 && start) || (chainCount == maxChainCount && !start)) {
 			webState = "noCollisions";
 			globalCounter = 1;
 		}

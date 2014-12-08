@@ -10,7 +10,8 @@ public class ImmersiveMode : SA_Singleton<ImmersiveMode> {
 
 
 	public void EnableImmersiveMode()  {
-		AndroidNative.enableImmersiveMode();
+		AN_ImmersiveModeProxy.enableImmersiveMode();
 	}
+	
 
 }

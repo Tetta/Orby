@@ -97,39 +97,39 @@ public class GooglePlayRTM : SA_Singleton<GooglePlayRTM>  {
 	//--------------------------------------
 
 	public void FindMatch(int minPlayers, int maxPlayers, int bitMask = 0) {
-		AndroidNative.RTMFindMatch(minPlayers, maxPlayers, bitMask);
+		AN_GMSRTMProxy.RTMFindMatch(minPlayers, maxPlayers, bitMask);
 	}
 
 	public void SendDataToAll(byte[] data, GP_RTM_PackageType sendType) {
 		string dataString = ConvertByteDataToString(data);
-		AndroidNative.sendDataToAll(dataString, (int) sendType);
+		AN_GMSRTMProxy.sendDataToAll(dataString, (int) sendType);
 	}
 	
 	public void sendDataToPlayers(byte[] data, GP_RTM_PackageType sendType, params string[] players) {
 		string dataString = ConvertByteDataToString(data);
 		string playersString = string.Join(AndroidNative.DATA_SPLITTER, players);
-		AndroidNative.sendDataToPlayers(dataString, playersString, (int) sendType);
+		AN_GMSRTMProxy.sendDataToPlayers(dataString, playersString, (int) sendType);
 	}
 
 	public void ShowWaitingRoomIntent() {
-		AndroidNative.ShowWaitingRoomIntent();
+		AN_GMSRTMProxy.ShowWaitingRoomIntent();
 	}
 
 	public void OpenInvitationBoxUI(int minPlayers, int maxPlayers) {
-		AndroidNative.InvitePlayers(minPlayers, maxPlayers);
+		AN_GMSRTMProxy.InvitePlayers(minPlayers, maxPlayers);
 	}
 
 	public void LeaveRoom() {
-		AndroidNative.leaveRoom();
+		AN_GMSGiftsProxy.leaveRoom();
 	}
 
 
 	public void AcceptInviteToRoom(string intitationId) {
-		AndroidNative.acceptInviteToRoom(intitationId);
+		AN_GMSGiftsProxy.acceptInviteToRoom(intitationId);
 	}
 	
 	public void OpenInvitationInBoxUI()  {
-		AndroidNative.showInvitationBox();
+		AN_GMSGiftsProxy.showInvitationBox();
 	}
 
 

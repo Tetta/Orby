@@ -47,8 +47,17 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 	}
 
 
+	public void CheckAppLicense() {
+		AN_LicenseManager.OnLicenseRequestResult += LicenseRequestResult;
+		AN_LicenseManager.instance.StartLicenseRequest (AndroidNativeSettings.Instance.base64EncodedPublicKey);
+		SA_StatusBar.text =  "Get App License Request STARTED";
+	}
 
 
+	private void LicenseRequestResult(AN_LicenseRequestResult result) {
+		SA_StatusBar.text =  "App License Status: " + result.ToString();
+		AndroidMessage.Create("License Check Result: ", "AN_LicenseRequestResult: " +  result.ToString());
+	}
 
 
 	private void EnableImmersiveMode() {

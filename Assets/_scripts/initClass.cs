@@ -8,52 +8,28 @@ public class initClass : MonoBehaviour {
 	public GameObject googlePlus;
 	public GameObject googlePlay;
 	public GameObject closeMenu;
-	public GameObject mainMenu;
-	public GameObject levelMenu;
-	public UILabel gold;
-	public UILabel stars;
-	public static UILabel goldLabel;
-	public static UILabel starsLabel;
-	private int i;
-	static public Dictionary<string, int> progress = new Dictionary<string, int>();
 	public float percentageLoaded = 0;
 
+	static public Dictionary<string, int> progress = new Dictionary<string, int>();
+	//static public string mainMenuState = "start";
+
+	private int i;
+
 	// Use this for initialization
-	void Start () {
-		//Application.
-
-		//goldLabel = GameObject.Find("goldLabel").GetComponent<UILabel>();
-		//starsLabel = GameObject.Find("starsLabel").GetComponent<UILabel>();
-		goldLabel = gold;
-		starsLabel = stars;
-
+	void Start () { 
 		if (progress.Count == 0) getProgress();
-		//NGUIDebug.Log(progress.Count);
-		//NGUIDebug.Log(progress["gold"]);
-
-		goldLabel.text = progress["gold"].ToString();
-		starsLabel.text = progress["stars"].ToString();
 		if (progress["googlePlay"] == 1) GooglePlayConnection.instance.connect ();
-
-
-		
 
 		//listen for GooglePlayConnection events
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
-
-		//NGUIDebug.Log("end");
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey(KeyCode.Escape) && mainMenu.activeSelf) {
+		//Application.RegisterLogCallback(handleLog);
+		if (Input.GetKey(KeyCode.Escape)) {
 			closeMenu.SetActive(true);
-		}
-		if (Input.GetKey(KeyCode.Escape) && levelMenu.activeSelf) {
-			mainMenu.SetActive(true);
-			levelMenu.SetActive(false);
 		}
 	}
 
@@ -84,8 +60,9 @@ public class initClass : MonoBehaviour {
 	}
 	
 	static public void getProgress() {
-		string strProgressDefault = "googlePlay=0;currentLevel=1;gold=10;stars=0;level1=0;level2=0;level3=0;" +
+		string strProgressDefault = "googlePlay=0;lastLevel=0;currentLevel=1;gold=10;stars=0;level1=0;level2=0;level3=0;" +
 			"level4=0;level5=0;level6=0;level7=0;level8=0;level9=0;";
+		//сброс прогресса
 		//PlayerPrefs.SetString("progress", strProgressDefault);
 		string strProgress = PlayerPrefs.GetString("progress");
 		//NGUIDebug.Log(strProgress);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class GooglePlusAPI : SA_Singleton<GooglePlusAPI> {
@@ -9,12 +10,15 @@ public class GooglePlusAPI : SA_Singleton<GooglePlusAPI> {
 	}
 
 
-	
-
+	[Obsolete("clearDefaultAccount is deprecated, please use ClearDefaultAccount instead.")]
 	public void clearDefaultAccount() {
+		ClearDefaultAccount();
+	}
+
+	public void ClearDefaultAccount() {
 		if (!GooglePlayConnection.CheckState ()) { return; }
 
-		AndroidNative.clearDefaultAccount();
+		AN_GMSGeneralProxy.clearDefaultAccount();
 		GooglePlayConnection.instance.disconnect();
 	}
 }

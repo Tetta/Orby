@@ -44,6 +44,14 @@ public class PluginsInstalationUtil : MonoBehaviour {
 	}
 
 
+	public static void EnableAppLicensingAPI() {
+		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "app_licensing/an_licensing_library.txt", 	ANDROID_DESTANATION_PATH + "libs/an_licensing_library.jar");
+	}
+
+
+	public static void DisableAppLicensingAPI() {
+		FileStaticAPI.DeleteFile(ANDROID_DESTANATION_PATH + "libs/an_licensing_library.jar");
+	}
 
 
 	public static void EnableBillingAPI() {
@@ -96,16 +104,24 @@ public class PluginsInstalationUtil : MonoBehaviour {
 
 		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "libs/android-support-v4.jar");
 		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "libs/image-chooser-library-1.3.0.jar");
+		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "libs/twitter4j-core-3.0.5.jar");
+		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "libs/google-play-services.jar");
+
+
+		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "social/an_social.jar");
 		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "social/twitter4j-core-3.0.5.jar");
+
+
+		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "google_play/an_googleplay.jar");
 		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "google_play/google-play-services.jar");
 
-
+		FileStaticAPI.DeleteFile(ANDROID_SOURCE_PATH + "billing/an_billing.jar");
 
 
 
 		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "libs/android-support-v4.txt", ANDROID_DESTANATION_PATH + "libs/android-support-v4.jar");
 		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "androidnative.txt", 	        ANDROID_DESTANATION_PATH + "androidnative.jar");
-
+		FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + "mobilenativepopups.txt", 	        ANDROID_DESTANATION_PATH + "mobilenativepopups.jar");
 
 
 
@@ -119,6 +135,7 @@ public class PluginsInstalationUtil : MonoBehaviour {
 			EnableGooglePlayAPI();
 			EnableSocialAPI();
 			EnableCameraAPI();
+			EnableAppLicensingAPI();
 		}
 
 
@@ -148,36 +165,13 @@ public class PluginsInstalationUtil : MonoBehaviour {
 
 		
 		//First install dependense
-		
+
+
 		file = "AndroidManifest.xml";
 		if(!FileStaticAPI.IsFileExists(ANDROID_DESTANATION_PATH + file)) {
-
 			FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + file, 	ANDROID_DESTANATION_PATH + file);
+		} 
 
-		} else {
-			if(IsFirstInstall) {
-				int options = EditorUtility.DisplayDialogComplex(
-					"AndroidManifest.xml detected",
-					"Looks like you already have AndroidManifest.xml in your project, probably it's part of another android plugin. AndroidManifest.xml is reuired for Androud Native plugin. You can merge or replace Manifest, please choose from options bellow.",
-					"Replace",
-					"Learn more",
-					"Do nothing");
-				
-				switch(options) {
-				case 0:
-					FileStaticAPI.CopyFile(ANDROID_SOURCE_PATH + file, 	ANDROID_DESTANATION_PATH + file);
-					break;
-				case 1:
-					Application.OpenURL("http://goo.gl/UX30B3");
-					break;
-					
-				}
-			} else {
-			
-				
-			}
-		}
-		
 		AssetDatabase.Refresh();
 		
 	}

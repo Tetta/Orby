@@ -14,6 +14,7 @@ public class LocalNotificationTemplate  {
 
 
 	public LocalNotificationTemplate(string data) {
+	
 		string[] nodes = data.Split(DATA_SPLITTER [0]);
 
 		_id = System.Convert.ToInt32(nodes[0]);
@@ -59,7 +60,7 @@ public class LocalNotificationTemplate  {
 
 	public string SerializedString {
 		get {
-			return id.ToString() + DATA_SPLITTER + title + DATA_SPLITTER + message + DATA_SPLITTER + fireDate.Ticks.ToString();
+			return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes( id.ToString() + DATA_SPLITTER + title + DATA_SPLITTER + message + DATA_SPLITTER + fireDate.Ticks.ToString() ));
 		}
 	}
 

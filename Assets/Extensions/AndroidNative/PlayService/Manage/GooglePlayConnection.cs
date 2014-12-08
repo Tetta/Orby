@@ -66,7 +66,7 @@ public class GooglePlayConnection : SA_Singleton<GooglePlayConnection> {
 			connectionString += "DriveAPI";
 		}
 
-		AndroidNative.playServiceInit(connectionString);
+		AN_GMSGeneralProxy.playServiceInit(connectionString);
 
 		_isInitialized = true;
 	}
@@ -88,9 +88,9 @@ public class GooglePlayConnection : SA_Singleton<GooglePlayConnection> {
 		}
 
 		if(accountName != null) {
-			AndroidNative.playServiceConnect (accountName);
+			AN_GMSGeneralProxy.playServiceConnect (accountName);
 		} else {
-			AndroidNative.playServiceConnect ();
+			AN_GMSGeneralProxy.playServiceConnect ();
 		}
 
 	}
@@ -102,7 +102,7 @@ public class GooglePlayConnection : SA_Singleton<GooglePlayConnection> {
 		}
 
 		OnStateChange(GPConnectionState.STATE_DISCONNECTED);
-		AndroidNative.playServiceDisconnect ();
+		AN_GMSGeneralProxy.playServiceDisconnect ();
 
 	}
 
@@ -149,7 +149,15 @@ public class GooglePlayConnection : SA_Singleton<GooglePlayConnection> {
 	//--------------------------------------
 	// EVENTS
 	//--------------------------------------
+
+	void OnApplicationPause(bool pauseStatus) {
+		AN_GMSGeneralProxy.OnApplicationPause(pauseStatus);
+	}
 	
+
+	private void OnPlayServiceDisconnected(string data) {
+		OnStateChange(GPConnectionState.STATE_DISCONNECTED);
+	}
 
 
 	private void OnConnectionResult(string data) {

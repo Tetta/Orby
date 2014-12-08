@@ -14,7 +14,7 @@ public class Ferr2DT_Builder {
 
     static void StateChanged() {
         if ((!wasPlaying && EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying) || EditorApplication.isCompiling) {
-            SaveTerrains();
+            SaveTerrains(); 
         }
         wasPlaying = EditorApplication.isPlayingOrWillChangePlaymode;
     }
@@ -23,35 +23,14 @@ public class Ferr2DT_Builder {
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
 
-        List<Ferr2DT_PathTerrain> terrains = Ferr_EditorTools.GetPrefabsOfType<Ferr2DT_PathTerrain>();
+        List<Ferr2DT_PathTerrain> terrains = Ferr_ComponentTracker.GetComponents<Ferr2DT_PathTerrain>(); //Ferr2DT_AssetTracker.GetPrefabs();
         for (int i = 0; i < terrains.Count; i++) {
-            terrains[i].RecreatePath();
-            SaveMesh(terrains[i]);
+            terrains[i].RecreatePath(true);;
         }
 
         sw.Stop();
-        if (terrains.Count > 0) {
+	    if (terrains.Count > 0 && sw.Elapsed.TotalMilliseconds > 500) {
             Debug.Log("Prebuilding terrain prefabs ("+terrains.Count+"): " + Mathf.Round((float)sw.Elapsed.TotalMilliseconds) + "ms");
-        }
-    }
-    public static void SaveMesh    (Ferr2DT_PathTerrain aTerrain) {
-        MeshFilter mesh = aTerrain     .GetComponent<MeshFilter>();
-        string     path = AssetDatabase.GetAssetPath(mesh.sharedMesh);
-
-        if ((path.Contains(".assets") && File.Exists(path)) || mesh == null || mesh.sharedMesh == null) {
-            return;
-        }
-        path = "Assets/Ferr2DTerrainMeshes";
-
-        string assetName = "/" + mesh.sharedMesh.name + ".assets";
-        if (!Directory.Exists(path)) {
-            Directory .CreateDirectory(path);
-        }
-        try {
-            AssetDatabase.CreateAsset(mesh.sharedMesh, path + assetName);
-            AssetDatabase.Refresh();
-        } catch {
-            Debug.LogError("Unable to save terrain prefab mesh! Likely, you deleted the mesh files, and the prefab is still referencing them. Restarting your Unity editor should solve this minor issue.");
         }
     }
 }

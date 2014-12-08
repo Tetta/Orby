@@ -2,15 +2,12 @@
 using System.Collections;
 
 public class GP_Snapshot  {
-
-	public string Title;
-	public string Description;
-	public string CoverImageUrl;
+	public GP_SnapshotMeta meta;
+	public byte[] bytes;
 	public string stringData;
 
-	public long LastModifiedTimestamp;
-	public byte[] bytes;
 
-
-
+	public GP_Snapshot() {
+		meta =  new GP_SnapshotMeta();
+	}
 }

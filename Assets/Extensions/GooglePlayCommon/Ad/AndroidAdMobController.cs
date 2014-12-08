@@ -144,13 +144,13 @@ public class AndroidAdMobController : SA_Singleton<AndroidAdMobController>, Goog
 		}
 
 
-		AN_GoogleAdProxy.AddTestDevice(string.Join(DEVICES_SEPARATOR, ids));
+		AN_GoogleAdProxy.AddTestDevices(string.Join(DEVICES_SEPARATOR, ids));
 	}
 
 
 
 	//Set the user's gender for targeting purposes. This should be GADGenger.GENDER_MALE, GADGenger.GENDER_FEMALE, or GADGenger.GENDER_UNKNOWN
-	public void SetGender(GoogleGenger gender) {
+	public void SetGender(GoogleGender gender) {
 		if(!_IsInited) {
 			Debug.LogWarning ("SetGender shoudl be called only after Init function. Call ignored");
 			return;

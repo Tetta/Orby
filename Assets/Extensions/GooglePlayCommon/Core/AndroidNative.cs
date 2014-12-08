@@ -42,24 +42,8 @@ public class AndroidNative {
 	public static void loadState(int stateKey)  {
 		CallActivityFunction("loadState", stateKey.ToString());
 	}
-
-	//--------------------------------------
-	// Saved Games 
-	//------------------------------------
-
-	public static void ShowSavedGamesUI(string title, int maxNumberOfSavedGamesToShow)  {
-		CallActivityFunction("showSavedGamesUI", title, maxNumberOfSavedGamesToShow.ToString());
-	}
-
-	public static void CreateNewSpanShot(string name, string description, string ImageData, string Data)  {
-		CallActivityFunction("createNewSpanShot", name, description, ImageData, Data);
-	}
-
-	public static void ResolveSpanShotConflict(int index) {
-		CallActivityFunction("resolveSpanShotConflict", index.ToString());
-	}
-
 	
+
 	// --------------------------------------
 	// Google Cloud Message
 	// --------------------------------------
@@ -73,221 +57,9 @@ public class AndroidNative {
 	}
 
 	//--------------------------------------
-	// Play Service
-	//--------------------------------------
-	
-
-	public static void playServiceInit (string scopes) {
-		CallActivityFunction("playServiceInit", scopes);
-	}
-
-	public static void playServiceConnect() {
-		CallActivityFunction("playServiceConnect");
-	}
-
-
-	public static void playServiceConnect(string accountName) {
-		CallActivityFunction("playServiceConnect", accountName);
-	}
-
-	public static void loadToken(string accountName, string scope) {
-		CallActivityFunction("getToken", accountName, scope);
-	}
-
-	public static void loadToken() {
-		CallActivityFunction("getToken");
-	}
-	
-	public static void invalidateToken(string token) {
-		CallActivityFunction("invalidateToken", token);
-	}
-
-
-	public static void playServiceDisconnect() {
-		CallActivityFunction("playServiceDisconnect");
-	}
-
-	public static void showAchivmentsUI() {
-		CallActivityFunction("showAchivments");
-	}
-
-	public static void showLeaderBoardsUI() {
-		CallActivityFunction("showLeaderBoards");
-	}
-
-	public static void loadConnectedPlayers() {
-		CallActivityFunction("loadConnectedPlayers");
-	}
-	
-
-	public static void showLeaderBoard(string leaderboardName) {
-		CallActivityFunction("showLeaderBoard", leaderboardName);
-	}
-
-	public static void showLeaderBoardById(string leaderboardId) {
-		CallActivityFunction("showLeaderBoardById", leaderboardId);
-	}
-
-
-	public static void submitScore(string leaderboardName, long score) {
-		CallActivityFunction("submitScore", leaderboardName, score.ToString());
-	}
-
-	public static void submitScoreById(string leaderboardId, long score) {
-		CallActivityFunction("submitScoreById", leaderboardId, score.ToString());
-	}
-
-	public static void loadLeaderBoards() {
-		CallActivityFunction("loadLeaderBoards");
-	}
-
-
-	public static void UpdatePlayerScore(string leaderboardId, int span, int leaderboardCollection) {
-		CallActivityFunction("updatePlayerScore", leaderboardId, span.ToString(), leaderboardCollection.ToString());
-	}
-
-
-	public static void loadPlayerCenteredScores(string leaderboardId, int span, int leaderboardCollection, int maxResults) {
-		CallActivityFunction("loadPlayerCenteredScores", leaderboardId, span.ToString(), leaderboardCollection.ToString(), maxResults.ToString());
-	}
-	
-	public static void loadTopScores(string leaderboardId, int span, int leaderboardCollection, int maxResults) {
-		CallActivityFunction("loadTopScores", leaderboardId, span.ToString(), leaderboardCollection.ToString(), maxResults.ToString());
-	}
-
-	public static void reportAchievement(string achievementName) {
-		CallActivityFunction("reportAchievement", achievementName);
-	}
-
-	public static void reportAchievementById(string achievementId) {
-		CallActivityFunction("reportAchievementById", achievementId);
-	}
-	
-
-	public static void revealAchievement(string achievementName) {
-		CallActivityFunction("revealAchievement", achievementName);
-	}
-
-	public static void revealAchievementById(string achievementId) {
-		CallActivityFunction("revealAchievementById", achievementId);
-	}
-
-	public static void incrementAchievement(string achievementName, string numsteps) {
-		CallActivityFunction("incrementAchievement", achievementName, numsteps);
-	}
-
-	public static void incrementAchievementById(string achievementId, string numsteps) {
-		CallActivityFunction("incrementAchievementById", achievementId, numsteps);
-	}
-
-	public static void loadAchievements() {
-		CallActivityFunction("loadAchievements");
-	}
-
-
-	public static void resetAchievement(string achievementId) {
-		CallActivityFunction("resetAchievement", achievementId);
-	}
-
-	public static void ResetAllAchievements() {
-		CallActivityFunction("resetAllAchievements");
-	}
-
-
-	public static void resetLeaderBoard(string leaderboardId) {
-		CallActivityFunction("resetLeaderBoard", leaderboardId);
-	}
-
-	//--------------------------------------
-	// GIFTS
-	//--------------------------------------
-
-	public static void sendGiftRequest(int type, string playload, int requestLifetimeDays, string icon, string description) {
-		CallActivityFunction("sendGiftRequest", type.ToString(), playload, requestLifetimeDays.ToString(), icon, description);
-	}
-
-	public static void showRequestAccepDialog() {
-		CallActivityFunction("showRequestAccepDialog");
-	}
-
-
-	public static void acceptRequests(string ids) {
-		CallActivityFunction("acceptRequests", ids);
-	}
-	
-	public static void dismissRequest(string ids) {
-		CallActivityFunction("dismissRequest", ids);
-	}
-
-	public static void leaveRoom() {
-		CallActivityFunction("leaveRoom");
-	}
-
-
-	public static void acceptInviteToRoom(string invId) {
-		CallActivityFunction("acceptInviteToRoom", invId);
-	}
-	
-	public static void showInvitationBox()  {
-		CallActivityFunction("showInvitationBox");
-	}
-
-	// --------------------------------------
-	// QUESTS And Events
-	// --------------------------------------
-
-	public static void sumbitEvent(string eventId, int count) {
-		CallActivityFunction("sumbitEvent", eventId, count.ToString());
-	}
-	
-	public static void loadEvents() {
-		CallActivityFunction("loadEvents");
-	}
-
-
-	public static void showSelectedQuests(string questSelectors) {
-		CallActivityFunction("showSelectedQuests", questSelectors);
-	}
-
-	public static void acceptQuest(string questId) {
-		CallActivityFunction("acceptQuest", questId);
-	}
-
-	public static void loadQuests(string questSelectors, int sortOrder) {
-		CallActivityFunction("loadQuests", questSelectors, sortOrder.ToString());
-	}
-
-
-	// --------------------------------------
-	// RTM
-	// --------------------------------------
-	
-	public static void RTMFindMatch(int minPlayers, int maxPlayers, int bitMask) {
-		CallActivityFunction("RTMFindMatch", minPlayers.ToString(), maxPlayers.ToString(), bitMask.ToString());
-	}
-
-	public static void sendDataToAll(string data, int sendType) {
-		CallActivityFunction("sendDataToAll", data, sendType.ToString());
-	}
-	
-	public static void sendDataToPlayers(string data, string players, int sendType) {
-		CallActivityFunction("sendDataToAll", data, players, sendType.ToString());
-	}
-
-	public static void ShowWaitingRoomIntent() {
-		CallActivityFunction("showWaitingRoomIntent");
-	}
-
-	public static void InvitePlayers(int minPlayers, int maxPlayers) {
-		CallActivityFunction("invitePlayers", minPlayers.ToString(), maxPlayers.ToString());
-	}
-
-
-	//--------------------------------------
 	// Billing
 	//--------------------------------------
 
-	
 	
 	public static void connectToBilling(string ids, string base64EncodedPublicKey) {
 		CallActivityFunction("connectToBilling", ids, base64EncodedPublicKey);
@@ -305,18 +77,11 @@ public class AndroidNative {
 
 
 
-	public static void purchase(string SKU) {
-		CallActivityFunction("purchase", SKU, "");
-	}
-
 	public static void purchase(string SKU, string developerPayload) {
 		CallActivityFunction("purchase", SKU, developerPayload);
 	}
-
-	public static void subscribe(string SKU) {
-		CallActivityFunction("subscribe", SKU, "");
-	}
 	
+
 	public static void subscribe(string SKU, string developerPayload) {
 		CallActivityFunction("subscribe", SKU, developerPayload);
 	}
@@ -332,11 +97,7 @@ public class AndroidNative {
 	public static void LoadContacts() {
 		CallActivityFunction("loadAddressBook");
 	}
-
-	public static void enableImmersiveMode() {
-		CallActivityFunction("enableImmersiveMode");
-	}
-
+	
 
 	public static void LoadPackageInfo() {
 		CallActivityFunction("LoadPackageInfo");
@@ -482,14 +243,7 @@ public class AndroidNative {
 		CallActivityFunction("runPackage", packagename);
 	}
 
-	public static void loadGoogleAccountNames() {
-		CallActivityFunction("loadGoogleAccountNames");
-	}
 
-	public static void clearDefaultAccount() {
-		CallActivityFunction("clearDefaultAccount");
-
-	}
 	
 	public static void revokeAccessAndDisconnect() {
 		CallActivityFunction("revokeAccessAndDisconnect");

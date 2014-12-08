@@ -17,7 +17,7 @@ public class InfiniteTerrain : MonoBehaviour {
     List<float>         terrainSecondaryHeights;
     int                 currentOffset;
     
-	void Start () {
+	void Start  () {
         terrain = GetComponent<Ferr2DT_PathTerrain>();
 
         terrainHeights          = new List<float>();
@@ -27,12 +27,11 @@ public class InfiniteTerrain : MonoBehaviour {
         }
         RebuildTerrain();
 	}
-	
 	void Update () {
         UpdateTerrain();
 	}
 
-    void UpdateTerrain() {
+    void  UpdateTerrain () {
         bool updated = false;
 
         // generate points to the right if we need 'em
@@ -58,8 +57,7 @@ public class InfiniteTerrain : MonoBehaviour {
             RebuildTerrain();
         }
     }
-
-    void RebuildTerrain() {
+    void  RebuildTerrain() {
         float startX = (currentOffset * vertSpacing) - ((vertCount / 2) * vertSpacing);
         terrain.ClearPoints();
         for (int i = 0; i < terrainHeights.Count; i++) {
@@ -71,11 +69,10 @@ public class InfiniteTerrain : MonoBehaviour {
             }
         }
 
-        terrain.RecreatePath    ();
+        terrain.RecreatePath    (false);
         terrain.RecreateCollider();
     }
-
-    void NewRight() {
+    void  NewRight      () {
         float right  = GetRight();
         float right2 = Random.value < cliffChance ? GetRight() : right;
 
@@ -86,8 +83,7 @@ public class InfiniteTerrain : MonoBehaviour {
         terrainHeights         .Add(right );
         terrainSecondaryHeights.Add(right2);
     }
-
-    void NewLeft() {
+    void  NewLeft       () {
         float left = GetLeft();
         float left2 = Random.value < cliffChance ? GetLeft() : left;
 
@@ -98,12 +94,11 @@ public class InfiniteTerrain : MonoBehaviour {
         terrainHeights         .Insert(0, left );
         terrainSecondaryHeights.Insert(0, left2);
     }
-
-    float GetRight() {
+    float GetRight      () {
         if (terrainHeights.Count <= 0) return minHeight + (maxHeight - minHeight) / 2;
         return Mathf.Clamp(terrainSecondaryHeights[terrainHeights.Count - 1] + (-1 + Random.value * 2) * heightVariance, minHeight, maxHeight);
     }
-    float GetLeft() {
+    float GetLeft       () {
         if (terrainHeights.Count <= 0) return minHeight + (maxHeight - minHeight) / 2;
         return Mathf.Clamp(terrainSecondaryHeights[0                       ] + (-1 + Random.value * 2) * heightVariance, minHeight, maxHeight);
     }

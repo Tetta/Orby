@@ -47,7 +47,7 @@ public class gBerryClass : MonoBehaviour {
 				initClass.progress["stars"] += starsCounter - Convert.ToInt32(initClass.progress[Application.loadedLevelName]);
 				initClass.progress[Application.loadedLevelName] = starsCounter;
 			}
-			if (Convert.ToInt32(Application.loadedLevelName.Substring(5)) >= initClass.progress["currentLevel"]) initClass.progress["currentLevel"] = Convert.ToInt32(Application.loadedLevelName.Substring(5)) + 1;
+			if (Convert.ToInt32(Application.loadedLevelName.Substring(5)) >= initClass.progress["lastLevel"]) initClass.progress["lastLevel"] = Convert.ToInt32(Application.loadedLevelName.Substring(5)) + 1;
 
 			initClass.saveProgress();
 		}

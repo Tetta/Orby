@@ -36,8 +36,8 @@ public class GameBillingManagerExample : MonoBehaviour {
 		
 		//Filling product list
 		//You can skip this if you alredy did this in Editor settings menu
-		//AndroidInAppPurchaseManager.instance.addProduct(COINS_ITEM);
-		//AndroidInAppPurchaseManager.instance.addProduct(COINS_BOOST);
+		AndroidInAppPurchaseManager.instance.addProduct(COINS_ITEM);
+		AndroidInAppPurchaseManager.instance.addProduct(COINS_BOOST);
 
 		
 		//listening for purchase and consume events
@@ -107,7 +107,7 @@ public class GameBillingManagerExample : MonoBehaviour {
 	private static void OnProductPurchased(CEvent e) {
 		BillingResult result = e.data as BillingResult;
 
-		//this flag will tell you if purchase is avaliable
+		//this flag will tell you if purchase is available
 		//result.isSuccess
 
 
@@ -148,7 +148,7 @@ public class GameBillingManagerExample : MonoBehaviour {
 		
 		if(result.isSuccess) {
 			//Store connection is Successful. Next we loading product and customer purchasing details
-			AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+			AndroidInAppPurchaseManager.instance.addEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetrieveProductsFinised);
 			AndroidInAppPurchaseManager.instance.retrieveProducDetails();
 
 		} 
@@ -160,9 +160,9 @@ public class GameBillingManagerExample : MonoBehaviour {
 	
 	
 	
-	private static void OnRetriveProductsFinised(CEvent e) {
+	private static void OnRetrieveProductsFinised(CEvent e) {
 		BillingResult result = e.data as BillingResult;
-		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetriveProductsFinised);
+		AndroidInAppPurchaseManager.instance.removeEventListener (AndroidInAppPurchaseManager.ON_RETRIEVE_PRODUC_FINISHED, OnRetrieveProductsFinised);
 		
 		if(result.isSuccess) {
 
@@ -181,10 +181,8 @@ public class GameBillingManagerExample : MonoBehaviour {
 	private static void UpdateStoreData() {
 
 		foreach(GoogleProductTemplate p in AndroidInAppPurchaseManager.instance.inventory.products) {
-			Debug.Log(p.title);
-			Debug.Log(p.price);
-		} 
-
+			Debug.Log("Loaded product: " + p.title);
+		}
 
 		//chisking if we already own some consuamble product but forget to consume those
 		if(AndroidInAppPurchaseManager.instance.inventory.IsProductPurchased(COINS_ITEM)) {

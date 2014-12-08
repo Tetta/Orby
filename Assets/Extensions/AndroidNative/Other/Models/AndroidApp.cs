@@ -48,6 +48,14 @@ public class AndroidApp : SA_Singleton<AndroidApp> {
 
 		dispatch(ON_ACTIVITY_RESULT, result);
 		OnActivityResult(result);
+	}
 
+
+	void OnApplicationPause(bool IsPaused) {
+		if(IsPaused) {
+			onStop();
+		} else {
+			onStart();
+		}
 	}
 }

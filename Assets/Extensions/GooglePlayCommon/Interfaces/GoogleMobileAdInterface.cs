@@ -1,4 +1,4 @@
-﻿////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //  
 // @module Common Android Native Lib
 // @author Osipov Stanislav (Stan's Assets) 
@@ -24,7 +24,7 @@ public interface GoogleMobileAdInterface  {
 	void AddKeyword(string keyword);
 	void AddTestDevice(string deviceId);
 	void AddTestDevices(params string[] ids);
-	void SetGender(GoogleGenger gender);
+	void SetGender(GoogleGender gender);
 	void SetBirthday(int year, AndroidMonth month, int day);
 	void TagForChildDirectedTreatment(bool tagForChildDirectedTreatment);
 	
