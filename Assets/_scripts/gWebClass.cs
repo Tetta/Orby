@@ -9,6 +9,8 @@ public class gWebClass : MonoBehaviour {
 	public GameObject chainPrefab;
 	public GameObject pointB;
 	public Vector3 pointBAchor;
+	public int drag = 2;
+
 	private int globalCounter = 0;
 	private int maxChainCount2 = 80;
 	private int maxChainCount = 40;
@@ -52,8 +54,8 @@ public class gWebClass : MonoBehaviour {
 					jointChain.enabled = true;	
 					jointChain.useLimits = false;
 					for (int y = 1; y <= chainCount; y ++){
-						chain[y].rigidbody2D.drag = 100;
-						chain[y].rigidbody2D.angularDrag =100;
+						chain[y].rigidbody2D.drag = drag;
+						//chain[y].rigidbody2D.angularDrag = 2;
 						//chain[y].rigidbody2D.centerOfMass = new Vector2(0, -0.3F);
 					}
 
@@ -103,12 +105,14 @@ public class gWebClass : MonoBehaviour {
 					chainCount--;
 				} else {
 					webState = "enableWeb";
+					gBerryClass.berryState = "enableWeb";
 				}
 			}
 
 		}
 
 		if (webState == "noCollisions" || webState == "destroyingWeb" || webState == "collisionBlock") {
+			gBerryClass.berryState = "";
 			for (int j = 0; j < 2; j++) {
 				if (chainCount > 0) {
 					Destroy(chain[globalCounter], 0);

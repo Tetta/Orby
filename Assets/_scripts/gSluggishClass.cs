@@ -69,15 +69,14 @@ public class gSluggishClass : MonoBehaviour {
 			Vector3 diff = transform.position - mousePosition;
 			Debug.Log (diff);
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
-			//float maxDiffC = 5000;
-			float maxDiffC = 400;
+			float maxDiffC = 6000;
+			if (gBerryClass.berryState == "") maxDiffC = 400;
 			float diffX = maxDiffC / pointBDiffC * diff.x;
 			float diffY = maxDiffC / pointBDiffC * diff.y;
 
 
-			//berry.rigidbody2D.AddForce((  transform.position - mousePosition) * 100);
 			berry.rigidbody2D.AddForce( new Vector2(diffX, diffY));
-			Debug.Log (diffX);
+			Debug.Log (gBerryClass.berryState);
 			sluggishState = "fly";
 			line.SetActive(false);
 		}

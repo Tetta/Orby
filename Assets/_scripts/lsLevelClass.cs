@@ -5,12 +5,12 @@ public class lsLevelClass : MonoBehaviour {
 
 	public NavMeshAgent spider;
 	public Transform cameraTransform;
+	public GameObject[] stars;
+	public int prevLevel = 0;
+
 	private NavMeshPath path;
 	private float maxDistance = 3.5F;
-
-	public GameObject[] stars;
 	private int level;
-	public int prevLevel = 0;
 
 	// Use this for initialization
 	void Start () {

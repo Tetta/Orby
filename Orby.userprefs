@@ -1,10 +1,14 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\gWebClass.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\lsLevelClass.cs">
     <Files>
-      <File FileName="Assets\_scripts\gWebClass.cs" Line="56" Column="7" />
       <File FileName="Assets\_scripts\gRopeClass.cs" Line="1" Column="1" />
-      <File FileName="Assets\_scripts\gBerryClass.cs" Line="1" Column="1" />
+      <File FileName="Assets\_scripts\gSluggishClass.cs" Line="1" Column="1" />
+      <File FileName="Assets\_scripts\gBerryClass.cs" Line="55" Column="193" />
+      <File FileName="Assets\_scripts\gSpiderClass.cs" Line="20" Column="1" />
+      <File FileName="Assets\_scripts\initClass.cs" Line="68" Column="5" />
+      <File FileName="Assets\_scripts\gWebClass.cs" Line="12" Column="21" />
+      <File FileName="Assets\_scripts\lsLevelClass.cs" Line="24" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
