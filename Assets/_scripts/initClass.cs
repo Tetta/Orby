@@ -6,9 +6,10 @@ public class initClass : MonoBehaviour {
 
 	//private GameObject testLabel;
 	public GameObject googlePlus;
-	public GameObject googlePlay;
+	public GameObject achievements;
+	public GameObject leaderboards;
 	public GameObject closeMenu;
-	public float percentageLoaded = 0;
+	//public float percentageLoaded = 0;
 
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
 	//static public string mainMenuState = "start";
@@ -18,7 +19,11 @@ public class initClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () { 
 		if (progress.Count == 0) getProgress();
-		if (progress["googlePlay"] == 1) GooglePlayConnection.instance.connect ();
+
+		if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
+			achievements.SetActive(true);
+			leaderboards.SetActive(true);
+		} else if (progress["googlePlay"] == 1) GooglePlayConnection.instance.connect ();
 
 		//listen for GooglePlayConnection events
 		GooglePlayConnection.instance.addEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
@@ -35,16 +40,17 @@ public class initClass : MonoBehaviour {
 
 	private void OnPlayerConnected() {
 		NGUIDebug.Log("OnPlayerConnected");
-		googlePlay.SetActive(true);
+		achievements.SetActive(true);
+		leaderboards.SetActive(true);
 		initClass.progress["googlePlay"] = 1;
 		initClass.saveProgress();
-		//googlePlus.SetActive(false);
 	}
 
 	private void OnPlayerDisconnected() {
 		NGUIDebug.Log("OnPlayerDisconnected");
 		GooglePlayConnection.instance.disconnect ();
-		googlePlay.SetActive(false);
+		achievements.SetActive(false);
+		leaderboards.SetActive(false);
 		googlePlus.SetActive(true);
 		initClass.progress["googlePlay"] = 0;
 		initClass.saveProgress();
@@ -106,5 +112,12 @@ public class initClass : MonoBehaviour {
 	void handleLog(string logString, string stackTrace, LogType type)
 	{
 		NGUIDebug.Log(type+": " + logString + "\n" + stackTrace);
+	}
+
+	private void OnDestroy() {
+		if(!GooglePlayConnection.IsDestroyed) {
+			GooglePlayConnection.instance.removeEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
+			GooglePlayConnection.instance.removeEventListener (GooglePlayConnection.PLAYER_DISCONNECTED, OnPlayerDisconnected);
+		}
 	}
 }

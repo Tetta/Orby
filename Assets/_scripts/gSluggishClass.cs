@@ -59,12 +59,13 @@ public class gSluggishClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (sluggishState == "active") {
+			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.UnlockAchievement("achievement_use_sluggish");
+
 			gRecHintClass.recHint(transform);
 			berry.rigidbody2D.isKinematic = false;
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
 
 			Vector3 diff = transform.position - mousePosition;
-			Debug.Log (diff);
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			float maxDiffC = 2000;
 			if (gBerryClass.berryState == "") maxDiffC = 400;
@@ -73,7 +74,6 @@ public class gSluggishClass : MonoBehaviour {
 
 
 			berry.rigidbody2D.AddForce( new Vector2(diffX, diffY));
-			Debug.Log (gBerryClass.berryState);
 			sluggishState = "fly";
 			line.SetActive(false);
 		}

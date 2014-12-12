@@ -50,6 +50,11 @@ public class gBerryClass : MonoBehaviour {
 			//initClass.progress["stars"] = 3;
 			if (starsCounter > initClass.progress[Application.loadedLevelName]) {
 				initClass.progress["stars"] += starsCounter - Convert.ToInt32(initClass.progress[Application.loadedLevelName]);
+
+				if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
+					GooglePlayManager.instance.SubmitScore ("leaderboard_test_leaderboard", initClass.progress["stars"]);
+					if (Application.loadedLevelName == "level1") GooglePlayManager.instance.UnlockAchievement("achievement_complete_first_level");
+				}
 				initClass.progress[Application.loadedLevelName] = starsCounter;
 			}
 			if (Convert.ToInt32(Application.loadedLevelName.Substring(5)) >= initClass.progress["lastLevel"]) initClass.progress["lastLevel"] = Convert.ToInt32(Application.loadedLevelName.Substring(5));

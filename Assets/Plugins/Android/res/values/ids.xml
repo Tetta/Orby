@@ -5,12 +5,12 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
   <string name="app_id">736099175196</string>
-  <string name="achievement_test_achievement_1">CgkInJa4l7YVEAIQAA</string>
-  <string name="achievement_test_achievement_2">CgkInJa4l7YVEAIQAg</string>
+  <string name="achievement_complete_first_level">CgkInJa4l7YVEAIQAA</string>
+  <string name="achievement_use_sluggish">CgkInJa4l7YVEAIQAg</string>
   <string name="achievement_test_achievement_3">CgkInJa4l7YVEAIQAw</string>
   <string name="achievement_test_achievement_4">CgkInJa4l7YVEAIQBA</string>
   <string name="achievement_test_achievement_5">CgkInJa4l7YVEAIQBQ</string>
-  <string name="achievement_test_achievement_6">CgkInJa4l7YVEAIQCQ</string>
+  <string name="achievement_use_web_5_times">CgkInJa4l7YVEAIQCQ</string>
   <string name="leaderboard_test_leaderboard">CgkInJa4l7YVEAIQBg</string>
   <string name="event_event_1">CgkInJa4l7YVEAIQBw</string>
   <string name="quest_quest_1">CgkInJa4l7YVEAIQCA</string>

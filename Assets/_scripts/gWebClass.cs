@@ -201,6 +201,7 @@ public class gWebClass : MonoBehaviour {
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (webState == "") {
+			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_5_times", 1);
 
 			diff = berry.transform.position - web.transform.position;
 			float orbyDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
