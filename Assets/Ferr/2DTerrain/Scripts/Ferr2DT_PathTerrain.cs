@@ -998,8 +998,12 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 	}
     private List<float>                 GetScalesFromIndices(List<int>     aIndices  ) {
         List<float> result = new List<float>(aIndices.Count);
-        for (int i = 0; i < aIndices.Count; i++) {
-            result.Add(vertScales[aIndices[i]]);
+		//Debug.Log("start");
+		for (int i = 0; i < aIndices.Count; i++) {
+			//Debug.Log(i);
+			//Debug.Log(aIndices[i]);
+			//Debug.Log(vertScales[aIndices[i]]);
+			result.Add(vertScales[aIndices[i]]);
         }
         return result;
     }

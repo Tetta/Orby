@@ -198,7 +198,6 @@ public class gWebClass : MonoBehaviour {
 	}
 	
 	void OnMouseDown () {
-		//Debug.Log("OnMouseDown");
 		if (webState == "") {
 			//i = 0;
 			diff = berry.transform.position - web.transform.position;
@@ -212,6 +211,5 @@ public class gWebClass : MonoBehaviour {
 			globalCounter = 1;
 		}
 	}
-
 
 }

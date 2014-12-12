@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class gDestroyerClass : MonoBehaviour {
 
-	public GameObject divider;
+	//public GameObject divider;
 
-	//private GameObject[] terrains;
 	private string destroyerState = "";
 	private Vector2 enterPoint;
 	private Vector2 exitPoint;
@@ -32,20 +31,17 @@ public class gDestroyerClass : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-
 		if (destroyerState == "") {
-			
 			destroyerState = "active";
-			//divider.SetActive(true);
-			//divider.rigidbody2D.isKinematic = false;
+			gHintClass.checkHint(gameObject);
 		}
 		
 	}
 	void OnMouseDrag() {
 		if (destroyerState == "active") {
 			//Debug.Log ("OnMouseDrag");
-			
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
+
 			Vector3 relative = transform.InverseTransformPoint(mousePosition);
 			float angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
 			//transform.rotation = Quaternion.Euler(0, 0, 180 - angle);
@@ -56,11 +52,12 @@ public class gDestroyerClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (destroyerState == "active") {
+			gRecHintClass.recHint(transform);
 			rigidbody2D.isKinematic = false;
 			CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
 			collider.radius = 0.001F;
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
+
 			Vector3 diff = mousePosition - transform.position;
 			//Debug.Log (diff);
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -104,21 +101,34 @@ public class gDestroyerClass : MonoBehaviour {
 					Vector2 posA = terrain.pathVerts[0] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+					/*
+					if (pos.x != 10000) {
+						Debug.Log("enterPoint: " + enterPoint);
+						Debug.Log("exitPoint: " + exitPoint);
+						Debug.Log("posA: " + posA);
+						Debug.Log("posB: " + posB);
+						Debug.Log("pos: " + pos);
+					}
+					*/
 				} else {
 					Vector2 posA = terrain.pathVerts[i + 1] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
 					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
-
-					//Debug.Log("enterPoint: " + enterPoint);
-					//Debug.Log("exitPoint: " + exitPoint);
-					//Debug.Log("posA: " + posA.magnitude);
-					//Debug.Log("posB: " + posB.magnitude);
-					//Debug.Log("pos: " + pos.magnitude);
-					if (Mathf.Abs(pos.magnitude - posA.magnitude) <= 0.02F) { pos = posA; Debug.Log(123);}
-					if (Mathf.Abs(pos.magnitude - posB.magnitude) <= 0.02F) { pos = posB; Debug.Log(222);}
+					/*
+					if (pos.x != 10000) {
+						Debug.Log("enterPoint: " + enterPoint);
+						Debug.Log("exitPoint: " + exitPoint);
+						Debug.Log("posA: " + posA);
+						Debug.Log("posB: " + posB);
+						Debug.Log("pos: " + pos);
+					}
+					*/
+					if (Mathf.Abs(pos.x - posA.x) <= 0.02F && Mathf.Abs(pos.y - posA.y) <= 0.02F) pos = posA;
+					if (Mathf.Abs(pos.x - posB.x) <= 0.02F && Mathf.Abs(pos.y - posB.y) <= 0.02F) pos = posB;
 
 				}
 
+				//Debug.Log("pos.x: " + pos.x);
 				if (pos.x != 10000) {
 					if (firstPointA == -1) {
 						firstPointA = i;
@@ -138,6 +148,8 @@ public class gDestroyerClass : MonoBehaviour {
 				
 			}
 			if (firstPointA != -1 && secondPointA != -1) { 
+				//Debug.Log ("fp: " + firstPoint);
+				//Debug.Log ("sp: " + secondPoint);
 				bool flag = true;
 				i = -1;
 				//Vector2[] pathVerts = terrain.pathVerts.ToArray();

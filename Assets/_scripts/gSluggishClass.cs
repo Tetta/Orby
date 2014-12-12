@@ -69,7 +69,7 @@ public class gSluggishClass : MonoBehaviour {
 			Vector3 diff = transform.position - mousePosition;
 			Debug.Log (diff);
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
-			float maxDiffC = 6000;
+			float maxDiffC = 2000;
 			if (gBerryClass.berryState == "") maxDiffC = 400;
 			float diffX = maxDiffC / pointBDiffC * diff.x;
 			float diffY = maxDiffC / pointBDiffC * diff.y;

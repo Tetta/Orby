@@ -69,6 +69,8 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Toolbox/TennisBallToolbox.prefab
 Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
+Assets/_prefabs/hint.prefab
+Assets/_prefabs/destroyer.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
@@ -140,3 +142,5 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Toolbox/TennisBallToolbox.prefab
 Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
+Assets/_prefabs/hint.prefab
+Assets/_prefabs/destroyer.prefab
