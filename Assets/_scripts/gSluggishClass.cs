@@ -24,16 +24,12 @@ public class gSluggishClass : MonoBehaviour {
 			berry.rigidbody2D.isKinematic = true;
 			berry.transform.position = new Vector2(transform.position.x, transform.position.y);
 			sluggishState = "collision";
-			Debug.Log ("collision");
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D collisionObject) {
 		if (collisionObject.gameObject.name == "berry" && sluggishState == "fly") {
-
 			sluggishState = "";
-			Debug.Log ("OnTriggerExit2D");
-			
 		}
 	}
 
@@ -42,13 +38,14 @@ public class gSluggishClass : MonoBehaviour {
 
 			sluggishState = "active";
 			line.SetActive(true);
+			gHintClass.checkHint(gameObject);
 		}
 		
 	}
 
 	void OnMouseDrag() {
 		if (sluggishState == "active") {
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
 			Vector3 relative = transform.InverseTransformPoint(mousePosition);
 			float angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
 			line.transform.rotation = Quaternion.Euler(0, 0, 180 - angle);
@@ -62,9 +59,9 @@ public class gSluggishClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (sluggishState == "active") {
-			Debug.Log ("OnMouseUp");
+			gRecHintClass.recHint(transform);
 			berry.rigidbody2D.isKinematic = false;
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
 
 			Vector3 diff = transform.position - mousePosition;
 			Debug.Log (diff);

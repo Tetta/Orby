@@ -198,8 +198,10 @@ public class gWebClass : MonoBehaviour {
 	}
 	
 	void OnMouseDown () {
+		gRecHintClass.recHint(transform);
+		gHintClass.checkHint(gameObject);
 		if (webState == "") {
-			//i = 0;
+
 			diff = berry.transform.position - web.transform.position;
 			float orbyDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			diffX = maxDiffC / orbyDiffC * diff.x / maxChainCount;

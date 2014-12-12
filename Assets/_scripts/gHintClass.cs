@@ -23,7 +23,7 @@ public class gHintClass : MonoBehaviour {
 
 			//Debug.Log(Time.time - time);
 			hint.transform.position = new Vector3(-4, 0, 0);
-			if (Mathf.Round((Time.time - time) * 10) == Mathf.Round(actions[counter].time * 10)) {
+			if (Mathf.Round((Time.unscaledTime - time) * 10) == Mathf.Round(actions[counter].time * 10)) {
 				hintState = "pause";
 				Time.timeScale = 0;
 				hint.transform.position = actions[counter].id;
@@ -32,56 +32,42 @@ public class gHintClass : MonoBehaviour {
 
 		}
 
-
-		//if (Input.GetMouseButtonDown(0)) {
-
-			//Debug.Log( Time.time);
-
-
-			//web.SendMessage("OnMouseDown");
-			//destroyer.SendMessage("doOnMouseUp");
-			//Debug.Log(destroyer.GetInstanceID());
-			
-			
-		//}
 	}
 	void OnMouseUp() {
 		Application.LoadLevel(Application.loadedLevel);
-		actions = new action[2];
+		SendMessage(Application.loadedLevelName); 
 
-		actions[0].id = new Vector3(-1.6338F, 1.9594F, 0F);
-		actions[0].time = 2.099313F;
-		actions[0].mouse = new Vector3(206, 251, 0);
-		actions[1].id = new Vector3(1.3F, 2F, 0F);
-		actions[1].time = 1.062672F;
-		actions[1].mouse = new Vector3(163, 225, 0);
 
+		Time.timeScale = 1;
 		hintState = "start";
-		time = Time.time;
+		time = Time.unscaledTime;
 		counter = 0;
 	}
 
 	public static Vector3 checkHint(GameObject obj, bool flag = false) {
 		Time.timeScale = 1;
-		if (gHintClass.hintState == "start") {
-			gHintClass.hintState = "";
-			hint.transform.position = new Vector3(-4, 0, 0);
-		}
+
 
 		if (hintState == "pause") { 
 			if (actions[counter].id == obj.transform.position) {
 				if (flag) return actions[counter].mouse;
 				hint.transform.position = new Vector3(-4, 0, 0);
-				obj.SendMessage("OnMouseDrag");
-				obj.SendMessage("OnMouseUp");
+				if (obj.name == "destroyer" || obj.name == "sluggish" || obj.name == "groot") {
+					obj.SendMessage("OnMouseDrag");
+					obj.SendMessage("OnMouseUp");
+				}
 				counter ++;
-				time = Time.time;
+				time = Time.unscaledTime;
 				hintState = "start";
 			} else {
 				gHintClass.hintState = "";
 				hint.transform.position = new Vector3(-4, 0, 0);
-			}
+			} 
+		}	else if (hintState == "start" && !flag) {
+			hintState = "";
+			hint.transform.position = new Vector3(-4, 0, 0);
 		}
+
 
 		return new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
 	}
@@ -90,5 +76,43 @@ public class gHintClass : MonoBehaviour {
 		public Vector3 id;
 		public Vector3 mouse;
 		public float time;
+	}
+
+	void level1 () {
+		actions = new action[2];
+		actions[0].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[0].time = 0.1F;
+		actions[0].mouse = new Vector3(209, 386, 0);
+		actions[1].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[1].time = 1.094343F;
+		actions[1].mouse = new Vector3(209, 386, 0);
+	}
+
+	void level20 () {
+		actions = new action[8];
+		actions[0].id = new Vector3(-1.707522F, -1.798797F, -0.1F);
+		actions[0].time = 1.49423F;
+		actions[0].mouse = new Vector3(85, 205, 0);
+		actions[1].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[1].time = 0.6248536F;
+		actions[1].mouse = new Vector3(199, 379, 0);
+		actions[2].id = new Vector3(-2.2448F, 1.1385F, 0F);
+		actions[2].time = 1.624653F;
+		actions[2].mouse = new Vector3(53, 413, 0);
+		actions[3].id = new Vector3(-1.6338F, 1.9594F, 0F);
+		actions[3].time = 1.689129F;
+		actions[3].mouse = new Vector3(282, 196, 0);
+		actions[4].id = new Vector3(1.3F, 2F, 0F);
+		actions[4].time = 1.248973F;
+		actions[4].mouse = new Vector3(192, 265, 0);
+		actions[5].id = new Vector3(2.053608F, 0.27878F, 0F);
+		actions[5].time = 0.9984751F;
+		actions[5].mouse = new Vector3(366, 371, 0);
+		actions[6].id = new Vector3(2.053608F, 0.27878F, 0F);
+		actions[6].time = 0.6565351F;
+		actions[6].mouse = new Vector3(365, 371, 0);
+		actions[7].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[7].time = 1.199567F;
+		actions[7].mouse = new Vector3(208, 379, 0);
 	}
 }

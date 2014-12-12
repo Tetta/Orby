@@ -22,6 +22,8 @@ public class gYetiClass : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
+		gRecHintClass.recHint(transform);
+		gHintClass.checkHint(gameObject);
 		if (yetiState == "") {
 			yetiState = "active";
 			berry.rigidbody2D.angularVelocity = 0;

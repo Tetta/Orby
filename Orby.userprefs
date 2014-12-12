@@ -1,10 +1,13 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\gHintClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\gWebClass.cs">
     <Files>
-      <File FileName="Assets\_scripts\gHintClass.cs" Line="25" Column="39" />
-      <File FileName="Assets\_scripts\gDestroyerClass.cs" Line="67" Column="3" />
-      <File FileName="Assets\_scripts\gWebClass.cs" Line="200" Column="2" />
+      <File FileName="Assets\_scripts\gHintClass.cs" Line="55" Column="4" />
+      <File FileName="Assets\_scripts\gDestroyerClass.cs" Line="36" Column="37" />
+      <File FileName="Assets\_scripts\gWebClass.cs" Line="204" Column="4" />
+      <File FileName="Assets\_scripts\gRecHintClass.cs" Line="39" Column="57" />
+      <File FileName="Assets\_scripts\initClass.cs" Line="1" Column="1" />
+      <File FileName="Assets\_scripts\gBerryClass.cs" Line="51" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

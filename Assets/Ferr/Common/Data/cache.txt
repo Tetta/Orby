@@ -10,7 +10,7 @@ Assets/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/GooPlayer.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/FerrlibLogoSmall.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/Tumbleweed.prefab
-Assets/_prefabs/UI Root.prefab
+Assets/_prefabs/gui.prefab
 Assets/_prefabs/back white.prefab
 Assets/_prefabs/back forest.prefab
 Assets/_prefabs/terrain.prefab
@@ -69,7 +69,6 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Toolbox/TennisBallToolbox.prefab
 Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
-Assets/_prefabs/hint.prefab
 Assets/_prefabs/destroyer.prefab
 
 [Ferr2DT_PathTerrain]
@@ -83,7 +82,6 @@ Assets/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/FerrlibLogoSmall.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/Tumbleweed.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
-Assets/_prefabs/UI Root.prefab
 Assets/_prefabs/back white.prefab
 Assets/_prefabs/back forest.prefab
 Assets/_prefabs/terrain.prefab
@@ -142,5 +140,5 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Toolbox/TennisBallToolbox.prefab
 Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
-Assets/_prefabs/hint.prefab
 Assets/_prefabs/destroyer.prefab
+Assets/_prefabs/gui.prefab

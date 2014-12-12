@@ -33,11 +33,11 @@ public class gRecHintClass : MonoBehaviour {
 
 	public static void recHint(Transform tr) {
 		if (recHintState != -1) {
-			recHintState = Time.time - recHintState;
 			rec = rec + 		
 				"\nactions[" + counter + "].id = new Vector3("+tr.position.x+"F, "+tr.position.y+"F, "+tr.position.z+"F);" +
-				"\nactions[" + counter + "].time = "+recHintState+"F;" +
+				"\nactions[" + counter + "].time = "+(Time.unscaledTime - recHintState)+"F;" +
 				"\nactions[" + counter + "].mouse = new Vector3("+Input.mousePosition.x+", "+Input.mousePosition.y+", "+Input.mousePosition.z+");";
+			recHintState += Time.unscaledTime - recHintState;
 			counter++;
 		}
 	}
