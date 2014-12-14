@@ -70,6 +70,13 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
 Assets/_prefabs/destroyer.prefab
+Assets/_prefabs/back rock.prefab
+Assets/_prefabs/back ice.prefab
+Assets/_materials/terrain rock.prefab
+Assets/_prefabs/back desert.prefab
+Assets/_materials/terrain desert.prefab
+Assets/_prefabs/terrain desert.prefab
+Assets/_prefabs/chain groot.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
@@ -142,3 +149,10 @@ Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
 Assets/_prefabs/destroyer.prefab
 Assets/_prefabs/gui.prefab
+Assets/_prefabs/back rock.prefab
+Assets/_prefabs/back ice.prefab
+Assets/_materials/terrain rock.prefab
+Assets/_prefabs/back desert.prefab
+Assets/_materials/terrain desert.prefab
+Assets/_prefabs/terrain desert.prefab
+Assets/_prefabs/chain groot.prefab

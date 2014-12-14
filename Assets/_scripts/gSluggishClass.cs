@@ -13,10 +13,6 @@ public class gSluggishClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (sluggishState == "active") {
-
-		}
-
 	}
 
 	void OnTriggerEnter2D(Collider2D collisionObject) {

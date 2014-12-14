@@ -30,7 +30,6 @@ public class gWebClass : MonoBehaviour {
 	void Start () {
 		berry = GameObject.Find("berry");
 
-		//blocks = GameObject.FindGameObjectsWithTag("block"); 
 		chain = new GameObject[100];
 		maxDiffC = chainLength * maxChainCount;
 		jointWeb = web.GetComponent<HingeJoint2D> ();
