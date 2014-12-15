@@ -222,9 +222,19 @@ public class gDestroyerClass : MonoBehaviour {
 				//terrain.UpdateDependants();
 				Ferr2DT_PathTerrain pathTerrain = collider.GetComponent<Ferr2DT_PathTerrain>();
 				pathTerrain.RecreatePath();
-				pathTerrain.RecreateCollider();			
+				pathTerrain.RecreateCollider();	
+
 			}
-			
+			for (int i = 0; i < gGrootClass.terrainGrootChains.Count; i++ ) {
+				gGrootClass.terrainGrootChain terr = gGrootClass.terrainGrootChains[i];
+				if (terr.terrain == collider.gameObject) {
+					if (!terr.terrain.collider2D.OverlapPoint(terr.chain.transform.position)) {
+						terr.chain.transform.parent.SendMessage("OnMouseDown");
+						gGrootClass.terrainGrootChains.Remove(terr);
+						i--;
+					}
+				}
+			}
 		}
 	}
 	

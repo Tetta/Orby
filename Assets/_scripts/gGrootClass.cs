@@ -7,6 +7,8 @@ public class gGrootClass : MonoBehaviour {
 	public GameObject line;
 	public GameObject chainPrefab;
 
+	private GameObject berry;
+	private GameObject spider;
 	private int globalCounter = 0;
 	private string grootState = "";
 	private float  chainLength = 0.3F;
@@ -29,6 +31,8 @@ public class gGrootClass : MonoBehaviour {
 		chain = new GameObject[100];
 		jointGroot = GetComponent<HingeJoint2D> ();
 		terrains = GameObject.FindGameObjectsWithTag("terrain");
+		spider = GameObject.Find("spider");
+		berry = GameObject.Find("berry");
 
 	}
 	
@@ -135,18 +139,18 @@ public class gGrootClass : MonoBehaviour {
 			joint.enabled = true;
 			jointGroot.connectedBody = chain[i].rigidbody2D;
 
-			foreach (GameObject terrain in terrains) {
-				if (terrain.collider2D.OverlapPoint(chain[1].transform.position)) {
-					chain[1].rigidbody2D.isKinematic = true;
-					grootState = "enable";
-				} 
-			}
 		}
-		if (chainCount == maxChainCount) {
+		foreach (GameObject terrain in terrains) {
+			if (terrain.collider2D.OverlapPoint(chain[1].transform.position)) {
+				chain[1].rigidbody2D.isKinematic = true;
+				grootState = "enable";
+				terrainGrootChains.Add(new terrainGrootChain() {terrain = terrain, chain = chain[1]});
+			} 
+		}
+		if (chainCount == maxChainCount || spider.collider2D.OverlapPoint(chain[1].transform.position) || berry.collider2D.OverlapPoint(chain[1].transform.position)) {
 			grootState = "noCollisions";
 			globalCounter = 1;
 		}
-		
 	}
 
 }
