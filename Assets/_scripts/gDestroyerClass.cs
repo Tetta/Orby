@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class gDestroyerClass : MonoBehaviour {
 
-	//public GameObject divider;
-
 	private string destroyerState = "";
 	private Vector2 enterPoint;
 	private Vector2 exitPoint;
+	private List<Vector3>  terrainsTransform = new List<Vector3>();
 
 	// Use this for initialization
 	void Start () {
+
 		enterPoint = transform.position;
 		GameObject[] terrains = GameObject.FindGameObjectsWithTag("terrain");
 		foreach (GameObject terrain in terrains) {
@@ -81,87 +81,114 @@ public class gDestroyerClass : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D collider) {
 		if (collider.tag == "terrain") {
-			//Time.timeScale = 0;
-			//Debug.Log ("exit: " + collider.name + transform.position);
+			if ( terrainsTransform.Contains(collider.transform.position)) return;
+			//for (int i = 0; i < terrainsTransform.Count; i++) {
+			//
+			//	if (collider.transform == terrainsTransform[i]) Debug.Log(123);
+			//}
+			terrainsTransform.Add(collider.transform.position);
 			exitPoint = transform.position;
-			//rigidbody2D.isKinematic = true;
-			//transform.localPosition = new Vector2(0, 0);
-			//gameObject.SetActive(false);
+			Vector2 diff = exitPoint - enterPoint;
+			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
+			float diffX = 15 / pointBDiffC * diff.x;
+			float diffY = 15 / pointBDiffC * diff.y;
+
+			exitPoint = new Vector2(diffX, diffY) + enterPoint;
+			//Debug.Log ("exit: " + collider.name + exitPoint);
+
 			Ferr2D_Path terrain = collider.GetComponent<Ferr2D_Path>();
-			Vector2 pos;
+			List<Vector2>  pos = new List<Vector2>();
+			List<int>  point = new List<int>();
 			Vector2 firstPoint = new Vector2(0, 0);
 			Vector2 secondPoint = new Vector2(0, 0);
-			int firstPointA = -1;
-			int secondPointA = -1;
-			int i;
+			int firstPointA = -1, secondPointA = -1;
+			Vector2 posTemp, posA, posB;
 			int terrainCount = terrain.Count;
-			for (i = 0; i < terrainCount; i++) {
+			for (int i = 0; i < terrainCount; i++) {
 				
 				if (i == terrainCount - 1) {
-					Vector2 posA = terrain.pathVerts[0] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
-					/*
-					if (pos.x != 10000) {
-						Debug.Log("enterPoint: " + enterPoint);
-						Debug.Log("exitPoint: " + exitPoint);
-						Debug.Log("posA: " + posA);
-						Debug.Log("posB: " + posB);
-						Debug.Log("pos: " + pos);
-					}
-					*/
+					posA = terrain.pathVerts[0] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
+					posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
+					posTemp = lineIntersectPos(enterPoint, exitPoint, posA, posB);
 				} else {
-					Vector2 posA = terrain.pathVerts[i + 1] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					Vector2 posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					pos = lineIntersectPos(enterPoint, exitPoint, posA, posB);
-					/*
-					if (pos.x != 10000) {
-						Debug.Log("enterPoint: " + enterPoint);
-						Debug.Log("exitPoint: " + exitPoint);
-						Debug.Log("posA: " + posA);
-						Debug.Log("posB: " + posB);
-						Debug.Log("pos: " + pos);
-					}
-					*/
-					if (Mathf.Abs(pos.x - posA.x) <= 0.02F && Mathf.Abs(pos.y - posA.y) <= 0.02F) pos = posA;
-					if (Mathf.Abs(pos.x - posB.x) <= 0.02F && Mathf.Abs(pos.y - posB.y) <= 0.02F) pos = posB;
+					posA = terrain.pathVerts[i + 1] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
+					posB = terrain.pathVerts[i] + new Vector2 (collider.transform.position.x, collider.transform.position.y);
+					posTemp = lineIntersectPos(enterPoint, exitPoint, posA, posB);
+				}
+				if (posTemp.x != 10000) {
+					if (Mathf.Abs(posTemp.x - posA.x) <= 0.02F && Mathf.Abs(posTemp.y - posA.y) <= 0.02F) posTemp = posA;
+					if (Mathf.Abs(posTemp.x - posB.x) <= 0.02F && Mathf.Abs(posTemp.y - posB.y) <= 0.02F) posTemp = posB;
+					//Debug.Log("enterPoint: " + enterPoint);
+					//Debug.Log("exitPoint: " + exitPoint);
+					//Debug.Log("posA: " + posA);
+					//Debug.Log("posB: " + posB);
+					//Debug.Log("pos: " + posTemp);
 
+					pos.Add(posTemp);
+					point.Add(i);
 				}
 
 				//Debug.Log("pos.x: " + pos.x);
-				if (pos.x != 10000) {
-					if (firstPointA == -1) {
-						firstPointA = i;
-						firstPoint = pos - new Vector2 (collider.transform.position.x, collider.transform.position.y);
-					} else {
-						secondPointA = i;
-						secondPoint = pos - new Vector2 (collider.transform.position.x, collider.transform.position.y);
+
+			}
+
+			//sorting
+			float minLength = 100;
+			List<Vector2>  posSort = new List<Vector2>();
+			List<int>  pointSort = new List<int>();
+			int j = -1;
+			for (int i = 0; i < pos.Count; i++ ) {
+				for (int y = 0; y < pos.Count; y++ ) {
+					if ((pos[y] - enterPoint).magnitude < minLength) {
+						minLength = (pos[y] - enterPoint).magnitude;
+						j = y;
 					}
 				}
+				minLength = 100;
+				posSort.Add(pos[j]);
+				pos[j] = new Vector2(100, 100);
+				pointSort.Add(point[j]);
 			}
-			if (secondPointA == -1) {
-				/*
-				Debug.Log ("terrainCount: " + terrainCount);
-				Debug.Log ("fp: " + firstPointA);
-				Debug.Log ("sp: " + secondPointA);
-				*/
-				
-			}
-			if (firstPointA != -1 && secondPointA != -1) { 
+
+			for (int y = 0; y < posSort.Count - 1; y += 2 ) {
+			
+				terrain = collider.GetComponent<Ferr2D_Path>();
+				int g = 0;
+				if (y > 0) {
+					//Debug.Log("terrain.pathVerts[1]: " + terrain.pathVerts[1]);
+					//Debug.Log("posSort[y - 1]: " + posSort[y - 1]);
+					if (terrain.pathVerts[1] == posSort[y - 1] - new Vector2(collider.transform.position.x, collider.transform.position.y)) g = y - 1;
+					else g = y - 2;
+					for (int q = y; q < posSort.Count; q++ ) {
+						//Debug.Log ("pointSort[q]: " + pointSort[q]);
+						//Debug.Log ("pointSort[g]: " + pointSort[g]);
+						//Debug.Log ("g: " + g);
+						pointSort[q] = pointSort[q] - pointSort[g] + 1;
+						if (pointSort[q] < 0) pointSort[q] += terrainCount;
+					}
+				}
+				firstPointA = pointSort[y];
+				secondPointA = pointSort[y + 1];
+				firstPoint = posSort[y] - new Vector2 (collider.transform.position.x, collider.transform.position.y);
+				secondPoint = posSort[y + 1] - new Vector2 (collider.transform.position.x, collider.transform.position.y);
+			
 				//Debug.Log ("fp: " + firstPoint);
 				//Debug.Log ("sp: " + secondPoint);
 				bool flag = true;
-				i = -1;
-				//Vector2[] pathVerts = terrain.pathVerts.ToArray();
+				int i = -1;
 				List<Vector2>  firstFigure = new List<Vector2>();
 				List<Vector2>  secondFigure = new List<Vector2>();
+				terrainCount = terrain.Count;
+				//Debug.Log("pathVerts: ");
+				//for (int e = 0; e < terrainCount; e++) Debug.Log(terrain.pathVerts[e]);
+
 				while (flag){
 					if (i == -1) {
-						//i = firstPointA;
-						//Debug.Log (firstPointA);
+							//i = firstPointA;
+							//Debug.Log (firstPointA);
 						firstFigure.Add(firstPoint);
-						//terrain.pathVerts.Add(firstPoint);
-						//Debug.Log (secondPointA);
+							//terrain.pathVerts.Add(firstPoint);
+							//Debug.Log (secondPointA);
 						firstFigure.Add(secondPoint);
 						i = secondPointA + 1;
 					}
@@ -182,11 +209,12 @@ public class gDestroyerClass : MonoBehaviour {
 					}
 					if (i >= terrainCount) i = 0;
 					if (i == secondPointA) flag = false;
+					//Debug.Log(i);
 					if (terrain.pathVerts[i] != firstPoint && terrain.pathVerts[i] != secondPoint) secondFigure.Add(terrain.pathVerts[i]);
 					i ++;
-					
 				}
 				terrain.pathVerts.Clear();
+
 				if (getSq(firstFigure) >= getSq(secondFigure)) terrain.pathVerts.AddRange(firstFigure);
 				else terrain.pathVerts.AddRange(secondFigure);
 
@@ -196,7 +224,6 @@ public class gDestroyerClass : MonoBehaviour {
 				pathTerrain.RecreatePath();
 				pathTerrain.RecreateCollider();			
 			}
-			
 			
 		}
 	}
@@ -226,6 +253,7 @@ public class gDestroyerClass : MonoBehaviour {
 
 	// Расчет площади многоугольника через сумму площадей трапеций 
 	public static float getSq (List<Vector2>  figure) {
+		//Debug.Log("Figure");
 		int n = figure.Count;
 		float s = 0;
 		float res = 0;
@@ -241,8 +269,9 @@ public class gDestroyerClass : MonoBehaviour {
 				s = figure[i].x*(figure[i-1].y - figure[i+1].y);
 					res += s;
 				}
-
+			//Debug.Log(figure[i]);
 		}
+		//Debug.Log("sq: " + Mathf.Abs(res/2));
 		return Mathf.Abs(res/2);
 	}
 }

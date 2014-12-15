@@ -47,11 +47,11 @@ public class gHintClass : MonoBehaviour {
 	public static Vector3 checkHint(GameObject obj, bool flag = false) {
 		Time.timeScale = 1;
 
-
 		if (hintState == "pause") { 
 			if (actions[counter].id == obj.transform.position) {
 				if (flag) return actions[counter].mouse;
 				hint.transform.position = new Vector3(-4, 0, 0);
+
 				if (obj.name == "destroyer" || obj.name == "sluggish" || obj.name == "groot") {
 					obj.SendMessage("OnMouseDrag");
 					obj.SendMessage("OnMouseUp");
@@ -114,5 +114,18 @@ public class gHintClass : MonoBehaviour {
 		actions[7].id = new Vector3(0.051342F, 0.49288F, 0F);
 		actions[7].time = 1.199567F;
 		actions[7].mouse = new Vector3(208, 379, 0);
+	}
+
+	void level75 () {
+		actions = new action[3];
+		actions[0].id = new Vector3(2.1232F, 0.1807F, 0F);
+		actions[0].time = 0.644765F;
+		actions[0].mouse = new Vector3(321, 329, 0);
+		actions[1].id = new Vector3(-1.026575F, 0.7992552F, -0.1F);
+		actions[1].time = 1.100898F;
+		actions[1].mouse = new Vector3(125, 376, 0);
+		actions[2].id = new Vector3(2.1232F, 0.1807F, 0F);
+		actions[2].time = 1.292115F;
+		actions[2].mouse = new Vector3(351, 363, 0);
 	}
 }

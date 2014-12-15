@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class gGrootClass : MonoBehaviour {
 
 	public GameObject line;
 	public GameObject chainPrefab;
 
+	private int globalCounter = 0;
 	private string grootState = "";
 	private float  chainLength = 0.3F;
 	private int maxChainCount = 20;
@@ -16,6 +18,11 @@ public class gGrootClass : MonoBehaviour {
 	private float diffX;
 	private float diffY;
 	private GameObject[] terrains;
+	public struct terrainGrootChain {
+		public GameObject terrain;
+		public GameObject chain;
+	}
+	public static  List<terrainGrootChain>  terrainGrootChains = new List<terrainGrootChain>();
 
 	// Use this for initialization
 	void Start () {
@@ -42,18 +49,39 @@ public class gGrootClass : MonoBehaviour {
 				GetComponent<LineRenderer>().SetPosition (i - 1, new Vector3(chain[i].transform.position.x, chain[i].transform.position.y, 1.1F));
 			}
 		}
+
+		if (grootState == "noCollisions" || grootState == "destroying") {
+			for (int j = 0; j < 2; j++) {
+				if (chainCount > 0) {
+					Destroy(chain[globalCounter], 0);
+					chainCount--;
+					globalCounter ++;
+					
+				} else {
+					grootState = "";
+				}
+			}
+			GetComponent<LineRenderer>().SetVertexCount (chainCount);
+			for(int i = 0; i < chainCount; i++)
+				GetComponent<LineRenderer>().SetPosition (i, new Vector3(chain[i + globalCounter].transform.position.x, chain[i + globalCounter].transform.position.y, 1.1F)); 
+			
+			
+		}
 	}
 
 	void OnMouseDown() {
-		Debug.Log(23);
 		if (grootState == "") {
-			
 			grootState = "drag";
 			line.SetActive(true);
 			gHintClass.checkHint(gameObject);
-		} else if (grootState == "creating") {
-			//grootState = "enable";
-		} else if (grootState == "enable") {
+		}		
+		if (grootState == "enable") {
+			grootState = "destroying";
+			gHintClass.checkHint(gameObject);
+			gRecHintClass.recHint(transform);
+			globalCounter = 1;
+			line.SetActive(false);
+
 		}
 		
 	}
@@ -74,6 +102,7 @@ public class gGrootClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (grootState == "drag") {
+			gRecHintClass.recHint(transform);
 
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
 			Vector3 diff = mousePosition - transform.position;
@@ -81,11 +110,7 @@ public class gGrootClass : MonoBehaviour {
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			diffX = chainLength / pointBDiffC * diff.x;
 			diffY = chainLength / pointBDiffC * diff.y;
-
-
 			grootState = "creating";
-
-
 			line.SetActive(false);
 		}
 	}
@@ -102,12 +127,9 @@ public class gGrootClass : MonoBehaviour {
 			jointGroot.connectedBody = chain[i].rigidbody2D;
 			jointGroot.enabled = true;
 		} else {
-			//if (!berry.collider2D.OverlapPoint(chain[1].transform.position)) {
 			for (int y = 1; y <= i; y++) {
 				chain[y].transform.localPosition = new Vector3(diffX * (i - y), diffY * (i - y), 0);
-				}
-			//}
-			Debug.Log(chain[i].transform.position.z);
+			}
 			HingeJoint2D joint = chain[i].GetComponent<HingeJoint2D> ();
 			joint.connectedBody = chain[i - 1].rigidbody2D;
 			joint.enabled = true;
@@ -116,14 +138,13 @@ public class gGrootClass : MonoBehaviour {
 			foreach (GameObject terrain in terrains) {
 				if (terrain.collider2D.OverlapPoint(chain[1].transform.position)) {
 					chain[1].rigidbody2D.isKinematic = true;
-					grootState = "afterCollisionTerrain";
 					grootState = "enable";
 				} 
 			}
 		}
 		if (chainCount == maxChainCount) {
 			grootState = "noCollisions";
-			//globalCounter = 1;
+			globalCounter = 1;
 		}
 		
 	}
