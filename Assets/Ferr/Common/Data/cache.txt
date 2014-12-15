@@ -18,7 +18,7 @@ Assets/_prefabs/terrain ice.prefab
 Assets/_materials/terrain ice.prefab
 Assets/_prefabs/terrain rock.prefab
 Assets/_prefabs/berry.prefab
-Assets/_prefabs/chain2.prefab
+Assets/_prefabs/chain.prefab
 Assets/_prefabs/chain3.prefab
 Assets/_prefabs/web holder.prefab
 Assets/_prefabs/chain2 — копия.prefab
@@ -77,6 +77,18 @@ Assets/_prefabs/back desert.prefab
 Assets/_materials/terrain desert.prefab
 Assets/_prefabs/terrain desert.prefab
 Assets/_prefabs/chain groot.prefab
+Assets/_prefabs/groot.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Camera Relative Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/First Person Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Dual TouchPads.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Dual Joysticks.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Player Relative Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/2D Side Scroller.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Single TouchPad.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Roll A Ball.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/TapToMove Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Single Joystick.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/First Person Tilt Controls.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
@@ -96,7 +108,6 @@ Assets/_prefabs/terrain ice.prefab
 Assets/_materials/terrain ice.prefab
 Assets/_prefabs/terrain rock.prefab
 Assets/_prefabs/berry.prefab
-Assets/_prefabs/chain2.prefab
 Assets/_prefabs/chain3.prefab
 Assets/_prefabs/chain2 — копия.prefab
 Assets/_prefabs/spider.prefab
@@ -156,3 +167,16 @@ Assets/_prefabs/back desert.prefab
 Assets/_materials/terrain desert.prefab
 Assets/_prefabs/terrain desert.prefab
 Assets/_prefabs/chain groot.prefab
+Assets/_prefabs/groot.prefab
+Assets/_prefabs/chain.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Camera Relative Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/First Person Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Dual TouchPads.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Dual Joysticks.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Player Relative Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/2D Side Scroller.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Single TouchPad.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Roll A Ball.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/TapToMove Controls.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/Single Joystick.prefab
+Assets/zStandard Assets (Mobile)/Prefabs/First Person Tilt Controls.prefab
