@@ -17,6 +17,9 @@ public class initLevelMenuClass : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//temp
+		staticClass.initLevels();
+		//temp
 		goldLabel = gold;
 		starsLabel = stars;
 		if (initClass.progress.Count == 0) initClass.getProgress();

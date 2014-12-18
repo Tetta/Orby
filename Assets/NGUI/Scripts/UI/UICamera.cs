@@ -165,6 +165,13 @@ public class UICamera : MonoBehaviour
 	public EventType eventType = EventType.UI_3D;
 
 	/// <summary>
+	/// By default, events will go to rigidbodies when the Event Type is not UI.
+	/// You can change this behaviour back to how it was pre-3.7.0 using this flag.
+	/// </summary>
+
+	public bool eventsGoToColliders = false;
+
+	/// <summary>
 	/// Which layers will receive events.
 	/// </summary>
 
@@ -335,7 +342,7 @@ public class UICamera : MonoBehaviour
 	/// ID of the touch or mouse operation prior to sending out the event. Mouse ID is '-1' for left, '-2' for right mouse button, '-3' for middle.
 	/// </summary>
 
-	static public int currentTouchID = -1;
+	static public int currentTouchID = -100;
 
 	/// <summary>
 	/// Key that triggered the event, if any.
@@ -454,7 +461,11 @@ public class UICamera : MonoBehaviour
 	/// Caching is always preferable for performance.
 	/// </summary>
 
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 	public Camera cachedCamera { get { if (mCam == null) mCam = camera; return mCam; } }
+#else
+	public Camera cachedCamera { get { if (mCam == null) mCam = GetComponent<Camera>(); return mCam; } }
+#endif
 
 	/// <summary>
 	/// Set to 'true' just before OnDrag-related events are sent. No longer needed, but kept for backwards compatibility.
@@ -675,7 +686,11 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			if (trans.GetComponent<UIPanel>() != null) return null;
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 			Rigidbody rb = trans.rigidbody;
+#else
+			Rigidbody rb = trans.GetComponent<Rigidbody>();
+#endif
 			if (rb != null) return rb;
 			trans = trans.parent;
 		}
@@ -691,7 +706,11 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			if (trans.GetComponent<UIPanel>() != null) return null;
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 			Rigidbody2D rb = trans.rigidbody2D;
+#else
+			Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
+#endif
 			if (rb != null) return rb;
 			trans = trans.parent;
 		}
@@ -733,8 +752,11 @@ public class UICamera : MonoBehaviour
 					lastWorldPosition = lastHit.point;
 					hoveredObject = lastHit.collider.gameObject;
 
-					Rigidbody rb = FindRootRigidbody(hoveredObject.transform);
-					if (rb != null) hoveredObject = rb.gameObject;
+					if (!list[0].eventsGoToColliders)
+					{
+						Rigidbody rb = FindRootRigidbody(hoveredObject.transform);
+						if (rb != null) hoveredObject = rb.gameObject;
+					}
 					return true;
 				}
 				continue;
@@ -829,8 +851,11 @@ public class UICamera : MonoBehaviour
 						lastWorldPosition = point;
 						hoveredObject = c2d.gameObject;
 
-						Rigidbody2D rb = FindRootRigidbody2D(hoveredObject.transform);
-						if (rb != null) hoveredObject = rb.gameObject;
+						if (!cam.eventsGoToColliders)
+						{
+							Rigidbody2D rb = FindRootRigidbody2D(hoveredObject.transform);
+							if (rb != null) hoveredObject = rb.gameObject;
+						}
 						return true;
 					}
 				}
@@ -1114,6 +1139,7 @@ public class UICamera : MonoBehaviour
 
 			if (Application.platform == RuntimePlatform.IPhonePlayer)
 			{
+				useMouse = false;
 				useKeyboard = false;
 				useController = false;
 			}
@@ -1251,7 +1277,9 @@ public class UICamera : MonoBehaviour
 				ShowTooltip(true);
 			}
 		}
+
 		current = null;
+		currentTouchID = -100;
 	}
 
 	/// <summary>
@@ -1350,7 +1378,7 @@ public class UICamera : MonoBehaviour
 		}
 
 		// Generic mouse move notifications
-		if (onMouseMove != null)
+		if (posChanged && onMouseMove != null)
 		{
 			currentTouch = mMouse[0];
 			onMouseMove(currentTouch.delta);
@@ -1377,8 +1405,19 @@ public class UICamera : MonoBehaviour
 			if (pressed || unpressed) currentScheme = ControlScheme.Mouse;
 
 			currentTouch = mMouse[i];
-			currentTouchID = -1 - i;
-			currentKey = KeyCode.Mouse0 + i;
+
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+			if (i == 0 && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+			{
+				currentTouchID = -2;
+				currentKey = KeyCode.Mouse1;
+			}
+			else
+#endif
+			{
+				currentTouchID = -1 - i;
+				currentKey = KeyCode.Mouse0 + i;
+			}
 	
 			// We don't want to update the last camera while there is a touch happening
 			if (pressed) currentTouch.pressedCam = currentCamera;
@@ -1405,6 +1444,8 @@ public class UICamera : MonoBehaviour
 		mMouse[0].last = mMouse[0].current;
 		for (int i = 1; i < 3; ++i) mMouse[i].last = mMouse[0].last;
 	}
+
+	static bool mUsingTouchEvents = true;
 
 	/// <summary>
 	/// Update touch-based events.
@@ -1457,11 +1498,19 @@ public class UICamera : MonoBehaviour
 
 		if (Input.touchCount == 0)
 		{
+			// Skip the first frame after using touch events
+			if (mUsingTouchEvents)
+			{
+				mUsingTouchEvents = false;
+				return;
+			}
+
 			if (useMouse) ProcessMouse();
 #if UNITY_EDITOR
 			else ProcessFakeTouches();
 #endif
 		}
+		else mUsingTouchEvents = true;
 	}
 
 	/// <summary>
@@ -1642,14 +1691,20 @@ public class UICamera : MonoBehaviour
 			if (mTooltip != null) ShowTooltip(false);
 
 			currentTouch.pressStarted = true;
-			if (onPress != null) onPress(currentTouch.pressed, false);
+			if (onPress != null && currentTouch.pressed)
+				onPress(currentTouch.pressed, false);
+
 			Notify(currentTouch.pressed, "OnPress", false);
+
 			currentTouch.pressed = currentTouch.current;
 			currentTouch.dragged = currentTouch.current;
 			currentTouch.clickNotification = ClickNotification.BasedOnDelta;
 			currentTouch.totalDelta = Vector2.zero;
 			currentTouch.dragStarted = false;
-			if (onPress != null) onPress(currentTouch.pressed, true);
+
+			if (onPress != null && currentTouch.pressed)
+				onPress(currentTouch.pressed, true);
+
 			Notify(currentTouch.pressed, "OnPress", true);
 
 			// Update the selection

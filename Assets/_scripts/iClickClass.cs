@@ -50,7 +50,16 @@ public class iClickClass : MonoBehaviour {
 
 	void loadLevel () {
 		if (name == "restart") Application.LoadLevel(Application.loadedLevel);
-		else if (name == "next") Application.LoadLevel(Application.loadedLevel + 1);
+		else if (name == "next") Application.LoadLevel("level menu");
+		else if (name == "play") Application.LoadLevel("level" + initClass.progress["currentLevel"]);
 	}
 
+	void closeLevelMenu () {
+		GameObject levelMenu = GameObject.Find("level menu");
+		levelMenu.SetActive(false);
+	}
+
+	void selectLanguage() {
+		Localization.language = name;
+	}
 }

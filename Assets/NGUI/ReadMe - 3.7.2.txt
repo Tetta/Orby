@@ -1,7 +1,7 @@
 ----------------------------------------------
             NGUI: Next-Gen UI kit
  Copyright © 2011-2014 Tasharen Entertainment
-            Version 3.7.2
+            Version 3.7.7
     http://www.tasharen.com/?page_id=197
             support@tasharen.com
 ----------------------------------------------
@@ -54,6 +54,45 @@ and it will not be included in the build of your game. It's only used in the edi
 -----------------
  Version History
 -----------------
+
+3.7.7
+- Fix for the drop-down list appearing in the wrong place in some situations.
+- You can now choose to merge loaded localization data with existing one. Useful for patching games.
+- Added a user-contributed outline8 type label effect.
+- Cleaned up new warnings shown in Unity 5.
+- Fixes for dynamic font rendering in Unity 5 (underline/strikethrough).
+
+3.7.6
+- FIX: Unity 5.0 compilation and functionality compatibility fixes.
+- FIX: Work-around for a Unity bug in 4.5.5p3 and p4 (OnValidate not affected by script execution order).
+- FIX: Potential work-around for touch events sending mouse events.
+- FIX: NGUI texture import will now use automatic true color instead of ARGB32.
+- FIX: UIEventTrigger's OnDrag was mistakenly calling the onDragOut callback.
+
+3.7.5
+- NEW: UISavedOption now works with progress bars as well.
+- NEW: MathiasSoeholm's implementation for Labels with float spacing.
+- FIX: UIPopupList opened manually will now close automatically without requiring selection to be set.
+- FIX: UICamera will now use proper 'events go to colliders' flag from the first UICamera.
+- FIX: Unity 5 compilation tweaks.
+- FIX: Flash compilation fixes.
+
+3.7.4
+- FIX: UIInput no longer uses OnGUI unless you actually select the input field first (eliminates GC alloc).
+- FIX: UIEventTrigger's OnDragStart/OnDragEnd shouldn't have had parameters.
+- FIX: UIDragObject should now work properly with a constrained type UIRoot.
+- FIX: Key/controller interaction wasn't quite correct with sliders/scroll bars.
+- FIX: UIDragObject will now snap to pixels after the movement completes.
+
+3.7.3
+- NEW: New clipping option on panels: Texture Mask. Any texture with alpha will work (think round minimap etc).
+- NEW: UICamera now has an option for whether events go to colliders or rigidbodies.
+- NEW: Added Cell Alignment field to the UITable letting you change the content's alignment.
+- NEW: UIGrid now has a "cell snap" arrangement type for when you simply want to have widgets snap as you drag them.
+- NEW: 2D Sprites now have a "pixel size" property.
+- FIX: Pre-defined texture preview for the Prefab Tool wasn't quite working right.
+- FIX: UIPanel now always force-disables the "offset" option if it's on the UIRoot.
+- FIX: Handles will now automatically hide when multi-editing widgets, allowing you to use the transform move.
 
 3.7.2
 - NEW: You can now explicitly choose the panel used as a drag region for UIDragObject.

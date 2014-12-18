@@ -3,6 +3,16 @@ using System.Collections;
 
 public class lsSpiderClass : MonoBehaviour {
 
+	public GameObject levelMenu;
+	public UILabel titleNumberLevel;
+	public GameObject stars;
+	public GameObject time;
+	public GameObject web;
+	public GameObject sluggish;
+	public GameObject destroyer;
+	public GameObject yeti;
+	public GameObject groot;
+
 	private string spiderState = "";
 	private NavMeshAgent spiderAgent;
 	private GameObject spider2;
@@ -37,10 +47,30 @@ public class lsSpiderClass : MonoBehaviour {
 			transform.rotation = new Quaternion(0, 180, 0, 1);
 			
 			spiderState = "";
-
-			Application.LoadLevel("level" + initClass.progress["currentLevel"]);
+			selectLevelMenu();
 		} 
 
+	}
+
+	public void selectLevelMenu () {
+		levelMenu.SetActive(true);
+		titleNumberLevel.text = initClass.progress["currentLevel"].ToString();
+		stars.transform.localPosition = new Vector3(stars.transform.localPosition.x, 117, stars.transform.localPosition.z);
+		int levelDemands = staticClass.levels[initClass.progress["currentLevel"], 1];
+
+		time.SetActive(false);
+		web.SetActive(false);
+		sluggish.SetActive(false);
+		destroyer.SetActive(false);
+		yeti.SetActive(false);
+		groot.SetActive(false);
+
+		if (levelDemands == 0) {
+			stars.transform.localPosition = new Vector3(stars.transform.localPosition.x, -30, stars.transform.localPosition.z);
+		} else if (levelDemands >= 1 && levelDemands <=99){
+			time.SetActive(true);
+
+		}
 	}
 
 

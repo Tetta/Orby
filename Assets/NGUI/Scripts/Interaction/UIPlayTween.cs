@@ -134,7 +134,6 @@ public class UIPlayTween : MonoBehaviour
 
 	void OnDisable ()
 	{
-
 #if UNITY_EDITOR
 		if (!Application.isPlaying) return;
 #endif
@@ -228,7 +227,7 @@ public class UIPlayTween : MonoBehaviour
 		if (disableWhenFinished != DisableCondition.DoNotDisable && mTweens != null)
 		{
 			bool isFinished = true;
-			//bool properDirection = true;
+			bool properDirection = true;
 
 			for (int i = 0, imax = mTweens.Length; i < imax; ++i)
 			{
@@ -242,13 +241,13 @@ public class UIPlayTween : MonoBehaviour
 				}
 				else if ((int)tw.direction != (int)disableWhenFinished)
 				{
-					//properDirection = false;
+					properDirection = false;
 				}
 			}
 
 			if (isFinished)
-			{
-				//if (properDirection) NGUITools.SetActive(tweenTarget, false);
+			{	
+				if (properDirection) NGUITools.SetActive(tweenTarget, false);
 				mTweens = null;
 			}
 		}
@@ -265,7 +264,6 @@ public class UIPlayTween : MonoBehaviour
 
 		if (!NGUITools.GetActive(go))
 		{
-
 			// If the object is disabled, don't do anything
 			if (ifDisabledOnPlay != EnableCondition.EnableThenPlay) return;
 

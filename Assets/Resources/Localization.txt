@@ -1,0 +1,11 @@
+KEY,English,Russian
+Level,Level,Уровень
+SPIDER,SPIDER,ПАУЧОК
+lsStars,"Collect stars: ", "Соберите звезд: "
+lsTime,"Beat the time", "Успейте за время"
+lsWeb,"Use web: ", "Используйте \nпаутинку: "
+lsSluggish,"Don't use sluggish", "Не используйте \nлизуна"
+lsDestroyer,"Don't use destroyer", "Не используйте \ndestroyer"
+lsYeti,"Don't use yeti", "Не используйте \nйети"
+lsGroot,"Don't use groot", "Не используйте \nгрута"
+
