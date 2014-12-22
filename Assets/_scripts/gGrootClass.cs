@@ -74,12 +74,15 @@ public class gGrootClass : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
+
 		if (grootState == "") {
+			staticClass.useGroot = true;
 			grootState = "drag";
 			line.SetActive(true);
 			gHintClass.checkHint(gameObject);
 		}		
 		if (grootState == "enable") {
+			staticClass.useGroot = true;
 			grootState = "destroying";
 			gHintClass.checkHint(gameObject);
 			gRecHintClass.recHint(transform);

@@ -41,13 +41,12 @@ public class lsLevelClass : MonoBehaviour {
 		if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) {
 
 			if (Mathf.Abs(spider.transform.position.x - cameraTransform.position.x) > maxDistance) {
-				Debug.Log(Mathf.Abs(spider.transform.position.x - cameraTransform.position.x));
-				Debug.Log(maxDistance);
 				spider.CalculatePath(transform.position, path);
+				Debug.Log("path.corners.Length: " + path.status );
 				for (int i = 1; i < path.corners.Length; i++) {
 					Vector2 v = new Vector2(10000, 10000);
-					if (spider.transform.position.x < cameraTransform.position.x) v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x - maxDistance, 6), new Vector2 (cameraTransform.position.x - maxDistance, -6));
-					else v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x + maxDistance, 6), new Vector2 (cameraTransform.position.x + maxDistance, -6));
+					if (spider.transform.position.x < cameraTransform.position.x) v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x - maxDistance, 3), new Vector2 (cameraTransform.position.x - maxDistance, -3));
+					else v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x + maxDistance, 3), new Vector2 (cameraTransform.position.x + maxDistance, -3));
 					if (v.x != 10000) {
 						Debug.Log(44);
 						spider.enabled = false;

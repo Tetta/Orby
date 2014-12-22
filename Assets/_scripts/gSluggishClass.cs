@@ -55,6 +55,7 @@ public class gSluggishClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (sluggishState == "active") {
+			staticClass.useSluggish = true;
 			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.UnlockAchievement("achievement_use_sluggish");
 
 			gRecHintClass.recHint(transform);

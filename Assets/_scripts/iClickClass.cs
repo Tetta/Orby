@@ -51,7 +51,13 @@ public class iClickClass : MonoBehaviour {
 	void loadLevel () {
 		if (name == "restart") Application.LoadLevel(Application.loadedLevel);
 		else if (name == "next") Application.LoadLevel("level menu");
-		else if (name == "play") Application.LoadLevel("level" + initClass.progress["currentLevel"]);
+		else if (name == "play 0") {
+			initLevelMenuClass.levelDemands = 0;
+			Application.LoadLevel("level" + initClass.progress["currentLevel"]);
+		} else if (name == "play 1") {
+			initLevelMenuClass.levelDemands = 1;
+			Application.LoadLevel("level" + initClass.progress["currentLevel"]);
+		}
 	}
 
 	void closeLevelMenu () {

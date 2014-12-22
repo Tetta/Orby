@@ -22,6 +22,7 @@ public class gYetiClass : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
+		staticClass.useYeti = true;
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (yetiState == "") {

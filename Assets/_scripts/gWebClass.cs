@@ -200,6 +200,7 @@ public class gWebClass : MonoBehaviour {
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (webState == "") {
+			staticClass.useWeb ++;
 			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_5_times", 1);
 
 			diff = berry.transform.position - web.transform.position;
@@ -209,6 +210,7 @@ public class gWebClass : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
+			staticClass.useWeb ++;
 			webState = "destroyingWeb";
 			globalCounter = 1;
 		}

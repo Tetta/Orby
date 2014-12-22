@@ -10,8 +10,8 @@ public class initLevelMenuClass : MonoBehaviour {
 	public UILabel stars;
 	public static UILabel goldLabel;
 	public static UILabel starsLabel;
+	public static int levelDemands = 0;
 
-	private const string INCREMENTAL_ACHIEVEMENT_ID = "CgkInJa4l7YVEAIQAA";
 	private  const string PIE_GIFT_ID = "Pie";
 	public Texture2D pieIcon;
 

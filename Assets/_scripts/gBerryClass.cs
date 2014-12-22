@@ -11,6 +11,13 @@ public class gBerryClass : MonoBehaviour {
 	private GameObject[] guiStars = new GameObject[3];
 	// Use this for initialization
 	void Start () {
+		staticClass.useWeb = 0;
+		staticClass.timer = 0;
+		staticClass.useSluggish = false;
+		staticClass.useDestroyer = false;
+		staticClass.useYeti = false;
+		staticClass.useGroot = false;
+
 		starsCounter = 0;
 		berryState = "";
 		GameObject gui = GameObject.Find("gui");
@@ -48,13 +55,14 @@ public class gBerryClass : MonoBehaviour {
 			if (initClass.progress.Count == 0) initClass.getProgress();
 
 			//initClass.progress["stars"] = 3;
+			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
+				GooglePlayManager.instance.SubmitScore ("leaderboard_test_leaderboard", initClass.progress["stars"]);
+				if (Application.loadedLevelName == "level1") GooglePlayManager.instance.UnlockAchievement("achievement_complete_first_level");
+			}
+
 			if (starsCounter > initClass.progress[Application.loadedLevelName]) {
 				initClass.progress["stars"] += starsCounter - Convert.ToInt32(initClass.progress[Application.loadedLevelName]);
 
-				if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
-					GooglePlayManager.instance.SubmitScore ("leaderboard_test_leaderboard", initClass.progress["stars"]);
-					if (Application.loadedLevelName == "level1") GooglePlayManager.instance.UnlockAchievement("achievement_complete_first_level");
-				}
 				initClass.progress[Application.loadedLevelName] = starsCounter;
 			}
 			if (Convert.ToInt32(Application.loadedLevelName.Substring(5)) >= initClass.progress["lastLevel"]) initClass.progress["lastLevel"] = Convert.ToInt32(Application.loadedLevelName.Substring(5));

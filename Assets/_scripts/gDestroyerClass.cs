@@ -21,7 +21,7 @@ public class gDestroyerClass : MonoBehaviour {
 
 		}
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		//if (destroyerState == "fly" && !divider.activeSelf) destroyerState = "";
@@ -52,6 +52,7 @@ public class gDestroyerClass : MonoBehaviour {
 
 	void OnMouseUp() {
 		if (destroyerState == "active") {
+			staticClass.useDestroyer = true;
 			gRecHintClass.recHint(transform);
 			rigidbody2D.isKinematic = false;
 			CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
