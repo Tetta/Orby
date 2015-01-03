@@ -17,6 +17,8 @@ public class gSluggishClass : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collisionObject) {
 		if (collisionObject.gameObject.name == "berry" && sluggishState == "") {
+			//tutorial
+			gHandClass.addHand();
 			berry.rigidbody2D.isKinematic = true;
 			berry.transform.position = new Vector2(transform.position.x, transform.position.y);
 			sluggishState = "collision";
@@ -31,6 +33,8 @@ public class gSluggishClass : MonoBehaviour {
 
 	void OnMouseDown() {
 		if (sluggishState == "collision") {
+			//tutorial
+			gHandClass.delHand();
 
 			sluggishState = "active";
 			line.SetActive(true);

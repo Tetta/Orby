@@ -38,6 +38,7 @@ public class gBerryClass : MonoBehaviour {
 				guiTimer.enabled = true;
 			}
 		}
+
 	}
 	
 	// Update is called once per frame
@@ -64,6 +65,9 @@ public class gBerryClass : MonoBehaviour {
 	//void OnTriggerEnter2D(Collider2D collisionObject) {
 	void OnCollisionEnter2D (Collision2D collisionObject) {
 		if (collisionObject.gameObject.name == "spider") {
+			//tutorial
+			gHandClass.delHand();
+
 			if (initClass.progress.Count == 0) initClass.getProgress();
 			rigidbody2D.isKinematic = true;
 			collisionObject.gameObject.rigidbody2D.isKinematic = true;

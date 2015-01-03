@@ -10,7 +10,6 @@ Assets/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/GooPlayer.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/FerrlibLogoSmall.prefab
 Assets/Ferr/2DTerrain/Examples/Assets/Tumbleweed.prefab
-Assets/_prefabs/gui.prefab
 Assets/_prefabs/back white.prefab
 Assets/_prefabs/back forest.prefab
 Assets/_prefabs/terrain.prefab
@@ -123,7 +122,6 @@ Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Font - Normal.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
 Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
-Assets/_prefabs/Window.prefab
 Assets/_prefabs/level 1.prefab
 Assets/_atlases/my_atlas.prefab
 Assets/_fonts/1.prefab
@@ -156,6 +154,8 @@ Assets/zExample Games/Hat Trick - The Catch Game/Prefabs/Explosion.prefab
 Assets/zExample Games/Angry Birds Style/Prefabs/PlankSprite.prefab
 Assets/zExample Games/2D Scrolling Shooter/Prefabs/Wave 3.prefab
 Assets/zExample Games/2D Scrolling Shooter/Prefabs/EnemyBullet.prefab
+Assets/_prefabs/default level.prefab
+Assets/_prefabs/Main Camera.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
@@ -226,7 +226,6 @@ Assets/z2D Physics Puzzle Kit/Prefabs/C#/Normal/RcController.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/star.prefab
 Assets/_prefabs/destroyer.prefab
-Assets/_prefabs/gui.prefab
 Assets/_prefabs/back rock.prefab
 Assets/_prefabs/back ice.prefab
 Assets/_materials/terrain rock.prefab
@@ -281,7 +280,6 @@ Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Font - Normal.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
 Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
-Assets/_prefabs/Window.prefab
 Assets/_prefabs/level 1.prefab
 Assets/_atlases/my_atlas.prefab
 Assets/_fonts/1.prefab
@@ -314,3 +312,5 @@ Assets/zExample Games/Hat Trick - The Catch Game/Prefabs/Explosion.prefab
 Assets/zExample Games/Angry Birds Style/Prefabs/PlankSprite.prefab
 Assets/zExample Games/2D Scrolling Shooter/Prefabs/Wave 3.prefab
 Assets/zExample Games/2D Scrolling Shooter/Prefabs/EnemyBullet.prefab
+Assets/_prefabs/default level.prefab
+Assets/_prefabs/Main Camera.prefab

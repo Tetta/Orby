@@ -14,6 +14,9 @@ public class gCloudClass : MonoBehaviour {
 	}
 
 	void OnMouseUp () {
+		//tutorial
+		gHandClass.delHand();
+
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		gameObject.SetActive(false);

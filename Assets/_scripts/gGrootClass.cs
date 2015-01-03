@@ -76,6 +76,9 @@ public class gGrootClass : MonoBehaviour {
 	void OnMouseDown() {
 
 		if (grootState == "") {
+			//tutorial
+			gHandClass.delHand();
+
 			staticClass.useGroot = true;
 			grootState = "drag";
 			line.SetActive(true);

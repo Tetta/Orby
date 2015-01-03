@@ -32,6 +32,9 @@ public class gDestroyerClass : MonoBehaviour {
 
 	void OnMouseDown() {
 		if (destroyerState == "") {
+			//tutorial
+			gHandClass.delHand();
+
 			destroyerState = "active";
 			gHintClass.checkHint(gameObject);
 		}
@@ -39,7 +42,7 @@ public class gDestroyerClass : MonoBehaviour {
 	}
 	void OnMouseDrag() {
 		if (destroyerState == "active") {
-			//Debug.Log ("OnMouseDrag");
+
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
 
 			Vector3 relative = transform.InverseTransformPoint(mousePosition);
