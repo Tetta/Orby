@@ -13,6 +13,8 @@ public class lsSpiderClass : MonoBehaviour {
 	public GameObject yeti;
 	public GameObject groot;
 	public GameObject cameraUI;
+	public UISprite medal1;
+	public UISprite medal2;
 
 	private string spiderState = "";
 	private NavMeshAgent spiderAgent;
@@ -68,7 +70,13 @@ public class lsSpiderClass : MonoBehaviour {
 		for (int i = 1; i <= 3; i++) {
 			stars.transform.GetChild(i - 1).GetComponent<UISprite>().color = new Color(0, 0, 0, 1);
 		}
+		medal1.color = new Color(1, 1, 1, 1);
+		medal2.color = new Color(1, 1, 1, 1);
 		//
+
+		int levelProgress = initClass.progress["level" + initClass.progress["currentLevel"]];
+		if (levelProgress == 0 || levelProgress == 2) medal1.color = new Color32(100, 100, 100, 255);
+		if (levelProgress == 0 || levelProgress == 1) medal2.color = new Color32(100, 100, 100, 255);
 
 		titleNumberLevel.text = initClass.progress["currentLevel"].ToString();
 		stars.transform.localPosition = new Vector3(stars.transform.localPosition.x, 117, stars.transform.localPosition.z);

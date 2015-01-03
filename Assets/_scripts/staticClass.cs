@@ -20,12 +20,14 @@ public class staticClass {
 
 	//public static List<level> levels = new List<level>();
 	public static int[,] levels = new int[101, 2];
+	public static int[] levelBlocks = new int[101];
 
 	public static void initLevels () {
-		levels[1, 0] = 2;
-		levels[1, 1] = 1;
+		levels[1, 0] = 3;
+		levels[1, 1] = 10;
 		levels[2, 0] = 2;
 		levels[2, 1] = 100;
+		levelBlocks[5] = 3;
 
 	}
 

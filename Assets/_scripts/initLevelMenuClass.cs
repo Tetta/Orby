@@ -7,9 +7,9 @@ using System.Collections.Generic;
 public class initLevelMenuClass : MonoBehaviour {
 
 	public UILabel gold;
-	public UILabel stars;
+	public UILabel medals;
 	public static UILabel goldLabel;
-	public static UILabel starsLabel;
+	public static UILabel medalsLabel;
 	public static int levelDemands = 0;
 
 	private  const string PIE_GIFT_ID = "Pie";
@@ -21,10 +21,10 @@ public class initLevelMenuClass : MonoBehaviour {
 		staticClass.initLevels();
 		//temp
 		goldLabel = gold;
-		starsLabel = stars;
+		medalsLabel = medals;
 		if (initClass.progress.Count == 0) initClass.getProgress();
 		goldLabel.text = initClass.progress["gold"].ToString();
-		starsLabel.text = initClass.progress["stars"].ToString();
+		medalsLabel.text = initClass.progress["medals"].ToString();
 
 		//NGUIDebug.Log("level menu startttt");
 		//GooglePlayManager.instance.addEventListener (GooglePlayManager.SEND_GIFT_RESULT_RECEIVED, OnGiftResult);

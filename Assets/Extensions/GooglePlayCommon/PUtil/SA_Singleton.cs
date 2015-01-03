@@ -32,6 +32,7 @@ public abstract class SA_Singleton<T> : EventDispatcher where T : MonoBehaviour 
 				if (_instance == null) {
 					_instance = new GameObject ().AddComponent<T> ();
 					_instance.gameObject.name = _instance.GetType ().Name;
+
 				}
 			}
 

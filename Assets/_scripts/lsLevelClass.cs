@@ -5,7 +5,7 @@ public class lsLevelClass : MonoBehaviour {
 
 	public NavMeshAgent spider;
 	public Transform cameraTransform;
-	public GameObject[] stars;
+	public SpriteRenderer[] medals;
 	public int prevLevel = 0;
 
 	private NavMeshPath path;
@@ -20,11 +20,10 @@ public class lsLevelClass : MonoBehaviour {
 		if (initClass.progress.Count == 0) initClass.getProgress();
 		int levelProgress = initClass.progress["level" + level];
 		int lastLevel = initClass.progress["lastLevel"];
-		if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) GetComponent<SpriteRenderer>().color = Color.white;
+		if (((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) && staticClass.levelBlocks[level] <= initClass.progress["medals"]) GetComponent<SpriteRenderer>().color = Color.white;
 
-		for (int i = levelProgress; i <= 2; i++) {
-			stars[i].SetActive(false);
-		}
+		if (levelProgress == 0 || levelProgress == 2) medals[0].color = new Color32(100, 100, 100, 255);
+		if (levelProgress == 0 || levelProgress == 1) medals[1].color = new Color32(100, 100, 100, 255);
 	}
 	
 	// Update is called once per frame
