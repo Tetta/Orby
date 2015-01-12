@@ -17,8 +17,7 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 	
 
 	private static bool IsUserInfoLoaded = false;
-
-	private static bool IsAuntifivated = false;
+	private static bool IsAuthenticated = false;
 
 	public Texture2D ImageToShare;
 	public DefaultPreviewButton connectButton;
@@ -56,7 +55,7 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if(IsAuntifivated) {
+		if(IsAuthenticated) {
 			connectButton.text = "Disconnect";
 			Name.text = "Player Connected";
 			foreach(DefaultPreviewButton button in AuthDependedButtons) {
@@ -91,7 +90,7 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 	}
 
 	private void Connect() {
-		if(!IsAuntifivated) {
+		if(!IsAuthenticated) {
 			AndroidTwitterManager.instance.AuthenticateUser();
 		} else {
 			LogOut();
@@ -168,9 +167,9 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 
 	void OnPostingCompleteAction (TWResult result) {
 		if(result.IsSucceeded) {
-			Debug.Log("Congrats, you just posted something to twitter");
+			Debug.Log("Congrats. You just posted something to Twitter!");
 		} else {
-			Debug.Log("Oops, post failed, something was wrong");
+			Debug.Log("Oops! Posting failed. Something went wrong.");
 		}
 	}
 
@@ -190,7 +189,7 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 	}
 
 	private void OnAuth() {
-		IsAuntifivated = true;
+		IsAuthenticated = true;
 	}
 
 
@@ -344,7 +343,7 @@ public class TwitterAndroidUseExample : MonoBehaviour {
 	private void LogOut() {
 		IsUserInfoLoaded = false;
 		
-		IsAuntifivated = false;
+		IsAuthenticated = false;
 
 		AndroidTwitterManager.instance.LogOut();
 	}

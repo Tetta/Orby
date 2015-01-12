@@ -50,7 +50,7 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 
 		
-		playerLabel.text = "Player Diconnected";
+		playerLabel.text = "Player Disconnected";
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 
 		foreach(CustomLeaderboardFiledsHolder line in lines) {
@@ -303,7 +303,6 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 	}
 
 
-
 	private void SubmitScore() {
 		GooglePlayManager.instance.SubmitScoreById(LEADERBOARD_ID, score);
 		SA_StatusBar.text = "Submitiong score: " + (score +1).ToString();
@@ -312,8 +311,8 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 
 	private void OnPlayerDisconnected() {
-		SA_StatusBar.text = "Player Diconnected";
-		playerLabel.text = "Player Diconnected";
+		SA_StatusBar.text = "Player Disconnected";
+		playerLabel.text = "Player Disconnected";
 
 	}
 	

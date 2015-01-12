@@ -32,7 +32,11 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 	//--------------------------------------
 
 	public void LocadAppLaunchNotificationId() {
-		AndroidNative.requestCurrentAppLaunchNotificationId();
+		AN_NotificationProxy.requestCurrentAppLaunchNotificationId();
+	}
+
+	public void HideAllNotifications() {
+		AN_NotificationProxy.HideAllNotifications ();
 	}
 	
 	public void ShowToastNotification(string text) {
@@ -40,29 +44,28 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 	}
 	
 	public void ShowToastNotification(string text, int duration) {
-		AndroidNative.ShowToastNotification (text, duration);
+		AN_NotificationProxy.ShowToastNotification (text, duration);
 	}
 
 	public int ScheduleLocalNotification(string title, string message, int seconds) {
-
-		int id = GetNextId;
-		AndroidNative.ScheduleLocalNotification(title, message, seconds, id);
-
-
-		LocalNotificationTemplate notification =  new LocalNotificationTemplate(id, title, message, DateTime.Now.AddSeconds(seconds));
-
-		List<LocalNotificationTemplate> scheduled = LoadPendingNotifications();
-		scheduled.Add(notification);
-
-		SaveNotifications(scheduled);
-
-		return id;
-
+		AndroidNotificationBuilder builder = new AndroidNotificationBuilder (GetNextId, title, message, seconds);
+		return ScheduleLocalNotification (builder);
 	}
 
+	public int ScheduleLocalNotification(AndroidNotificationBuilder builder) {
+		AN_NotificationProxy.ScheduleLocalNotification(builder);
+		
+		LocalNotificationTemplate notification =  new LocalNotificationTemplate(builder.Id, builder.Title, builder.Message, DateTime.Now.AddSeconds(builder.Time));
+		List<LocalNotificationTemplate> scheduled = LoadPendingNotifications();
+		scheduled.Add(notification);
+		
+		SaveNotifications(scheduled);
+		
+		return builder.Id;
+	}
 
 	public void CancelLocalNotification(int id, bool clearFromPrefs = true) {
-		AndroidNative.CanselLocalNotification(id);
+		AN_NotificationProxy.CanselLocalNotification(id);
 
 		if(clearFromPrefs) {
 			List<LocalNotificationTemplate> scheduled = LoadPendingNotifications();
@@ -145,7 +148,7 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 	}
 
 
-	public  List<LocalNotificationTemplate> LoadPendingNotifications() {
+	public  List<LocalNotificationTemplate> LoadPendingNotifications(bool includeAll = false) {
 
 		string data = string.Empty;
 		if(PlayerPrefs.HasKey(PP_KEY)) {
@@ -160,7 +163,7 @@ public class AndroidNotificationManager : SA_Singleton<AndroidNotificationManage
 				String templateData = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(n) );
 			
 				LocalNotificationTemplate notification = new LocalNotificationTemplate(templateData);
-				if(!notification.IsFired) {
+				if(!notification.IsFired|| includeAll) {
 					tpls.Add(notification);
 				}
 			}

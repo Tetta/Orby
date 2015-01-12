@@ -23,7 +23,7 @@ public abstract class SA_Singleton<T> : EventDispatcher where T : MonoBehaviour 
 
 		get {
 			if(applicationIsQuitting) {
-				Debug.Log(typeof(T) + " [Mog.Singleton] is already destroyed. Returning null. Please check HasInstance first before accessing instance in destructor.");
+				//Debug.Log(typeof(T) + " [Mog.Singleton] is already destroyed. Returning null. Please check HasInstance first before accessing instance in destructor.");
 				return null;
 			}
 
@@ -32,7 +32,6 @@ public abstract class SA_Singleton<T> : EventDispatcher where T : MonoBehaviour 
 				if (_instance == null) {
 					_instance = new GameObject ().AddComponent<T> ();
 					_instance.gameObject.name = _instance.GetType ().Name;
-
 				}
 			}
 
@@ -72,14 +71,13 @@ public abstract class SA_Singleton<T> : EventDispatcher where T : MonoBehaviour 
 		base.OnDestroy();
 		_instance = null;
 		applicationIsQuitting = true;
-		Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnDestroy event");
+		//Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnDestroy event");
 	}
 	
 	protected virtual void OnApplicationQuit () {
-		Debug.Log("OnApplicationQuit");
 		_instance = null;
 		applicationIsQuitting = true;
-		Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnApplicationQuit event");
+		//Debug.Log(typeof(T) + " [Mog.Singleton] instance destroyed with the OnApplicationQuit event");
 	}
 
 }

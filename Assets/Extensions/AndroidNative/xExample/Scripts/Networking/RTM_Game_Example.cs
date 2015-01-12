@@ -29,7 +29,7 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 
 	void Start() {
 		
-		playerLabel.text = "Player Diconnected";
+		playerLabel.text = "Player Disconnected";
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 		
 		//listen for GooglePlayConnection events
@@ -188,8 +188,8 @@ public class RTM_Game_Example : AndroidNativeExampleBase {
 	}
 
 	private void OnPlayerDisconnected() {
-		SA_StatusBar.text = "Player Diconnected";
-		playerLabel.text = "Player Diconnected";
+		SA_StatusBar.text = "Player Disconnected";
+		playerLabel.text = "Player Disconnected";
 	}
 	
 	private void OnPlayerConnected() {

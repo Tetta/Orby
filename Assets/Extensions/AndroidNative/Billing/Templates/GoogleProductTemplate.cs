@@ -16,4 +16,5 @@ public class GoogleProductTemplate  {
 	public string description;
 	public string priceAmountMicros;
 	public string priceCurrencyCode;
+	public string originalJson;
 }

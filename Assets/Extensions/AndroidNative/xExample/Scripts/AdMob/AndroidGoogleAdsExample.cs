@@ -56,7 +56,7 @@ public class AndroidGoogleAdsExample : MonoBehaviour {
 
 		AndroidAdMobController.instance.Init(MY_BANNERS_AD_UNIT_ID);
 
-		//I whant to use Interstisial ad also, so I have to set additional id for it
+		//If yoi whant to use Interstisial ad also, you need to set additional ad unin id for Interstisial as well
 		AndroidAdMobController.instance.SetInterstisialsUnitID(MY_INTERSTISIALS_AD_UNIT_ID);
 
 		

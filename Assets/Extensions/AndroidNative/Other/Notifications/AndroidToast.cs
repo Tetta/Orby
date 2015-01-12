@@ -27,7 +27,7 @@ public class AndroidToast  {
 	}
 
 	public static void ShowToastNotification(string text, int duration) {
-		AndroidNative.ShowToastNotification (text, duration);
+		AN_NotificationProxy.ShowToastNotification (text, duration);
 	}
 	
 	//--------------------------------------

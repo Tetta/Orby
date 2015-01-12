@@ -29,7 +29,7 @@ public class QuestAndEventsExample : MonoBehaviour {
 
 	void Start() {
 		
-		playerLabel.text = "Player Diconnected";
+		playerLabel.text = "Player Disconnected";
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 		
 		//listen for GooglePlayConnection events
@@ -191,8 +191,8 @@ public class QuestAndEventsExample : MonoBehaviour {
 	}
 	
 	private void OnPlayerDisconnected() {
-		SA_StatusBar.text = "Player Diconnected";
-		playerLabel.text = "Player Diconnected";
+		SA_StatusBar.text = "Player Disconnected";
+		playerLabel.text = "Player Disconnected";
 	}
 	
 	private void OnPlayerConnected() {

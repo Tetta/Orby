@@ -9,8 +9,8 @@ using UnityEditor;
 
 public class SocialPlatfromSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "4.1";
-	public const string FB_SDK_VERSION_NUMBER = "6.0.0";
+	public const string VERSION_NUMBER = "4.2";
+	public const string FB_SDK_VERSION_NUMBER = "6.1.0";
 
 	public bool showPermitions = true;
 	public bool ShowActions = true;

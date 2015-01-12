@@ -53,6 +53,12 @@ public class AndroidNativeUtility : SA_Singleton<AndroidNativeUtility> {
 	}
 
 
+
+	public static void HideCurrentPopup() {
+		AN_PoupsProxy.HideCurrentPopup();
+	}
+
+
 	//--------------------------------------
 	// Events
 	//--------------------------------------

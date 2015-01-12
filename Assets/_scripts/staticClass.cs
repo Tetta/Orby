@@ -22,6 +22,9 @@ public class staticClass {
 	public static int[,] levels = new int[101, 2];
 	public static int[] levelBlocks = new int[101];
 
+	void Update () {
+	}
+
 	public static void initLevels () {
 		levels[1, 0] = 3;
 		levels[1, 1] = 10;

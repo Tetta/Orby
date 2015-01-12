@@ -197,6 +197,7 @@ public class gWebClass : MonoBehaviour {
 	}
 	
 	void OnMouseDown () {
+		GetComponent<Animator>().Play("web");
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (webState == "") {

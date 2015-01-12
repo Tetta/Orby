@@ -1,3 +1,31 @@
+5.2:
+Billing:
+time and originalJson properties of GooglePurchaseTemplate not available after inventory retrieved 
+GoogleProductTemplate - originalJson property added
+
+More spelling fixes
+
+Following API now does not requires main activity 
+Local notifications
+Push notifications
+Native Sharing
+
+New Features:
+Push Notifications, icon, sound and vibration settings added
+Read More: 
+https://unionassets.com/android-native-plugin/local-notifications-90
+
+Local Notifications icon, sound and vibration settings added
+Read More: 
+https://unionassets.com/android-native-plugin/push-notifications-169
+
+Advertising Id Retrieval
+Read more:
+https://unionassets.com/android-native-plugin/google-play-utilities-273#advertising-id-retrieval
+
+Facebook SDK updated to v 6.1 beta
+
+
 5.1:
 
 New Features:

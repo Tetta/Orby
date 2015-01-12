@@ -14,7 +14,7 @@ public class AndroidSocialGate  {
 
 
 	public static void StartShareIntentWithSubject(string caption, string message, string subject, string packageNamePattern = "") {
-		AndroidNative.StartShareIntent(caption, message, subject, packageNamePattern);
+		AN_SocialSharingProxy.StartShareIntent(caption, message, subject, packageNamePattern);
 	}
 
 
@@ -23,7 +23,7 @@ public class AndroidSocialGate  {
 		byte[] val = texture.EncodeToPNG();
 		string bytesString = System.Convert.ToBase64String (val);
 
-		AndroidNative.StartShareIntent(caption, message, subject, bytesString, packageNamePattern);
+		AN_SocialSharingProxy.StartShareIntent(caption, message, subject, bytesString, packageNamePattern);
 	}
 
 
@@ -34,9 +34,9 @@ public class AndroidSocialGate  {
 		if(texture != null) {
 			byte[] val = texture.EncodeToPNG();
 			string mdeia = System.Convert.ToBase64String (val);
-			AndroidNative.SendMailWithImage(caption, message, subject, recipients, mdeia);
+			AN_SocialSharingProxy.SendMailWithImage(caption, message, subject, recipients, mdeia);
 		} else {
-			AndroidNative.SendMail(caption, message, subject, recipients);
+			AN_SocialSharingProxy.SendMail(caption, message, subject, recipients);
 		}
 
 		

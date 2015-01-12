@@ -13,6 +13,12 @@ public class gBerryClass : MonoBehaviour {
 	private GameObject spider;
 	// Use this for initialization
 	void Start () {
+		//energy
+		if (lsEnergyClass.checkEnergy(false) == 0) {
+			lsEnergyClass.energyMenuState = "energy";
+			Application.LoadLevel("level menu");
+		}
+
 		staticClass.useWeb = 0;
 		staticClass.timer = 0;
 		staticClass.useSluggish = false;
@@ -38,6 +44,7 @@ public class gBerryClass : MonoBehaviour {
 				guiTimer.enabled = true;
 			}
 		}
+		
 
 	}
 	

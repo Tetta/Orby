@@ -42,19 +42,6 @@ public class AndroidNative {
 	public static void loadState(int stateKey)  {
 		CallActivityFunction("loadState", stateKey.ToString());
 	}
-	
-
-	// --------------------------------------
-	// Google Cloud Message
-	// --------------------------------------
-	
-	public static void GCMRgisterDevice(string senderId) {
-		CallActivityFunction("GCMRgisterDevice", senderId);
-	}
-
-	public static void GCMLoadLastMessage() {
-		CallActivityFunction("GCMLoadLastMessage");
-	}
 
 	//--------------------------------------
 	// Billing
@@ -167,30 +154,7 @@ public class AndroidNative {
 	public static void EnableAdvertisingIdCollection(string mode) {
 		CallActivityFunction("enableAdvertisingIdCollection", mode);
 	}
-	
 
-
-	// --------------------------------------
-	// Social
-	// --------------------------------------
-
-
-	public static void StartShareIntent(string caption, string message,  string subject, string filters) {
-		CallActivityFunction("StartShareIntent", caption, message, subject, filters);
-	}
-
-	public static void StartShareIntent(string caption, string message, string subject, string media, string filters) {
-		CallActivityFunction("StartShareIntentMedia", caption, message, subject, media, filters);
-	}
-
-	public static void SendMailWithImage(string caption, string message,  string subject, string email, string media) {
-		CallActivityFunction("SendMailWithImage", caption, message, subject, email, media);
-	}
-	
-
-	public static void SendMail(string caption, string message,  string subject, string email) {
-		CallActivityFunction("SendMail", caption, message, subject, email);
-	}
 
 	// --------------------------------------
 	// Twitter
@@ -248,25 +212,6 @@ public class AndroidNative {
 	public static void revokeAccessAndDisconnect() {
 		CallActivityFunction("revokeAccessAndDisconnect");
 	}
-	
-
-	public static void ShowToastNotification(string text, int duration) {
-		CallActivityFunction("ShowToastNotification", text, duration.ToString());
-	}
-
-	public static void requestCurrentAppLaunchNotificationId() { 
-		CallActivityFunction("requestCurrentAppLaunchNotificationId");
-	}
-
-
-	public static void ScheduleLocalNotification(string title, string message, int seconds, int id) {
-		CallActivityFunction("ScheduleLocalNotification", title, message, seconds.ToString(), id.ToString());
-	}
-
-	public static void CanselLocalNotification(int id) {
-		CallActivityFunction("canselLocalNotification", id.ToString());
-	}
-
 
 	public static void InitCameraAPI(string folderName, int maxSize, int mode) {
 		CallActivityFunction("InitCameraAPI", folderName, maxSize.ToString(), mode.ToString());

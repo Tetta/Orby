@@ -51,5 +51,12 @@ public class AN_PoupsProxy  {
 		CallActivityFunction("HidePreloader");
 	}
 
+	public static void HideCurrentPopup() {
+		CallActivityFunction("HideCurrentPopup");
+	}
+
+
+
+
 
 }

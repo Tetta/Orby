@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -288,6 +289,7 @@ public class AndroidNativeSettingsEditor : Editor {
 					FileStaticAPI.DeleteFolder("Extensions/GooglePlayCommon/Social/Facebook");
 					FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAndroidUseExample.cs");
 					FileStaticAPI.DeleteFile("Extensions/AndroidNative/xExample/Scripts/Social/FacebookAnalyticsExample.cs");
+					FileStaticAPI.CopyFile("Extensions/StansAssetsCommon/SA_FB_PlaceHolder.txt", "Extensions/StansAssetsCommon/SA_FB_PlaceHolder.cs");
 				}
 
 			}
@@ -703,6 +705,9 @@ public class AndroidNativeSettingsEditor : Editor {
 		AN_PropertyTemplate games_version = application.GetOrCreatePropertyWithName("meta-data",  "com.google.android.gms.version");
 		if(AndroidNativeSettings.Instance.EnablePSAPI) {
 			games_version.SetValue("android:value", "@integer/google_play_services_version");
+
+			AN_PropertyTemplate property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.version");
+			property.SetValue("android:value", AndroidNativeSettings.GOOGLE_PLAY_SDK_VERSION_NUMBER);
 		} else {
 			application.RemoveProperty(games_version);
 		}
@@ -717,8 +722,11 @@ public class AndroidNativeSettingsEditor : Editor {
 			application.RemoveProperty(games_APP_ID);
 		} else {
 			games_APP_ID.SetValue("android:value", "@string/app_id");
+						
+			AN_PropertyTemplate property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.games.APP_ID");
+			property.SetValue("android:value", "\\ " + AndroidNativeSettings.Instance.GooglePlayServiceAppID);
 		}
-
+		
 		////////////////////////
 		//GoogleCloudSaveAPI
 		////////////////////////
@@ -726,6 +734,10 @@ public class AndroidNativeSettingsEditor : Editor {
 		AN_PropertyTemplate appstate_APP_ID = application.GetOrCreatePropertyWithName("meta-data",  "com.google.android.gms.appstate.APP_ID");
 		if(AndroidNativeSettings.Instance.GoogleCloudSaveAPI) {
 			appstate_APP_ID.SetValue("android:value", "@string/app_id");
+
+			AN_PropertyTemplate property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.appstate.APP_ID");
+			property.SetValue("android:value", "\\ " + AndroidNativeSettings.Instance.GooglePlayServiceAppID);
+
 			AndroidNativeSettings.Instance.EnableAppStateAPI = true;
 		} else {
 			AndroidNativeSettings.Instance.EnableAppStateAPI = false;
@@ -748,7 +760,7 @@ public class AndroidNativeSettingsEditor : Editor {
 		UpdateId++;
 		AN_PropertyTemplate GcmBroadcastReceiver = application.GetOrCreatePropertyWithName("receiver",  "com.androidnative.gcm.GcmBroadcastReceiver");
 		AN_PropertyTemplate GcmIntentService = application.GetOrCreatePropertyWithName("service",  "com.androidnative.gcm.GcmIntentService");
-		AN_PropertyTemplate permission_C2D_MESSAGE = Manifest.GetOrCreatePropertyWithName("permission", "com.example.gcm.permission.C2D_MESSAGE");
+		AN_PropertyTemplate permission_C2D_MESSAGE = Manifest.GetOrCreatePropertyWithName("permission", PlayerSettings.bundleIdentifier + ".permission.C2D_MESSAGE");
 		
 		if(AndroidNativeSettings.Instance.PushNotificationsAPI) {
 			GcmBroadcastReceiver.SetValue("android:permission", "com.google.android.c2dm.permission.SEND");
@@ -778,7 +790,12 @@ public class AndroidNativeSettingsEditor : Editor {
 		if(AndroidNativeSettings.Instance.GoogleMobileAdAPI) {
 			if(launcherActivity != null) {
 				AN_PropertyTemplate ForwardNativeEventsToDalvik = launcherActivity.GetOrCreatePropertyWithName("meta-data",  "unityplayer.ForwardNativeEventsToDalvik");
+
+#if !(UNITY_4_0	|| UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6)
+				ForwardNativeEventsToDalvik.SetValue("android:value", "false");
+#else
 				ForwardNativeEventsToDalvik.SetValue("android:value", "true");
+#endif
 			}
 
 			AdActivity.SetValue("android:configChanges", "keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize");
@@ -887,9 +904,15 @@ public class AndroidNativeSettingsEditor : Editor {
 
 		if(AndroidNativeSettings.Instance.PushNotificationsAPI) {
 			permissions.Add("com.google.android.c2dm.permission.RECEIVE");
-			permissions.Add("com.example.gcm.permission.C2D_MESSAGE");
+			permissions.Add(PlayerSettings.bundleIdentifier + ".permission.C2D_MESSAGE");
 			permissions.Add("android.permission.WAKE_LOCK");
 		}
+
+		if(AndroidNativeSettings.Instance.LocalNotificationsAPI || AndroidNativeSettings.Instance.PushNotificationsAPI) {
+			permissions.Add("android.permission.VIBRATE");
+		}
+
+
 
 		if(SocialPlatfromSettings.Instance.InstagramAPI || SocialPlatfromSettings.Instance.NativeSharingAPI || AndroidNativeSettings.Instance.GalleryAPI || AndroidNativeSettings.Instance.CameraAPI) {
 			permissions.Add("android.permission.WRITE_EXTERNAL_STORAGE");
@@ -906,12 +929,47 @@ public class AndroidNativeSettingsEditor : Editor {
 		return permissions;
 	}
 
+	private bool IsDigitsOnly(string str) {
+		foreach (char c in str) {
+			if (!char.IsDigit(c)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	private void PlayServiceSettings() {
 		EditorGUILayout.HelpBox("Google API Settings", MessageType.None);
 		AndroidNativeSettings.Instance.ShowPSSettings = EditorGUILayout.Foldout(AndroidNativeSettings.Instance.ShowPSSettings, "PlayService Settings");
 		if(AndroidNativeSettings.Instance.ShowPSSettings) {
 
+			EditorGUI.BeginChangeCheck();
+			string googlePlayServiceAppID = EditorGUILayout.TextField("App ID:", AndroidNativeSettings.Instance.GooglePlayServiceAppID);
+			if (EditorGUI.EndChangeCheck()) {
+				if (googlePlayServiceAppID.Equals(string.Empty) || !IsDigitsOnly(googlePlayServiceAppID)) {
+					EditorGUILayout.HelpBox("Provide correct Google Play Service App ID", MessageType.Warning);
+				} else {
+					AndroidNativeSettings.Instance.GooglePlayServiceAppID = googlePlayServiceAppID;
+
+					AN_ManifestManager.Refresh();
+					AN_ManifestTemplate manifest = AN_ManifestManager.GetManifest();
+					AN_ApplicationTemplate application = manifest.ApplicationTemplate;
+					
+					AN_PropertyTemplate property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.games.APP_ID");
+					property.SetValue("android:value", "\\ " + AndroidNativeSettings.Instance.GooglePlayServiceAppID);
+					property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.version");
+					property.SetValue("android:value", AndroidNativeSettings.GOOGLE_PLAY_SDK_VERSION_NUMBER);
+					property = application.GetOrCreatePropertyWithName("meta-data", "com.google.android.gms.appstate.APP_ID");
+					property.SetValue("android:value", "\\ " + AndroidNativeSettings.Instance.GooglePlayServiceAppID);
+					AN_ManifestManager.SaveManifest();
+				}
+			}
+
+			if (AndroidNativeSettings.Instance.GooglePlayServiceAppID.Equals(string.Empty)
+			    || !IsDigitsOnly(AndroidNativeSettings.Instance.GooglePlayServiceAppID)) {
+				EditorGUILayout.HelpBox("Provide correct Google Play Service App ID", MessageType.Warning);
+			}
 
 			EditorGUILayout.LabelField("API:");
 			EditorGUI.indentLevel++;
@@ -1049,6 +1107,116 @@ public class AndroidNativeSettingsEditor : Editor {
 		AndroidNativeSettings.Instance.ShowCameraAndGalleryParams = EditorGUILayout.Foldout(AndroidNativeSettings.Instance.ShowCameraAndGalleryParams, "Camera And Gallery");
 		if (AndroidNativeSettings.Instance.ShowCameraAndGalleryParams) {
 			CameraAndGalleryParams();
+		}
+
+		EditorGUILayout.Space ();
+		AndroidNativeSettings.Instance.ShowLocalNotificationParams = EditorGUILayout.Foldout (AndroidNativeSettings.Instance.ShowLocalNotificationParams, "Local Notifications");
+		if (AndroidNativeSettings.Instance.ShowLocalNotificationParams) {
+			LocalNotificationParams();
+		}
+
+		EditorGUILayout.Space ();
+		AndroidNativeSettings.Instance.ShowPushNotificationParams = EditorGUILayout.Foldout (AndroidNativeSettings.Instance.ShowPushNotificationParams, "Push Notifications");
+		if (AndroidNativeSettings.Instance.ShowPushNotificationParams) {
+			PushNotificationParams();
+		}
+	}
+
+	public static void LocalNotificationParams() {
+		EditorGUI.BeginChangeCheck ();
+		AndroidNativeSettings.Instance.EnableVibrationLocal = EditorGUILayout.Toggle ("Enable Vibration", AndroidNativeSettings.Instance.EnableVibrationLocal);
+
+		Texture2D icon = (Texture2D)EditorGUILayout.ObjectField ("Local Notification Icon", AndroidNativeSettings.Instance.LocalNotificationIcon, typeof(Texture2D), false);
+		if (EditorGUI.EndChangeCheck ()) {
+			if (AndroidNativeSettings.Instance.LocalNotificationIcon != null) {
+				string path = AssetDatabase.GetAssetPath(AndroidNativeSettings.Instance.LocalNotificationIcon);
+				if (AndroidNativeSettings.Instance.PushNotificationIcon != null) {
+					if (!AndroidNativeSettings.Instance.PushNotificationIcon.name.Equals(AndroidNativeSettings.Instance.LocalNotificationIcon.name)) {
+						FileStaticAPI.DeleteFile("Plugins/Android/res/drawable/" + AndroidNativeSettings.Instance.LocalNotificationIcon.name.ToLower() + Path.GetExtension(path));
+					}
+				} else {
+					FileStaticAPI.DeleteFile("Plugins/Android/res/drawable/" + AndroidNativeSettings.Instance.LocalNotificationIcon.name.ToLower() + Path.GetExtension(path));
+				}
+			}
+			
+			if (icon != null) {
+				string path = AssetDatabase.GetAssetPath(icon);
+				FileStaticAPI.CopyFile(path.Substring(path.IndexOf("/"), path.Length - path.IndexOf("/")),
+				                       "Plugins/Android/res/drawable/" + icon.name.ToLower() + Path.GetExtension(path));
+			}
+			AndroidNativeSettings.Instance.LocalNotificationIcon = icon;
+		}
+		
+		EditorGUILayout.Space ();
+		EditorGUI.BeginChangeCheck ();
+		AudioClip sound = (AudioClip)EditorGUILayout.ObjectField ("Local Notification Sound", AndroidNativeSettings.Instance.LocalNotificationSound, typeof(AudioClip), false);
+		if (EditorGUI.EndChangeCheck ()) {
+			if (AndroidNativeSettings.Instance.LocalNotificationSound != null) {
+				string path = AssetDatabase.GetAssetPath(AndroidNativeSettings.Instance.LocalNotificationSound);
+				if (AndroidNativeSettings.Instance.PushNotificationSound != null) {
+					if (!AndroidNativeSettings.Instance.PushNotificationSound.name.Equals(AndroidNativeSettings.Instance.LocalNotificationSound.name)) {
+						FileStaticAPI.DeleteFile("Plugins/Android/res/raw/" + AndroidNativeSettings.Instance.LocalNotificationSound.name.ToLower() + Path.GetExtension(path));
+					}
+				} else {
+					FileStaticAPI.DeleteFile("Plugins/Android/res/raw/" + AndroidNativeSettings.Instance.LocalNotificationSound.name.ToLower() + Path.GetExtension(path));
+				}
+			}
+			
+			if (sound != null) {
+				string path = AssetDatabase.GetAssetPath(sound);
+				FileStaticAPI.CopyFile(path.Substring(path.IndexOf("/"), path.Length - path.IndexOf("/")),
+				                       "Plugins/Android/res/raw/" + sound.name.ToLower() + Path.GetExtension(path));
+			}
+			AndroidNativeSettings.Instance.LocalNotificationSound = sound;
+		}
+	}
+
+	public static void PushNotificationParams() {
+		EditorGUI.BeginChangeCheck ();
+		AndroidNativeSettings.Instance.EnableVibrationPush = EditorGUILayout.Toggle ("Enable Vibration", AndroidNativeSettings.Instance.EnableVibrationPush);
+
+		Texture2D icon = (Texture2D)EditorGUILayout.ObjectField ("Push Notification Icon", AndroidNativeSettings.Instance.PushNotificationIcon, typeof(Texture2D), false);
+		if (EditorGUI.EndChangeCheck ()) {
+			if (AndroidNativeSettings.Instance.PushNotificationIcon != null) {
+				string path = AssetDatabase.GetAssetPath(AndroidNativeSettings.Instance.PushNotificationIcon);
+				if (AndroidNativeSettings.Instance.LocalNotificationIcon != null) {
+					if (!AndroidNativeSettings.Instance.PushNotificationIcon.name.Equals(AndroidNativeSettings.Instance.LocalNotificationIcon.name)) {
+						FileStaticAPI.DeleteFile("Plugins/Android/res/drawable/" + AndroidNativeSettings.Instance.PushNotificationIcon.name.ToLower() + Path.GetExtension(path));
+					}
+				} else {
+					FileStaticAPI.DeleteFile("Plugins/Android/res/drawable/" + AndroidNativeSettings.Instance.PushNotificationIcon.name.ToLower() + Path.GetExtension(path));
+				}
+			}
+
+			if (icon != null) {
+				string path = AssetDatabase.GetAssetPath(icon);
+				FileStaticAPI.CopyFile(path.Substring(path.IndexOf("/"), path.Length - path.IndexOf("/")),
+				                       "Plugins/Android/res/drawable/" + icon.name.ToLower() + Path.GetExtension(path));
+			}
+			AndroidNativeSettings.Instance.PushNotificationIcon = icon;
+		}
+
+		EditorGUILayout.Space ();
+		EditorGUI.BeginChangeCheck ();
+		AudioClip sound = (AudioClip)EditorGUILayout.ObjectField ("Push Notification Sound", AndroidNativeSettings.Instance.PushNotificationSound, typeof(AudioClip), false);
+		if (EditorGUI.EndChangeCheck ()) {
+			if (AndroidNativeSettings.Instance.PushNotificationSound != null) {
+				string path = AssetDatabase.GetAssetPath(AndroidNativeSettings.Instance.PushNotificationSound);
+				if (AndroidNativeSettings.Instance.LocalNotificationSound != null) {
+					if (!AndroidNativeSettings.Instance.PushNotificationSound.name.Equals(AndroidNativeSettings.Instance.LocalNotificationSound.name)) {
+						FileStaticAPI.DeleteFile("Plugins/Android/res/raw/" + AndroidNativeSettings.Instance.PushNotificationSound.name.ToLower() + Path.GetExtension(path));
+					}
+				} else {
+					FileStaticAPI.DeleteFile("Plugins/Android/res/raw/" + AndroidNativeSettings.Instance.PushNotificationSound.name.ToLower() + Path.GetExtension(path));
+				}
+			}
+
+			if (sound != null) {
+				string path = AssetDatabase.GetAssetPath(sound);
+				FileStaticAPI.CopyFile(path.Substring(path.IndexOf("/"), path.Length - path.IndexOf("/")),
+				                       "Plugins/Android/res/raw/" + sound.name.ToLower() + Path.GetExtension(path));
+			}
+			AndroidNativeSettings.Instance.PushNotificationSound = sound;
 		}
 	}
 

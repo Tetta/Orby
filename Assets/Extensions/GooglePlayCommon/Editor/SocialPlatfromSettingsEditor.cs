@@ -295,18 +295,36 @@ public class SocialPlatfromSettingsEditor : Editor {
 		AN_ActivityTemplate LoginActivity = application.GetOrCreateActivityWithName("com.facebook.LoginActivity");
 		AN_ActivityTemplate FBUnityLoginActivity = application.GetOrCreateActivityWithName("com.facebook.unity.FBUnityLoginActivity");
 		AN_ActivityTemplate FBUnityDeepLinkingActivity = application.GetOrCreateActivityWithName("com.facebook.unity.FBUnityDeepLinkingActivity");
+		AN_ActivityTemplate FBUnityDialogsActivity = application.GetOrCreateActivityWithName("com.facebook.unity.FBUnityDialogsActivity");
+
+
 		if(IsFacebookInstalled) {
-			ApplicationId_meta.Value = "fb_app_id";
+		
+
+
+			ApplicationId_meta.SetValue("android:value", "\\ " + FBSettings.AppId);
+
 			LoginActivity.SetValue("android:label", "@string/app_name");
 			LoginActivity.SetValue("android:theme", "@android:style/Theme.Translucent.NoTitleBar");
+			LoginActivity.SetValue("android:configChanges", "keyboardHidden|orientation");
+
+
 			FBUnityLoginActivity.SetValue("android:theme", "@android:style/Theme.Translucent.NoTitleBar.Fullscreen");
+			FBUnityLoginActivity.SetValue("android:configChanges", "fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen");
+
+			FBUnityDialogsActivity.SetValue("android:theme", "@android:style/Theme.Translucent.NoTitleBar.Fullscreen");
+			FBUnityDialogsActivity.SetValue("android:configChanges", "fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen");
+
 			FBUnityDeepLinkingActivity.SetValue("android:exported", "true");
+
+
 			
 		} else {
 			application.RemoveProperty(ApplicationId_meta);
 			application.RemoveActivity(LoginActivity);
 			application.RemoveActivity(FBUnityLoginActivity);
 			application.RemoveActivity(FBUnityDeepLinkingActivity);
+			application.RemoveActivity(FBUnityDialogsActivity);
 		}
 		
 		
@@ -315,15 +333,20 @@ public class SocialPlatfromSettingsEditor : Editor {
 		////////////////////////
 		AN_PropertyTemplate provider = application.GetOrCreatePropertyWithName("provider", "android.support.v4.content.FileProvider");
 		if(SocialPlatfromSettings.Instance.NativeSharingAPI) {
+
+#if !(UNITY_4_0	|| UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6)
+			//Remove FileProvider description from AndroidManifest.xml in Unity 5
+			application.RemoveProperty (provider);
+#else
 			provider.SetValue("android:authorities", PlayerSettings.bundleIdentifier + ".fileprovider");
 			provider.SetValue("android:exported", "false");
 			provider.SetValue("android:grantUriPermissions", "true");
 			AN_PropertyTemplate provider_meta = provider.GetOrCreatePropertyWithName("meta-data", "android.support.FILE_PROVIDER_PATHS");
-			provider_meta.SetValue("android:resource", "@xml/file_paths");
+			provider_meta.SetValue("android:resource", "@xml/file_paths");		
+#endif
 		} else {
 			application.RemoveProperty(provider);
-		}
-		
+		}	
 
 		
 		List<string> permissions = GetRequiredPermissions();
@@ -404,6 +427,7 @@ public class SocialPlatfromSettingsEditor : Editor {
 					FileStaticAPI.DeleteFolder("Extensions/GooglePlayCommon/Social/Facebook");
 					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSPFacebookUseExample.cs");
 					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAnalyticsExample.cs");
+					FileStaticAPI.CopyFile("Extensions/StansAssetsCommon/SA_FB_PlaceHolder.txt", "Extensions/StansAssetsCommon/SA_FB_PlaceHolder.cs");
 				}
 					
 			}
@@ -548,6 +572,7 @@ public class SocialPlatfromSettingsEditor : Editor {
 
 	public static void UpdateVersionInfo() {
 		FileStaticAPI.Write(version_info_file, SocialPlatfromSettings.VERSION_NUMBER);
+		UpdateManifest();
 	}
 
 

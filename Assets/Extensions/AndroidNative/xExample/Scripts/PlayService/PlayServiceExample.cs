@@ -70,7 +70,7 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 
 	void Start() {
 
-		playerLabel.text = "Player Diconnected";
+		playerLabel.text = "Player Disconnected";
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 
 		//listen for GooglePlayConnection events
@@ -287,12 +287,29 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 	}
 
 
+	public void RequestAdvertisingId() {
+		GooglePlayUtils.ActionAdvertisingIdLoaded += ActionAdvertisingIdLoaded;
+		GooglePlayUtils.instance.GetAdvertisingId();
+	}
+
+
 
 	
 	//--------------------------------------
 	// EVENTS
 	//--------------------------------------
 
+	private void ActionAdvertisingIdLoaded (GP_AdvertisingIdLoadResult res) {
+		GooglePlayUtils.ActionAdvertisingIdLoaded -= ActionAdvertisingIdLoaded;
+
+		if(res.IsSucceeded) {
+			AndroidMessage.Create("Succeeded", "Advertising Id: " + res.id);
+		} else {
+			AndroidMessage.Create("Failed", "Advertising Id failed to loaed");
+		}
+
+		
+	}
 
 	private void OnAchievmnetsLoadedInfoListner() {
 		GPAchievement achievement = GooglePlayManager.instance.GetAchievement(INCREMENTAL_ACHIEVEMENT_ID);
@@ -392,8 +409,8 @@ public class PlayServiceExample : AndroidNativeExampleBase {
 
 
 	private void OnPlayerDisconnected() {
-		SA_StatusBar.text = "Player Diconnected";
-		playerLabel.text = "Player Diconnected";
+		SA_StatusBar.text = "Player Disconnected";
+		playerLabel.text = "Player Disconnected";
 	}
 
 	private void OnPlayerConnected() {

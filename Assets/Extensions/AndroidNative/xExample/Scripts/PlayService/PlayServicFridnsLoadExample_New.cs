@@ -18,7 +18,7 @@ public class PlayServicFridnsLoadExample_New : MonoBehaviour {
 
 	void Awake() {
 
-		playerLabel.text = "Player Diconnected";
+		playerLabel.text = "Player Disconnected";
 		defaulttexture = avatar.GetComponent<Renderer>().material.mainTexture;
 
 
@@ -149,8 +149,8 @@ public class PlayServicFridnsLoadExample_New : MonoBehaviour {
 
 	
 	private void OnPlayerDisconnected() {
-		SA_StatusBar.text = "Player Diconnected";
-		playerLabel.text = "Player Diconnected";
+		SA_StatusBar.text = "Player Disconnected";
+		playerLabel.text = "Player Disconnected";
 	}
 	
 	private void OnPlayerConnected() {

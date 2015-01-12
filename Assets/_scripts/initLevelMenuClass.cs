@@ -11,6 +11,7 @@ public class initLevelMenuClass : MonoBehaviour {
 	public static UILabel goldLabel;
 	public static UILabel medalsLabel;
 	public static int levelDemands = 0;
+	public static string levelMenuState = "";
 
 	private  const string PIE_GIFT_ID = "Pie";
 	public Texture2D pieIcon;
