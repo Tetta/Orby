@@ -9,6 +9,8 @@ public class AndroidNotificationBuilder {
 	private string _sound;
 	private string _icon;
 	private bool _vibration;
+	private bool _showIfAppForeground;
+	private string _largeIcon;
 
 	private const string SOUND_SILENT = "SOUND_SILENT";
 
@@ -17,10 +19,12 @@ public class AndroidNotificationBuilder {
 		_title = title;
 		_message = message;
 		_time = time;
+		_largeIcon = string.Empty;
 
 		_icon = AndroidNativeSettings.Instance.LocalNotificationIcon == null ? string.Empty : AndroidNativeSettings.Instance.LocalNotificationIcon.name;
 		_sound = AndroidNativeSettings.Instance.LocalNotificationSound == null ? string.Empty : AndroidNativeSettings.Instance.LocalNotificationSound.name;
 		_vibration = AndroidNativeSettings.Instance.EnableVibrationLocal;
+		_showIfAppForeground = AndroidNativeSettings.Instance.ShowWhenAppIsForeground;
 	}
 
 	public void SetSoundName(string sound) {
@@ -37,6 +41,14 @@ public class AndroidNotificationBuilder {
 
 	public void SetSilentNotification() {
 		_sound = SOUND_SILENT;
+	}
+
+	public void ShowIfAppIsForeground(bool show) {
+		_showIfAppForeground = show;
+	}
+
+	public void SetLargeIcon(string icon){
+		_largeIcon = icon;
 	}
 
 	public int Id {
@@ -78,6 +90,18 @@ public class AndroidNotificationBuilder {
 	public bool Vibration {
 		get {
 			return _vibration;
+		}
+	}
+
+	public bool ShowIfAppForeground {
+		get {
+			return _showIfAppForeground;
+		}
+	}
+
+	public string LargeIcon {
+		get {
+			return _largeIcon;
 		}
 	}
 }

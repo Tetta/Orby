@@ -172,14 +172,14 @@ public class GooglePlayRTM : SA_Singleton<GooglePlayRTM>  {
 		_currentRoom.id = storeData[0];
 		_currentRoom.creatorId = storeData[1];
 
-		string[] ids = storeData[2].Split(","[0]);
+		string[] ParticipantsInfo = storeData[2].Split(","[0]);
 
-		for(int i = 0; i < ids.Length; i += 3) {
-			if(ids[i] == AndroidNative.DATA_EOF) {
+		for(int i = 0; i < ParticipantsInfo.Length; i += 6) {
+			if(ParticipantsInfo[i] == AndroidNative.DATA_EOF) {
 				break;
 			}
 
-			GP_Partisipant p =  new GP_Partisipant(ids[i], ids[i + 1], ids[i + 2]);
+			GP_Partisipant p =  new GP_Partisipant(ParticipantsInfo[i], ParticipantsInfo[i + 1], ParticipantsInfo[i + 2], ParticipantsInfo[i + 3], ParticipantsInfo[i + 4], ParticipantsInfo[i + 5]);
 			_currentRoom.AddPartisipant(p);
 		}
 

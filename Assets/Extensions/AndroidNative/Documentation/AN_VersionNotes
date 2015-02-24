@@ -1,3 +1,42 @@
+6.0:
+Android Native does not overrides main activity anymore
+
+Fixed:
+Score submitting when not internet connection available  fixed.
+Custom Leaderboard UI scene fixed
+GooglePlayManager.ActionOAuthTokenLoaded action fixed
+
+Refactor:
+SaveImageToGalalry -> SaveImageToGallery
+
+5.5:
+Billing API does not requires main activity anymore 
+
+5.4:
+New:
+Package Details API does not requires main activity anymore
+
+
+Fixes:
+Billing issue connected with Android L fixed 
+
+
+5.3:
+Fixes:
+Immersive mode enabling without main activity bug fixed
+Local notifications display bug fixed
+LocalNotificationTemplate splitter changed 
+Warning: This will break compatibility with notifications created with previous version.
+getToken(String accountName, String scope) method fixed
+Facebook Game Gifting API. Reade more: http://goo.gl/uhxaLf 
+Facebook Trun Based Notifications: Read more:http://goo.gl/sZNJDU
+
+
+New:
+GP_Partisipant class updated, new properties added
+Play Service Editor UI Updated
+
+
 5.2:
 Billing:
 time and originalJson properties of GooglePurchaseTemplate not available after inventory retrieved 

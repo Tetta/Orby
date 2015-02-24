@@ -21,6 +21,56 @@ Assets/_prefabs/terrain desert.prefab
 Assets/_prefabs/terrain.prefab
 Assets/_prefabs/web holder.prefab
 Assets/_prefabs/default level.prefab
+Assets/Extensions/StansAssetsPreviewUI/Prefabs/SA_StatusBar.prefab
+Assets/Extensions/StansAssetsPreviewUI/Prefabs/Button_Billing.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Horizontal Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Progress Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Button.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Checkbox.prefab
+Assets/NGUI/Examples/Other/Storage Icon Template.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Checkbox.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Font - Header.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Button.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Wooden Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Popup List.prefab
+Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Atlas.prefab
+Assets/NGUI/Examples/Models/Orc/Orc.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Vertical Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Font - Header.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Horizontal Slider.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Vertical Scroll Bar.prefab
+Assets/NGUI/Examples/Models/Orc Armor/Orc Bracers.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Progress Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Input Field.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo20.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Vertical Slider.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Horizontal Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Coalition.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo18.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Slider.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Text Box.prefab
+Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
+Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
+Assets/_prefabs/berry.prefab
+Assets/_prefabs/spider.prefab
+Assets/_prefabs/chain.prefab
+Assets/_prefabs/info window.prefab
+Assets/_prefabs/button market effect.prefab
+Assets/_fonts/1.prefab
+Assets/_images/test terrains/myMossyTerrainMaterial.prefab
+Assets/_prefabs/spider 1.prefab
+Assets/_prefabs/button market.prefab
+Assets/_prefabs/level 1.prefab
+Assets/_prefabs/back forest.prefab
+Assets/_prefabs/star.prefab
+Assets/_atlases/atlas_spider.prefab
+Assets/_materials/terrain forest.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/_prefabs/terrain.prefab
@@ -40,3 +90,54 @@ Assets/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
 Assets/_atlases/my_atlas.prefab
 Assets/_prefabs/web holder.prefab
 Assets/_prefabs/default level.prefab
+Assets/Extensions/StansAssetsPreviewUI/Prefabs/SA_StatusBar.prefab
+Assets/Extensions/StansAssetsPreviewUI/Prefabs/Button_Billing.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Horizontal Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Progress Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Button.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Checkbox.prefab
+Assets/NGUI/Examples/Other/Storage Icon Template.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Checkbox.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Font - Header.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Button.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Wooden Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Popup List.prefab
+Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Atlas.prefab
+Assets/NGUI/Examples/Models/Orc/Orc.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Vertical Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Font - Header.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Horizontal Slider.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Vertical Scroll Bar.prefab
+Assets/NGUI/Examples/Models/Orc Armor/Orc Bracers.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Progress Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Input Field.prefab
+Assets/NGUI/Examples/Atlases/SciFi/SciFi Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo20.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Vertical Slider.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Horizontal Scroll Bar.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Coalition.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo18.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Slider.prefab
+Assets/NGUI/Examples/Atlases/Refractive/Refractive Atlas.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Simple Text Box.prefab
+Assets/NGUI/Examples/Atlases/Fantasy/Fantasy Font - Normal.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
+Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
+Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
+Assets/_prefabs/berry.prefab
+Assets/_prefabs/spider.prefab
+Assets/_prefabs/chain.prefab
+Assets/_prefabs/info window.prefab
+Assets/_prefabs/button market effect.prefab
+Assets/_fonts/1.prefab
+Assets/_images/test terrains/myMossyTerrainMaterial.prefab
+Assets/_prefabs/spider 1.prefab
+Assets/_prefabs/button market.prefab
+Assets/_prefabs/level 1.prefab
+Assets/_prefabs/back forest.prefab
+Assets/_prefabs/star.prefab
+Assets/_atlases/atlas_spider.prefab
+Assets/_materials/terrain ice.prefab
+Assets/_materials/terrain forest.prefab

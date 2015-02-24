@@ -37,7 +37,7 @@ public class GooglePlayManager : SA_Singleton<GooglePlayManager> {
 
 	//Actions
 	public static Action<GP_GamesResult> ActionSoreSubmited 							= delegate {};
-	public static Action<GP_GamesResult> ActionSoreUpdatedd								= delegate {};
+	public static Action<GP_GamesResult> ActionPlayerScoreUpdated						= delegate {};
 	public static Action<GooglePlayResult> ActionLeaderboardsLoaded 					= delegate {};
 	public static Action<GooglePlayResult> ActionFriendsListLoaded 						= delegate {};
 	public static Action<GP_GamesResult> ActionAchievementUpdated 						= delegate {};
@@ -719,7 +719,7 @@ public class GooglePlayManager : SA_Singleton<GooglePlayManager> {
 
 		}
 
-		ActionSoreUpdatedd(result);
+		ActionPlayerScoreUpdated(result);
 		dispatch (SCORE_UPDATED, result);
 	}
 

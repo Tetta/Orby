@@ -4,14 +4,10 @@ Google Play game services IDs.
 Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
-  <string name="app_id">736099175196</string>
-  <string name="achievement_complete_first_level">CgkInJa4l7YVEAIQAA</string>
-  <string name="achievement_use_sluggish">CgkInJa4l7YVEAIQAg</string>
-  <string name="achievement_test_achievement_3">CgkInJa4l7YVEAIQAw</string>
-  <string name="achievement_test_achievement_4">CgkInJa4l7YVEAIQBA</string>
-  <string name="achievement_test_achievement_5">CgkInJa4l7YVEAIQBQ</string>
-  <string name="achievement_use_web_5_times">CgkInJa4l7YVEAIQCQ</string>
-  <string name="leaderboard_test_leaderboard">CgkInJa4l7YVEAIQBg</string>
-  <string name="event_event_1">CgkInJa4l7YVEAIQBw</string>
-  <string name="quest_quest_1">CgkInJa4l7YVEAIQCA</string>
+  <string name="app_id">660292827653</string>
+  <string name="achievement_complete_first_level">CgkIhfST5JsTEAIQAQ</string>
+  <string name="achievement_complete_second_level">CgkIhfST5JsTEAIQAg</string>
+  <string name="achievement_complete_3_level">CgkIhfST5JsTEAIQAw</string>
+  <string name="achievement_complete_4_level">CgkIhfST5JsTEAIQBA</string>
+  <string name="achievement_complete_5_level">CgkIhfST5JsTEAIQBQ</string>
 </resources>

@@ -254,11 +254,24 @@ public class SocialPlatfromSettingsEditor : Editor {
 		AN_ManifestTemplate Manifest =  AN_ManifestManager.GetManifest();
 		AN_ApplicationTemplate application =  Manifest.ApplicationTemplate;
 		AN_ActivityTemplate launcherActivity = application.GetLauncherActivity();
+
+		AN_ActivityTemplate AndroidNativeProxy = application.GetOrCreateActivityWithName("com.androidnative.AndroidNativeProxy");
+		AndroidNativeProxy.SetValue("android:launchMode", "singleTask");
+		AndroidNativeProxy.SetValue("android:label", "@string/app_name");
+		AndroidNativeProxy.SetValue("android:configChanges", "fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen");
+		AndroidNativeProxy.SetValue("android:theme", "@android:style/Theme.Translucent.NoTitleBar");
+
+
+		if(launcherActivity.Name == "com.androidnative.AndroidNativeBridge") {
+			launcherActivity.SetName("com.unity3d.player.UnityPlayerNativeActivity");
+		}
 	
 		
 		////////////////////////
 		//TwitterAPI
 		////////////////////////
+
+
 		foreach(KeyValuePair<int, AN_ActivityTemplate> entry in application.Activities) {
 			//TODO get intents array
 			AN_ActivityTemplate act = entry.Value;
@@ -272,9 +285,9 @@ public class SocialPlatfromSettingsEditor : Editor {
 		} 
 
 		if(SocialPlatfromSettings.Instance.TwitterAPI) {
-			if(launcherActivity != null) {
+			if(AndroidNativeProxy != null) {
 
-				AN_PropertyTemplate intent_filter = launcherActivity.GetOrCreateIntentFilterWithName("android.intent.action.VIEW");
+				AN_PropertyTemplate intent_filter = AndroidNativeProxy.GetOrCreateIntentFilterWithName("android.intent.action.VIEW");
 				intent_filter.GetOrCreatePropertyWithName("category", "android.intent.category.DEFAULT");
 				intent_filter.GetOrCreatePropertyWithName("category", "android.intent.category.BROWSABLE");
 				AN_PropertyTemplate data = intent_filter.GetOrCreatePropertyWithTag("data");
@@ -282,12 +295,13 @@ public class SocialPlatfromSettingsEditor : Editor {
 				data.SetValue("android:host", PlayerSettings.bundleIdentifier);
 			} 
 		} else {
-			if(launcherActivity != null) {
-				AN_PropertyTemplate intent_filter = launcherActivity.GetOrCreateIntentFilterWithName("android.intent.action.VIEW");
-				launcherActivity.RemoveProperty(intent_filter);
+			if(AndroidNativeProxy != null) {
+				AN_PropertyTemplate intent_filter = AndroidNativeProxy.GetOrCreateIntentFilterWithName("android.intent.action.VIEW");
+				AndroidNativeProxy.RemoveProperty(intent_filter);
 			}
 		}
-		
+
+
 		////////////////////////
 		//FB API
 		////////////////////////
@@ -427,6 +441,7 @@ public class SocialPlatfromSettingsEditor : Editor {
 					FileStaticAPI.DeleteFolder("Extensions/GooglePlayCommon/Social/Facebook");
 					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSPFacebookUseExample.cs");
 					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAnalyticsExample.cs");
+					FileStaticAPI.DeleteFile("Extensions/MobileSocialPlugin/Example/Scripts/MSP_FacebookAndroidTurnBasedAndGiftsExample.cs");
 					FileStaticAPI.CopyFile("Extensions/StansAssetsCommon/SA_FB_PlaceHolder.txt", "Extensions/StansAssetsCommon/SA_FB_PlaceHolder.cs");
 				}
 					

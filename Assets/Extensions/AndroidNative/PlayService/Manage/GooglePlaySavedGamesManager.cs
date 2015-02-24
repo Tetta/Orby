@@ -49,7 +49,7 @@ public class GooglePlaySavedGamesManager :  SA_Singleton<GooglePlaySavedGamesMan
 	public void ShowSavedGamesUI(string title, int maxNumberOfSavedGamesToShow)  {
 		if (!GooglePlayConnection.CheckState ()) { return; }
 
-		AN_GooglePlayProxy.ShowSavedGamesUI_Bridge(title, maxNumberOfSavedGamesToShow);
+		AN_GMSGeneralProxy.ShowSavedGamesUI_Bridge(title, maxNumberOfSavedGamesToShow);
 	}
 
 
@@ -70,16 +70,16 @@ public class GooglePlaySavedGamesManager :  SA_Singleton<GooglePlaySavedGamesMan
 
 		string data = System.Convert.ToBase64String (spanshotData);
 
-		AN_GooglePlayProxy.CreateNewSpanshot_Bridge(name, description, mdeia, data, PlayedTime);
+		AN_GMSGeneralProxy.CreateNewSpanshot_Bridge(name, description, mdeia, data, PlayedTime);
 	}
 
 
 	public void LoadSpanshotByName(string name) {
-		AN_GooglePlayProxy.OpenSpanshotByName_Bridge(name);
+		AN_GMSGeneralProxy.OpenSpanshotByName_Bridge(name);
 	}
 
 	public void LoadAvailableSavedGames() {
-		AN_GooglePlayProxy.LoadSpanshots_Bridge();
+		AN_GMSGeneralProxy.LoadSpanshots_Bridge();
 	}
 
 

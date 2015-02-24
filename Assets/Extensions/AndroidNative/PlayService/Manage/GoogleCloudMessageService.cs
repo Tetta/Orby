@@ -51,6 +51,14 @@ public class GoogleCloudMessageService : SA_Singleton<GoogleCloudMessageService>
 		    AndroidNativeSettings.Instance.EnableVibrationPush);
 	}
 
+	public void InitPushNotifications(string icon, string sound, bool enableVibrationPush) {
+		AN_NotificationProxy.InitPushNotifications (icon, sound,enableVibrationPush);
+	}
+
+	public void InitParsePushNotifications() {
+		AN_NotificationProxy.InitParsePushNotifications (AndroidNativeSettings.Instance.ParseAppId, AndroidNativeSettings.Instance.DotNetKey);
+	}
+
 	public void RgisterDevice() {
 		AN_NotificationProxy.GCMRgisterDevice(AndroidNativeSettings.Instance.GCM_SenderId);
 	}

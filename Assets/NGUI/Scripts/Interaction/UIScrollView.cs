@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2014 Tasharen Entertainment
+// Copyright © 2011-2015 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -760,21 +760,18 @@ public class UIScrollView : MonoBehaviour
 					if (onDragStarted != null) onDragStarted();
 				}
 			}
+			else if (centerOnChild)
+			{
+				centerOnChild.Recenter();
+			}
 			else
 			{
-				if (centerOnChild != null)
-				{
-					centerOnChild.Recenter();
-				}
-				else
-				{
-					if (restrictWithinPanel && mPanel.clipping != UIDrawCall.Clipping.None)
-						RestrictWithinBounds(dragEffect == DragEffect.None, canMoveHorizontally, canMoveVertically);
+				if (restrictWithinPanel && mPanel.clipping != UIDrawCall.Clipping.None)
+					RestrictWithinBounds(dragEffect == DragEffect.None, canMoveHorizontally, canMoveVertically);
 
-					if (mDragStarted && onDragFinished != null) onDragFinished();
-					if (!mShouldMove && onStoppedMoving != null)
-						onStoppedMoving();
-				}
+				if (mDragStarted && onDragFinished != null) onDragFinished();
+				if (!mShouldMove && onStoppedMoving != null)
+					onStoppedMoving();
 			}
 		}
 	}

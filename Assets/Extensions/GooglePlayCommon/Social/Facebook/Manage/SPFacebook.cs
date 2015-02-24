@@ -32,6 +32,10 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 
 	private  Dictionary<string,  Dictionary<string, FBLikeInfo>> _likes =  new Dictionary<string, Dictionary<string, FBLikeInfo>>();
 
+	private List<FBAppRequest> _AppRequests =  new List<FBAppRequest>();
+
+
+
 
 	//Actinos
 	public Action OnInitCompleteAction = delegate {};
@@ -39,9 +43,14 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 	public Action<FBResult> OnAuthCompleteAction = delegate {};
 	public Action<FBResult> OnPaymentCompleteAction = delegate {};
 	public Action<FBResult> OnPostingCompleteAction = delegate {};
-	public Action<FBResult> OnAppRequestCompleteAction = delegate {};
 	public Action<FBResult> OnUserDataRequestCompleteAction = delegate {};
 	public Action<FBResult> OnFriendsDataRequestCompleteAction = delegate {};
+
+
+	public Action<FBAppRequestResult> OnAppRequestCompleteAction = delegate {};
+
+
+	public Action<FBResult> OnAppRequestsLoaded = delegate {};
 
 
 	//--------------------------------------
@@ -230,7 +239,88 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 	}
 
 
+	public void SendTrunRequest(string title, string message, string data = "", string[] to = null) {
 
+		string resp = "";
+		if(to != null) {
+			resp = string.Join(",", to);
+		}
+
+		AN_FBProxy.SendTrunRequest(title, message, data, resp);
+	}
+
+	public void SendGift(string title, string message, string objectId, string data = "", string[] to = null ) {
+
+		FB.AppRequest(message, OGActionType.Send, objectId,  to, data, title, AppRequestCallBack);
+	}
+
+	public void AskGift(string title, string message, string objectId, string data = "", string[] to = null ) {
+		FB.AppRequest(message, OGActionType.AskFor, objectId,  to, data, title, AppRequestCallBack);
+	}
+
+
+	private void AppRequestCallBack(FBResult result) {
+
+		FBAppRequestResult r =  new FBAppRequestResult();
+		r.Result = result;
+
+		if(result.Error == null) {
+			Dictionary<string, object> JSON = ANMiniJSON.Json.Deserialize(result.Text) as Dictionary<string, object>;
+			if(JSON.ContainsKey("request")) {
+				r.IsSucceeded = true;
+				r.ReuqestId = System.Convert.ToString(JSON["request"]);
+			}
+
+
+			List<object> Users = JSON["to"]  as List<object>;
+			foreach(object userId in  Users) {
+				r.Recipients.Add(System.Convert.ToString(userId));
+			}
+
+
+		}
+
+		dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+		OnAppRequestCompleteAction(r);
+
+		Debug.Log("GiftRequestCallBack");
+		Debug.Log(result.Text);
+	}
+
+	private void OnAppRequestFailed_AndroidCB(string error) {
+		FBResult res = new FBResult("",error);
+		
+		FBAppRequestResult r =  new FBAppRequestResult();
+		r.Result = res;
+		dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+		OnAppRequestCompleteAction(r);
+	}
+
+
+	private void OnAppRequestCompleted_AndroidCB(string data) {
+		Debug.Log("OnAppRequestCompleted_AndroidCB: " + data);
+		string[] storeData;
+		storeData = data.Split(AndroidNative.DATA_SPLITTER [0]);
+
+		string requestId = storeData[0];
+		string to = storeData[1];
+
+
+		FBResult result = new FBResult("", "");
+		FBAppRequestResult r =  new FBAppRequestResult();
+		r.Result = result;
+
+		if(requestId.Length > 0) {
+			r.IsSucceeded = true;
+			r.ReuqestId = requestId;
+		}
+		string[] list = to.Split(',');
+		r.Recipients = new List<string>(list);
+
+		dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+		OnAppRequestCompleteAction(r);
+
+	}
 
 
 	public void AppRequest(
@@ -246,8 +336,11 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		if(!IsLoggedIn) { 
 			Debug.LogWarning("Auth user before AppRequest, fail event generated");
 			FBResult res = new FBResult("","User isn't authed");
-			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, res);
-			OnAppRequestCompleteAction(res);
+
+			FBAppRequestResult r =  new FBAppRequestResult();
+			r.Result = res;
+			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+			OnAppRequestCompleteAction(r);
 			return;
 		}
 
@@ -267,8 +360,12 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		if(!IsLoggedIn) { 
 			Debug.LogWarning("Auth user before AppRequest, fail event generated");
 			FBResult res = new FBResult("","User isn't authed");
-			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, res);
-			OnAppRequestCompleteAction(res);
+
+			FBAppRequestResult r =  new FBAppRequestResult();
+			r.Result = res;
+			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+			OnAppRequestCompleteAction(r);
+
 			return;
 		}
 
@@ -289,8 +386,11 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		if(!IsLoggedIn) { 
 			Debug.LogWarning("Auth user before AppRequest, fail event generated");
 			FBResult res = new FBResult("","User isn't authed");
-			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, res);
-			OnAppRequestCompleteAction(res);
+
+			FBAppRequestResult r =  new FBAppRequestResult();
+			r.Result = res;
+			dispatch(FacebookEvents.APP_REQUEST_COMPLETE, r);
+			OnAppRequestCompleteAction(r);
 			return;
 		}
 
@@ -300,11 +400,131 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 
 
 	//--------------------------------------
+	//  Requests API 
+	//--------------------------------------
+
+
+	public void LoadPendingRequests() {
+		FB.API("/" + FB.UserId + "/apprequests?fields=id,application,data,message,action_type,from,object", Facebook.HttpMethod.GET, OnRequestsLoadComplete);
+
+	}
+
+	private void OnRequestsLoadComplete(FBResult result) {
+		if(result.Error == null) {
+//			Debug.Log(result.Text);
+
+			Dictionary<string, object> JSON = ANMiniJSON.Json.Deserialize(result.Text) as Dictionary<string, object>;
+			List<object> data = JSON["data"]  as List<object>;
+
+
+			AppRequests.Clear();
+			foreach(object row in data) {
+
+				FBAppRequest request =  new FBAppRequest();
+				Dictionary<string, object> dataRow = row as Dictionary<string, object>;
+
+
+
+				Dictionary<string, object> AppInfo = dataRow["application"]  as Dictionary<string, object>;
+				request.ApplicationId = System.Convert.ToString(AppInfo["id"]);
+				if(!request.ApplicationId.Equals(FB.AppId)) {
+					break;
+				}
+
+
+
+				Dictionary<string, object> FromInfo = dataRow["from"]  as Dictionary<string, object>;
+				request.FromId = System.Convert.ToString(FromInfo["id"]);
+				request.FromName = System.Convert.ToString(FromInfo["name"]);
+
+
+		
+
+				request.Id = System.Convert.ToString(dataRow["id"]);
+				request.SetCreatedTime(System.Convert.ToString(dataRow["created_time"]));
+
+				if(dataRow.ContainsKey("data")) {
+					request.Data = System.Convert.ToString(dataRow["data"]);
+				}
+
+				if(dataRow.ContainsKey("message")) {
+					request.Message = System.Convert.ToString(dataRow["message"]);
+				}
+
+
+				if(dataRow.ContainsKey("message")) {
+					request.Message = System.Convert.ToString(dataRow["message"]);
+				}
+
+
+
+
+				if(dataRow.ContainsKey("action_type")) {
+					string action_type = System.Convert.ToString(dataRow["action_type"]);
+					switch(action_type) {
+					case "send":
+						request.ActionType = FBAppRequestActionType.Send;
+						break;
+
+					case "askfor":
+						request.ActionType = FBAppRequestActionType.AskFor;
+						break;
+
+					case "turn":
+						request.ActionType = FBAppRequestActionType.Turn;
+						break;
+					}
+				
+				}
+
+
+				if(dataRow.ContainsKey("object")) {
+					FBObject obj = new FBObject();
+					Dictionary<string, object> objectData = dataRow["object"] as Dictionary<string, object>;
+
+					obj.Id = System.Convert.ToString(objectData["id"]);
+					obj.Title = System.Convert.ToString(objectData["id"]);
+					obj.Type = System.Convert.ToString(objectData["id"]);
+					obj.SetCreatedTime(System.Convert.ToString(objectData["created_time"]));
+
+					if(objectData.ContainsKey("image")) {
+
+						List<object> images = objectData["image"] as List<object>;
+						Debug.Log(objectData["image"]);
+						foreach(object img in images) {
+							Dictionary<string, object>imgData = img as Dictionary<string, object>;
+							obj.AddImageUrl(System.Convert.ToString(imgData["url"]));
+						}
+
+
+					}
+
+					request.Object = obj;
+
+				} 
+
+
+				AppRequests.Add(request);
+			}
+
+			Debug.Log("SPFacebook: " + AppRequests.Count +  "App request Loaded");
+
+		} else {
+			Debug.LogWarning("SPFacebook: App requests failed to load");
+			Debug.LogWarning(result.Error.ToString());
+		}
+
+
+		OnAppRequestsLoaded(result);
+	}
+
+
+	//--------------------------------------
 	//  Scores API 
 	//  https://developers.facebook.com/docs/games/scores
 	//------------------------------------
 	
-	
+
 	
 	//Read score for a player
 	public void LoadPlayerScores() {
@@ -542,6 +762,11 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 		}
 	}
 
+	public List<FBAppRequest> AppRequests {
+		get {
+			return _AppRequests;
+		}
+	}
 
 
 
@@ -851,11 +1076,7 @@ public class SPFacebook : SA_Singleton<SPFacebook> {
 
 	}
 
-
-	private void AppRequestCallBack(FBResult result) {
-		dispatch(FacebookEvents.APP_REQUEST_COMPLETE, result);
-		OnAppRequestCompleteAction(result);
-	}
+	
 
 
 	private void FriendsDataCallBack(FBResult result) {

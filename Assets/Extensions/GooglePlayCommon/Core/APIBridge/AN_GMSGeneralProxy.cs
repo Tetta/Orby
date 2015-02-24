@@ -147,4 +147,57 @@ public class AN_GMSGeneralProxy : MonoBehaviour {
 	public static void OnApplicationPause(bool isPaused) {
 		CallActivityFunction("OnApplicationPause", isPaused);
 	}
+
+	
+	// --------------------------------------
+	// Saved Games Bridge
+	// --------------------------------------
+
+
+	public static void ShowSavedGamesUI_Bridge(string title, int maxNumberOfSavedGamesToShow) {
+		CallActivityFunction("ShowSavedGamesUI_Bridge", title, maxNumberOfSavedGamesToShow);
+	}
+	
+	public static void CreateNewSpanshot_Bridge(string name, string description, string ImageData, string Data, long PlayedTime) {
+		CallActivityFunction("CreateNewSpanshot_Bridge", name, description, ImageData, Data, PlayedTime);
+	}
+	
+	public static void ResolveSnapshotsConflict_Bridge(int index) {
+		CallActivityFunction("ResolveSnapshotsConflict_Bridge", index);
+	}
+	
+	public static void LoadSpanshots_Bridge() {
+		CallActivityFunction("LoadSpanshots_Bridge");
+	}
+	
+	
+	public static void OpenSpanshotByName_Bridge(string name) {
+		CallActivityFunction("OpenSpanshotByName_Bridge", name);
+	}
+
+
+	//--------------------------------------
+	// Goole Cloud
+	//--------------------------------------
+	
+	public static void ListStates() {
+		CallActivityFunction("ListStates_Bridge");
+	}
+	
+	public static void UpdateState(int stateKey, string data) {
+		CallActivityFunction("UpdateState_Bridge", stateKey.ToString(), data);
+	}
+	
+	public static void ResolveState(int stateKey, string resolvedData, string resolvedVersion) {
+		CallActivityFunction("ResolveState_Bridge", stateKey.ToString(), resolvedData, resolvedVersion);
+	}
+	
+	public static void DeleteState(int stateKey)  {
+		CallActivityFunction("DeleteState_Bridge", stateKey.ToString());
+	}
+	
+	public static void LoadState(int stateKey)  {
+		CallActivityFunction("LoadState_Bridge", stateKey.ToString());
+	}
+
 }

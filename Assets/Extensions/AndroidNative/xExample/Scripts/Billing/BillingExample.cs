@@ -46,6 +46,7 @@ public class BillingExample : MonoBehaviour {
 		} else {
 			AndroidMessage.Create("Error", "PaymnetManagerExample not yet inited");
 		}
+
 	}
 
 

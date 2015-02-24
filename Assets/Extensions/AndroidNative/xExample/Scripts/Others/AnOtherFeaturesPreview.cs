@@ -12,7 +12,7 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 
 	public void SaveToGalalry() {
 		AndroidCamera.instance.OnImageSaved += OnImageSaved;
-		AndroidCamera.instance.SaveImageToGalalry(helloWorldTexture);
+		AndroidCamera.instance.SaveImageToGallery(helloWorldTexture);
 
 	}
 

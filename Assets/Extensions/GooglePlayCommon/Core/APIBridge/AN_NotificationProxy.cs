@@ -37,7 +37,9 @@ public class AN_NotificationProxy {
 		                     builder.Id.ToString(),
 		                     builder.Icon,
 		                     builder.Sound,
-		                     builder.Vibration.ToString());
+		                     builder.Vibration.ToString(),
+		                     builder.ShowIfAppForeground.ToString(),
+		                     builder.LargeIcon);
 	}
 	
 	public static void CanselLocalNotification(int id) {
@@ -50,6 +52,10 @@ public class AN_NotificationProxy {
 
 	public static void InitPushNotifications(string icon, string sound, bool vibration) {
 		CallActivityFunction ("InitPushNotifications", icon, sound, vibration.ToString());
+	}
+
+	public static void InitParsePushNotifications(string appId, string dotNetKey) {
+		CallActivityFunction ("InitParsePushNotifications", appId, dotNetKey);
 	}
 	
 	public static void GCMRgisterDevice(string senderId) {

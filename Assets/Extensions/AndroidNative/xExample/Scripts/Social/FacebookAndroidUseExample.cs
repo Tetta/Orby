@@ -250,7 +250,10 @@ public class FacebookAndroidUseExample : MonoBehaviour {
 	}
 	
 	
-	private string UNION_ASSETS_PAGE_ID = "1435528379999137";
+//	private string UNION_ASSETS_PAGE_ID = "1435528379999137";
+	private string UNION_ASSETS_PAGE_ID = "578153135619004";
+
+
 	public void CheckLike() {
 		
 		//checking if current user likes the page

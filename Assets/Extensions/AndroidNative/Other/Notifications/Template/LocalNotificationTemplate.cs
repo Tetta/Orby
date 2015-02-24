@@ -10,12 +10,12 @@ public class LocalNotificationTemplate  {
 	private DateTime _fireDate;
 
 
-	private const string DATA_SPLITTER = "%";
+	private const string DATA_SPLITTER = "|||";
 
 
 	public LocalNotificationTemplate(string data) {
 	
-		string[] nodes = data.Split(DATA_SPLITTER [0]);
+		string[] nodes = data.Split(new string[] { DATA_SPLITTER }, StringSplitOptions.None);
 
 		_id = System.Convert.ToInt32(nodes[0]);
 		_title =  nodes[1];
