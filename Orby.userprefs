@@ -1,18 +1,14 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\gBerryClass.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Monster Pet\Assets\_scripts\staticClass.cs">
     <Files>
-      <File FileName="Assets\_scripts\lsEnergyClass.cs" Line="59" Column="5" />
-      <File FileName="Assets\_scripts\gBerryClass.cs" Line="17" Column="45" />
-      <File FileName="Assets\_scripts\staticClass.cs" Line="26" Column="1" />
-      <File FileName="Assets\_scripts\initLevelMenuClass.cs" Line="29" Column="3" />
+      <File FileName="..\Monster Pet\Assets\_scripts\initClass.cs" Line="1" Column="1" />
+      <File FileName="..\Monster Pet\Assets\_scripts\staticClass.cs" Line="49" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets\_scripts\gRopeClass.cs" line="25" offsetX="573" offsetY="408" expression="cloth" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="Tetta" Email="" Copyright="Tetta" Company="" Trademark="" />
 </Properties>

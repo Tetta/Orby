@@ -21,7 +21,6 @@ public class gHandClass : MonoBehaviour {
 
 	public static void addHand() {
 		if (level == "level1") {
-			hand.transform.position = new Vector2 (-0.4F, 0.2F);
 			hand.animation.Play("hand enable");
 		} else if (level == "level5") {
 			hand.animation.Play("hand sluggish");
@@ -37,19 +36,19 @@ public class gHandClass : MonoBehaviour {
 
 	public static void delHand() {
 		if (level == "level1") {
-			hand.transform.position = new Vector2 (-4, 1);
+			hand.transform.position = new Vector2 (-5, 1);
 			hand.animation.Stop("hand enable");
 		} else if (level == "level5") {
-			hand.transform.position = new Vector2 (-4, 1);
+			hand.transform.position = new Vector2 (-5, 1);
 			hand.animation.Stop("hand sluggish");
 		} else if (level == "level15") {
-			hand.transform.position = new Vector2 (-4, 1);
+			hand.transform.position = new Vector2 (-5, 1);
 			hand.animation.Stop("hand destroyer");
 		} else if (level == "level16") {
-			hand.transform.position = new Vector2 (-4, 1);
+			hand.transform.position = new Vector2 (-5, 1);
 			hand.animation.Stop("hand enable");
 		} else if (level == "level19") {
-			hand.transform.position = new Vector2 (-4, 1);
+			hand.transform.position = new Vector2 (-5, 1);
 			hand.animation.Stop("hand groot");
 		}
 	}

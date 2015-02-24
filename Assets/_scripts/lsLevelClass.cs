@@ -16,7 +16,7 @@ public class lsLevelClass : MonoBehaviour {
 	void Start () {
 		path = new NavMeshPath();
 		level = int.Parse(gameObject.name.Substring(6));
-
+		//levelLabel.text = level.ToString();
 		if (initClass.progress.Count == 0) initClass.getProgress();
 		int levelProgress = initClass.progress["level" + level];
 		int lastLevel = initClass.progress["lastLevel"];

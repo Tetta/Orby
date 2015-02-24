@@ -40,5 +40,11 @@ public class staticClass {
 	public static bool useDestroyer = false;
 	public static bool useYeti = false;
 	public static bool useGroot = false;
+	public static int showAd = 0;
+	public static int showAdColony = 0;
+	public static bool loadAd = false;
+
+	public static int testCounter = 0;
+
 }
 

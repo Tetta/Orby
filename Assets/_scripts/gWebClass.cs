@@ -12,10 +12,10 @@ public class gWebClass : MonoBehaviour {
 	public int drag = 2;
 
 	private int globalCounter = 0;
-	private int maxChainCount2 = 80;
-	private int maxChainCount = 40;
+	private int maxChainCount2 = 40;
+	private int maxChainCount = 20;
 	private int chainCount = 0;
-	private float  chainLength = 0.078F;
+	private float  chainLength = 0.04F;
 	private GameObject[] chain;
 	private float maxDiffC;
 	private Vector2 diff;
@@ -24,8 +24,9 @@ public class gWebClass : MonoBehaviour {
 	private float diffY;
 	private float chainPositionZ = 1;
 	private HingeJoint2D jointWeb;
-	private int normalChainCount = 20;
+	private int normalChainCount = 10;
 	private GameObject berry;
+	private float timePauseAnimation = 0;
 
 	void Start () {
 		berry = GameObject.Find("berry");
@@ -54,6 +55,7 @@ public class gWebClass : MonoBehaviour {
 					jointChain.useLimits = false;
 					for (int y = 1; y <= chainCount; y ++){
 						chain[y].rigidbody2D.drag = drag;
+						chain[y].GetComponent<BoxCollider2D>().enabled = true;
 						//chain[y].rigidbody2D.angularDrag = 2;
 						//chain[y].rigidbody2D.centerOfMass = new Vector2(0, -0.3F);
 					}
@@ -68,7 +70,6 @@ public class gWebClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//Debug.Log(Time.time);
 		if (webState == "creatingWeb") {
 			for (int j = 0; j < 8; j++) {
 				if (chainCount < maxChainCount && webState == "creatingWeb") {
@@ -77,19 +78,6 @@ public class gWebClass : MonoBehaviour {
 				}
 			}
 		}
-		/*
-		if (webState == "collisionOrby1") {
-			HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
-
-			jointChain.useLimits = false;
-			//jointChain.limits = new JointAngleLimits2D { min = 180, max = 0};
-			jointChain.connectedBody = orby.rigidbody2D;
-			jointChain.connectedAnchor = orby.transform.position - chain[1].transform.position;
-			//jointChain.connectedAnchor = new Vector2(0, 0);
-			jointChain.enabled = true;	
-			webState = "afterCollisionOrby";
-		}
-		*/
 		if (webState == "afterCollisionOrby") {
 			HingeJoint2D jointWeb = web.GetComponent<HingeJoint2D> ();
 			for (int j = 0; j < 2; j++) {
@@ -103,8 +91,12 @@ public class gWebClass : MonoBehaviour {
 					jointWeb.connectedBody = chain[chainCount - 1].rigidbody2D;
 					chainCount--;
 				} else {
+					for (int y = 1; y <= normalChainCount; y++) {
+						chain[y].GetComponent<BoxCollider2D>().enabled = true;
+					}
 					webState = "enableWeb";
 					gBerryClass.berryState = "enableWeb";
+					j = 2;
 				}
 			}
 
@@ -128,6 +120,7 @@ public class gWebClass : MonoBehaviour {
 
 
 		}
+
 		if (webState == "enableWeb" || webState == "creatingWeb") {
 			holder.GetComponent<LineRenderer>().SetVertexCount (chainCount);
 			for(int i = 1; i <= chainCount; i++) {
@@ -135,6 +128,26 @@ public class gWebClass : MonoBehaviour {
 			}
 		}
 
+		/*
+		if (webState == "collisionOrby1") {
+			HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
+
+			jointChain.useLimits = false;
+			//jointChain.limits = new JointAngleLimits2D { min = 180, max = 0};
+			jointChain.connectedBody = orby.rigidbody2D;
+			jointChain.connectedAnchor = orby.transform.position - chain[1].transform.position;
+			//jointChain.connectedAnchor = new Vector2(0, 0);
+			jointChain.enabled = true;	
+			webState = "afterCollisionOrby";
+		}
+		*/
+
+		//animation for 1 level
+		if (timePauseAnimation > 0) if (Time.time - timePauseAnimation > 0.9F)	{
+			gHandClass.addHand();
+			timePauseAnimation = -1;
+		}
+		
 	}
 
 	void createWeb (Vector3 pointBPosition, Vector3 pointBAchor, bool start) {
@@ -142,7 +155,7 @@ public class gWebClass : MonoBehaviour {
 		int i = chainCount;
 		Vector3 pos = new Vector3(transform.position.x, transform.position.y, 1);
 		chain[i] = Instantiate(chainPrefab, pos, Quaternion.identity) as GameObject;
-		chain[i].GetComponent<SpriteRenderer> ().sortingOrder = i;
+		//chain[i].GetComponent<SpriteRenderer> ().sortingOrder = i;
 		Vector3 relative = transform.InverseTransformPoint(pointBPosition + pointBAchor);
 		float angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
 		chain[i].transform.Rotate(0, 0, 180 - angle);
@@ -164,15 +177,15 @@ public class gWebClass : MonoBehaviour {
 			joint.connectedBody = chain[i - 1].rigidbody2D;
 			joint.enabled = true;
 			jointWeb.connectedBody = chain[i].rigidbody2D;
-			if (berry.collider2D.OverlapPoint(chain[1].transform.position) && i >= 20) {
+			if (berry.collider2D.OverlapPoint(chain[1].transform.position) && i >= normalChainCount) {
 				HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
 
 				jointChain.useLimits = false;
 				//jointChain.limits = new JointAngleLimits2D { min = 180, max = 0};
-				jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
+				//jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
+				jointChain.connectedAnchor = new Vector2(0, 0);
 
 				jointChain.connectedBody = berry.rigidbody2D;
-				//jointChain.connectedAnchor = new Vector2(0, 0);
 				jointChain.enabled = true;	
 				webState = "afterCollisionOrby";
 
@@ -195,14 +208,22 @@ public class gWebClass : MonoBehaviour {
 		}
 
 	}
-	
-	void OnMouseDown () {
+
+	void OnMouseDown() {
+		Debug.Log ("OnMouseDown");
+	}
+
+	void OnClick () {
 		GetComponent<Animator>().Play("web");
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
+		gHandClass.delHand();
 		if (webState == "") {
+			if (Application.loadedLevelName == "level1" && timePauseAnimation == 0) timePauseAnimation = Time.time;
+			audio.Play();
 			staticClass.useWeb ++;
-			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_5_times", 1);
+
+			StartCoroutine(Coroutine());
 
 			diff = berry.transform.position - web.transform.position;
 			float orbyDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -211,10 +232,17 @@ public class gWebClass : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
+			audio.Play();
 			staticClass.useWeb ++;
 			webState = "destroyingWeb";
 			globalCounter = 1;
 		}
 	}
 
+	void FixedUpdate () {
+	}
+	public IEnumerator Coroutine(){
+		if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_50_times", 1);
+		yield return new WaitForSeconds(0.1F);
+	}
 }

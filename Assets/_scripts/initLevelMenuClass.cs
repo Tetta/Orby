@@ -13,9 +13,6 @@ public class initLevelMenuClass : MonoBehaviour {
 	public static int levelDemands = 0;
 	public static string levelMenuState = "";
 
-	private  const string PIE_GIFT_ID = "Pie";
-	public Texture2D pieIcon;
-
 	// Use this for initialization
 	void Start () {
 		//temp
@@ -24,23 +21,15 @@ public class initLevelMenuClass : MonoBehaviour {
 		goldLabel = gold;
 		medalsLabel = medals;
 		if (initClass.progress.Count == 0) initClass.getProgress();
-		goldLabel.text = initClass.progress["gold"].ToString();
+		goldLabel.text = initClass.progress["coins"].ToString();
 		medalsLabel.text = initClass.progress["medals"].ToString();
-
-		//NGUIDebug.Log("level menu startttt");
-		//GooglePlayManager.instance.addEventListener (GooglePlayManager.SEND_GIFT_RESULT_RECEIVED, OnGiftResult);
-		//GooglePlayManager.instance.addEventListener (GooglePlayManager.PENDING_GAME_REQUESTS_DETECTED, OnPendingGiftsDetected);
-		//GooglePlayManager.instance.addEventListener (GooglePlayManager.GAME_REQUESTS_ACCEPTED, OnGameRequestAccepted);
-
-		//GooglePlayManager.instance.incrementAchievementById (INCREMENTAL_ACHIEVEMENT_ID, 1);
-		//GooglePlayManager.instance.SendGiftRequest(GPGameRequestType.TYPE_GIFT, 1, pieIcon, "Here is some pie", PIE_GIFT_ID);
-		//GooglePlayManager.instance.ShowRequestsAccepDialog();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKey(KeyCode.Escape)) GameObject.Find("button back").SendMessage("OnClick");
+
 	}
 
 	//--------------------------------------

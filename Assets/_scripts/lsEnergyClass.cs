@@ -37,6 +37,8 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
 	public static int checkEnergy(bool flag) {
+		if (initClass.progress.Count == 0) initClass.getProgress();
+
 		int maxEnergy = 10;
 		//число секунд с 01.01.2015
 		int now = (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds;
@@ -60,7 +62,6 @@ public class lsEnergyClass : MonoBehaviour {
 	}
 
 	void OnApplicationPause(bool flag) {
-		Debug.Log(flag);
 		if (!flag) { 
 			label = GetComponent<UILabel>();
 			if (initClass.progress.Count == 0) initClass.getProgress();

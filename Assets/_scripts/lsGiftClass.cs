@@ -9,7 +9,7 @@ public class lsGiftClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//AndroidAdMobController.instance.Init(MY_BANNERS_AD_UNIT_ID);
-		AndroidAdMobController.instance.Init(MY_INTERSTISIALS_AD_UNIT_ID);
+		//AndroidAdMobController.instance.Init(MY_INTERSTISIALS_AD_UNIT_ID);
 
 		//I whant to use Interstisial ad also, so I have to set additional id for it
 		//AndroidAdMobController.instance.SetInterstisialsUnitID(MY_INTERSTISIALS_AD_UNIT_ID);
@@ -22,9 +22,9 @@ public class lsGiftClass : MonoBehaviour {
 		AndroidAdMobController.instance.TagForChildDirectedTreatment(false);
 		*/
 		//Called when interstitial an ad opens an overlay that covers the screen.
-		AndroidAdMobController.instance.addEventListener(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_OPENED, OnInterstisialsOpen);
+		//AndroidAdMobController.instance.addEventListener(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_OPENED, OnInterstisialsOpen);
 		//Called when the user is about to return to the application after clicking on an ad.
-		AndroidAdMobController.instance.addEventListener(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_CLOSED, OnInterstisialsClosed);
+		//AndroidAdMobController.instance.addEventListener(GoogleMobileAdEvents.ON_INTERSTITIAL_AD_CLOSED, OnInterstisialsClosed);
 
 		//listening for InApp Event
 		//You will only receive in-app purchase (IAP) ads if you specifically configure an IAP ad campaign in the AdMob front end.
@@ -38,7 +38,7 @@ public class lsGiftClass : MonoBehaviour {
 	}
 
 	void OnClick () {
-		AndroidAdMobController.instance.StartInterstitialAd ();
+		//AndroidAdMobController.instance.StartInterstitialAd ();
 	}
 
 	private void OnInterstisialsOpen() {
@@ -47,9 +47,9 @@ public class lsGiftClass : MonoBehaviour {
 	}
 
 	private void OnInterstisialsClosed() {
-		initClass.progress["gold"] += 1;
+		initClass.progress["coins"] += 1;
 		initClass.saveProgress();
-		initLevelMenuClass.goldLabel.text = initClass.progress["gold"].ToString();
+		initLevelMenuClass.goldLabel.text = initClass.progress["coins"].ToString();
 	}
 
 	/*
