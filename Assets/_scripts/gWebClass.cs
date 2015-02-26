@@ -22,7 +22,7 @@ public class gWebClass : MonoBehaviour {
 	private string webState = "";
 	private float diffX;
 	private float diffY;
-	private float chainPositionZ = 1;
+	private float chainPositionZ = 1F;
 	private HingeJoint2D jointWeb;
 	private int normalChainCount = 10;
 	private GameObject berry;
@@ -125,6 +125,7 @@ public class gWebClass : MonoBehaviour {
 			holder.GetComponent<LineRenderer>().SetVertexCount (chainCount);
 			for(int i = 1; i <= chainCount; i++) {
 				holder.GetComponent<LineRenderer>().SetPosition (i - 1, chain[i].transform.position);
+				//holder.GetComponent<LineRenderer>().SetPosition (i - 1, new Vector2(chain[i].transform.position.x, chain[i].transform.position.y));
 			}
 		}
 

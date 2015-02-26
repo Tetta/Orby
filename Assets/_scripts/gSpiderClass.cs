@@ -31,4 +31,8 @@ public class gSpiderClass : MonoBehaviour {
 		}
 		
 	}
+
+	void OnClick () {
+		transform.GetChild(0).GetComponent<Animator>().Play("spider jump", -1);
+	}
 }

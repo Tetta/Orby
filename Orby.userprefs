@@ -1,9 +1,9 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Monster Pet\Assets\_scripts\staticClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\gSpiderClass.cs">
     <Files>
-      <File FileName="..\Monster Pet\Assets\_scripts\initClass.cs" Line="1" Column="1" />
-      <File FileName="..\Monster Pet\Assets\_scripts\staticClass.cs" Line="49" Column="42" />
+      <File FileName="Assets\_scripts\gWebClass.cs" Line="25" Column="33" />
+      <File FileName="Assets\_scripts\gSpiderClass.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

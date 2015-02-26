@@ -71,6 +71,10 @@ Assets/_prefabs/back forest.prefab
 Assets/_prefabs/star.prefab
 Assets/_atlases/atlas_spider.prefab
 Assets/_materials/terrain forest.prefab
+Assets/_atlases/skin1.prefab
+Assets/_atlases/spider.prefab
+Assets/_prefabs/twig.prefab
+Assets/_prefabs/tumbleweed.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/_prefabs/terrain.prefab
@@ -141,3 +145,7 @@ Assets/_prefabs/star.prefab
 Assets/_atlases/atlas_spider.prefab
 Assets/_materials/terrain ice.prefab
 Assets/_materials/terrain forest.prefab
+Assets/_atlases/skin1.prefab
+Assets/_atlases/spider.prefab
+Assets/_prefabs/twig.prefab
+Assets/_prefabs/tumbleweed.prefab

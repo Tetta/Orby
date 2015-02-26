@@ -69,7 +69,7 @@ public class Ferr2DT_PathTerrainEditor : Editor {
 	        Ferr_EditorTools.Box(4, ()=>{
 	            // other visual data
 	            sprite.vertexColor              = EditorGUILayout.ColorField("Vertex Color",       sprite.vertexColor             );
-	            sprite.pixelsPerUnit            = Mathf.Clamp(EditorGUILayout.FloatField("Pixels Per Unit", sprite.pixelsPerUnit), 1, 768);
+	            sprite.pixelsPerUnit            = Mathf.Clamp(EditorGUILayout.FloatField("Pixels Per Unit", sprite.pixelsPerUnit), 1, 2048);
 				sprite.stretchThreshold         = EditorGUILayout.Slider    ("Stretch Threshold",  sprite.stretchThreshold, 0f, 1f);
 				sprite.slantAmount              = EditorGUILayout.Slider    ("Slant Amount",       sprite.slantAmount,       -2, 2);
 	            sprite.splitMiddle              = EditorGUILayout.Toggle    ("Split Middle",       sprite.splitMiddle             );
