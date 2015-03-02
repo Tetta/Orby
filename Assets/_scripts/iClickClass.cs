@@ -143,6 +143,10 @@ public class iClickClass : MonoBehaviour {
 		}
 	}
 
+	void clickMusic () {
+		Debug.Log("clickMusic");
+	}
+
 	void showAchievements () {
 		//NGUIDebug.Log("mGooglePlayClass OnClick");
 		GooglePlayManager.instance.ShowAchievementsUI();

@@ -15,7 +15,7 @@ public class gWebClass : MonoBehaviour {
 	private int maxChainCount2 = 40;
 	private int maxChainCount = 20;
 	private int chainCount = 0;
-	private float  chainLength = 0.04F;
+	private float  chainLength = 0.08F;
 	private GameObject[] chain;
 	private float maxDiffC;
 	private Vector2 diff;

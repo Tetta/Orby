@@ -119,7 +119,7 @@ public class gBerryClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.x < -4 || transform.position.x > 4 || transform.position.y < -6 || transform.position.y > 6) restart.SendMessage("OnClick");
+		if (transform.position.x < -4 || transform.position.x > 4 || transform.position.y < -6 || transform.position.y > 6) StartCoroutine(gSpiderClass.coroutineCry());
 		//timer
 		if (initLevelMenuClass.levelDemands == 1) {
 			int levels = staticClass.levels[Convert.ToInt32(Application.loadedLevelName.Substring(5)), 1];
@@ -144,9 +144,17 @@ public class gBerryClass : MonoBehaviour {
 		if (collisionObject.gameObject.name == "spider") {
 			//tutorial
 			gHandClass.delHand();
-			animation.Play();
-			StartCoroutine(Coroutine(collisionObject));
+			berryState = "start finish";
 
+			//collisionObject.transform.GetChild(0).GetComponent<Animator>().StopPlayback();
+			collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("spider open month");
+			animation.Play();
+			transform.position = collisionObject.gameObject.transform.position;
+			if (initClass.progress.Count == 0) initClass.getProgress();
+			rigidbody2D.isKinematic = true;
+			collider2D.enabled = false;
+			//collisionObject.gameObject.rigidbody2D.isKinematic = true;
+			StartCoroutine(coroutineEat(collisionObject));
 		}
 
 	}
@@ -159,17 +167,21 @@ public class gBerryClass : MonoBehaviour {
 		}
 
 	}
+	public IEnumerator coroutineEat(Collision2D collisionObject){
+		yield return new WaitForSeconds(0.2F);
+		gameObject.GetComponent<UISprite>().enabled = false;
+		collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("spider eat");
+		StartCoroutine(Coroutine(collisionObject));
+
+	}
 
 	public IEnumerator Coroutine(Collision2D collisionObject){
 		// остановка выполнения функции на costEnergy секунд
-		transform.position = collisionObject.gameObject.transform.position;
-		if (initClass.progress.Count == 0) initClass.getProgress();
-		rigidbody2D.isKinematic = true;
-		collisionObject.gameObject.rigidbody2D.isKinematic = true;
-		//collisionObject.collider.isTrigger = true;
-		yield return new WaitForSeconds(0.7F);
+		yield return new WaitForSeconds(2F);
+		collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("idle");
 		completeMenu.SetActive(true);
-		
+		berryState = "finish";
+
 		int lvlNumber = Convert.ToInt32(Application.loadedLevelName.Substring(5));
 
 		//initClass.progress["stars"] = 3;

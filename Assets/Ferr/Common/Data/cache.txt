@@ -58,13 +58,12 @@ Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
 Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
 Assets/_prefabs/berry.prefab
-Assets/_prefabs/spider.prefab
+Assets/_prefabs/spider old.prefab
 Assets/_prefabs/chain.prefab
 Assets/_prefabs/info window.prefab
 Assets/_prefabs/button market effect.prefab
 Assets/_fonts/1.prefab
 Assets/_images/test terrains/myMossyTerrainMaterial.prefab
-Assets/_prefabs/spider 1.prefab
 Assets/_prefabs/button market.prefab
 Assets/_prefabs/level 1.prefab
 Assets/_prefabs/back forest.prefab
@@ -75,6 +74,7 @@ Assets/_atlases/skin1.prefab
 Assets/_atlases/spider.prefab
 Assets/_prefabs/twig.prefab
 Assets/_prefabs/tumbleweed.prefab
+Assets/_prefabs/spider.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/_prefabs/terrain.prefab
@@ -131,13 +131,11 @@ Assets/NGUI/Examples/Atlases/Wooden/Arimo14.prefab
 Assets/NGUI/Examples/Models/Orc Armor/Orc Shoulders.prefab
 Assets/NGUI/Examples/Atlases/Wooden/Control - Colored Popup List.prefab
 Assets/_prefabs/berry.prefab
-Assets/_prefabs/spider.prefab
 Assets/_prefabs/chain.prefab
 Assets/_prefabs/info window.prefab
 Assets/_prefabs/button market effect.prefab
 Assets/_fonts/1.prefab
 Assets/_images/test terrains/myMossyTerrainMaterial.prefab
-Assets/_prefabs/spider 1.prefab
 Assets/_prefabs/button market.prefab
 Assets/_prefabs/level 1.prefab
 Assets/_prefabs/back forest.prefab
@@ -149,3 +147,5 @@ Assets/_atlases/skin1.prefab
 Assets/_atlases/spider.prefab
 Assets/_prefabs/twig.prefab
 Assets/_prefabs/tumbleweed.prefab
+Assets/_prefabs/spider old.prefab
+Assets/_prefabs/spider.prefab
