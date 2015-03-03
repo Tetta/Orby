@@ -149,3 +149,4 @@ Assets/_prefabs/twig.prefab
 Assets/_prefabs/tumbleweed.prefab
 Assets/_prefabs/spider old.prefab
 Assets/_prefabs/spider.prefab
+Assets/_materials/NewTerrainMaterial.prefab

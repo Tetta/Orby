@@ -90,6 +90,9 @@ public class iClickClass : MonoBehaviour {
 				marketClass.instance.gameObject.SetActive(true);
 				marketClass.instance.marketMainMenu.SetActive(true);
 				animation.Play("back transition open");
+			} else if  (currentButton.name == "button settings") {
+				GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
+				animation.Play("back transition open");
 			} else if (currentButton.name == "button market back") {
 				if (marketClass.instance.coinsMenu.activeSelf) {
 					marketClass.instance.coinsMenu.SetActive(false);
@@ -143,8 +146,43 @@ public class iClickClass : MonoBehaviour {
 		}
 	}
 
+	void initSettings () {
+		if (name == "music button") {
+			if (initClass.progress["music"] == 1) transform.GetChild(0).gameObject.SetActive(false);
+			else transform.GetChild(0).gameObject.SetActive(true);
+		}
+		if (name == "soung button") {
+			if (initClass.progress["sound"] == 1) transform.GetChild(0).gameObject.SetActive(false);
+			else transform.GetChild(0).gameObject.SetActive(true);
+		}
+	}
+
+	void clickSound () {
+		if (initClass.progress["sound"] == 0) {
+			initClass.setSound(true);
+			initClass.progress["sound"] = 1;
+			initClass.saveProgress();
+			transform.GetChild(0).gameObject.SetActive(false);
+		} else {
+			initClass.setSound(false);
+			initClass.progress["sound"] = 0;
+			initClass.saveProgress();
+			transform.GetChild(0).gameObject.SetActive(true);
+		}
+	}
+
 	void clickMusic () {
-		Debug.Log("clickMusic");
+		if (initClass.progress["music"] == 0) {
+			GameObject.Find("music").audio.enabled = true;
+			initClass.progress["music"] = 1;
+			initClass.saveProgress();
+			transform.GetChild(0).gameObject.SetActive(false);
+		} else {
+			GameObject.Find("music").audio.enabled = false;
+			initClass.progress["music"] = 0;
+			initClass.saveProgress();
+			transform.GetChild(0).gameObject.SetActive(true);
+		}
 	}
 
 	void showAchievements () {
@@ -242,9 +280,6 @@ public class iClickClass : MonoBehaviour {
 
 		} else if (name == "exit energy menu") {
 			GameObject.Find("energyLabel").SendMessage("stopCoroutineEnergyMenu");
-		//} else if (name == "button market back") {
-		//	menu = GameObject.Find("market menu");
-		//	menu.SetActive(false);
 		} else if (name == "exit not coins menu") {
 			menu = marketClass.instance.notCoinsMenu;
 			menu.SetActive(false);

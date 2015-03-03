@@ -16,7 +16,10 @@ public class gBerryClass : MonoBehaviour {
 	//private GameObject spider;
 	private GameObject restart;
 	//private GameObject spider;
-	
+	private GameObject back;
+	private Vector3 dir = new Vector3(0, 0, 0);
+	private float t = 0;
+
 	// Use this for initialization
 	void Start () {
 
@@ -62,10 +65,6 @@ public class gBerryClass : MonoBehaviour {
 
 
 		staticClass.showAd ++;
-		Debug.Log(staticClass.showAd);
-		Debug.Log(staticClass.showAdColony);
-		Debug.Log(Advertisement.isSupported);
-		Debug.Log(Advertisement.isInitialized);
 
 		if (staticClass.showAdColony < 2 && staticClass.showAd >= 5) {
 			if (!Advertisement.isReady("defaultVideoAndPictureZone")) {
@@ -114,11 +113,24 @@ public class gBerryClass : MonoBehaviour {
 		}
 		*/
 
+		back = GameObject.Find("back forest");
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//acceleration start
+		if (Time.time - t > 0.02F) {
+			t = Time.time;
+			dir.y = Input.acceleration.y;
+			dir.x = Input.acceleration.x;
+			back.rigidbody2D.AddForce((-dir - back.transform.localPosition / 100) * 5);
+
+			back.rigidbody2D.drag = (1 - (-new Vector2(dir.x, dir.y) - 
+			                             new Vector2(back.transform.localPosition.x, back.transform.localPosition.y)  / 100).magnitude) * 10;
+		}
+		//acceleration end
+
 		if (transform.position.x < -4 || transform.position.x > 4 || transform.position.y < -6 || transform.position.y > 6) StartCoroutine(gSpiderClass.coroutineCry());
 		//timer
 		if (initLevelMenuClass.levelDemands == 1) {
@@ -178,7 +190,7 @@ public class gBerryClass : MonoBehaviour {
 	public IEnumerator Coroutine(Collision2D collisionObject){
 		// остановка выполнения функции на costEnergy секунд
 		yield return new WaitForSeconds(2F);
-		collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("idle");
+		//collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("idle");
 		completeMenu.SetActive(true);
 		berryState = "finish";
 

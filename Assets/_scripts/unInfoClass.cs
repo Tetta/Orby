@@ -23,8 +23,8 @@ public class unInfoClass : MonoBehaviour {
 	}
 
 	void handleLog(string logString, string stackTrace, LogType type) {
-		info = info + "\n" + type + ": " + logString + "\n" + stackTrace;
-		//info = info + "\n" + type + ": " + logString ;
+		//info = info + "\n" + type + ": " + logString + "\n" + stackTrace;
+		info = info + "\n" + type + ": " + logString ;
 		label.text = info;
 	}
 

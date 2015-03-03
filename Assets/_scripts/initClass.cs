@@ -12,7 +12,6 @@ public class initClass : MonoBehaviour {
 	public GameObject achievements;
 	public GameObject leaderboards;
 	public GameObject closeMenu;
-	public UIToggle EnglishToggle;
 	public GameObject market;
 
 	static public Dictionary<string, int> progress = new Dictionary<string, int>();
@@ -26,9 +25,18 @@ public class initClass : MonoBehaviour {
 			getProgress();
 			staticClass.initLevels();
 			market.SetActive(true);
+			if (progress["sound"] == 0) setSound(false);
+			if (progress["music"] == 1) GameObject.Find("music").audio.enabled = true;
+			//опции
+			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
+			GameObject g = GameObject.Find(Localization.language);
+			Debug.Log (GameObject.Find(Localization.language).GetComponent<BoxCollider>());
+			//GameObject.Find(Localization.language).GetComponent<UIToggle>().value = true;
+			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
+			//
 
 		}
-		GameObject.Find(Localization.language).GetComponent<UIToggle>().value = true;
+
 
 		if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) {
 			achievements.SetActive(true);
@@ -43,6 +51,7 @@ public class initClass : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		//Application.RegisterLogCallback(handleLog);
 		if (Input.GetKey(KeyCode.Escape)) {
 			closeMenu.SetActive(true);
@@ -137,6 +146,14 @@ public class initClass : MonoBehaviour {
 		}
 	}
 
+	static public void setSound(bool flag) {
+		UIPlaySound[] sounds = FindObjectsOfTypeAll(typeof(UIPlaySound))as UIPlaySound[];
+		foreach (UIPlaySound sound in sounds) {
+			if (flag) sound.enabled = true;
+			else sound.enabled = false;
+		}
+
+	}
 
 
 }

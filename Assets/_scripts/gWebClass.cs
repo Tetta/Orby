@@ -35,6 +35,7 @@ public class gWebClass : MonoBehaviour {
 		maxDiffC = chainLength * maxChainCount;
 		jointWeb = web.GetComponent<HingeJoint2D> ();
 		if (pointB != null) {
+			if (pointB.name == "spider") gSpiderClass.websSpider.Add(gameObject.GetInstanceID());
 			diff = pointB.transform.position + pointBAchor - web.transform.position;
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
 			diffX = maxDiffC / pointBDiffC * diff.x / maxChainCount;
