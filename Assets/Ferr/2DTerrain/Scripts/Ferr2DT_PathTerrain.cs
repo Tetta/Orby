@@ -664,6 +664,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         }
     }
 	private void AddSegment(List<Vector2> aSegment, List<float> aScale, bool aClosed, bool aSmooth, Ferr2DT_TerrainDirection aDir = Ferr2DT_TerrainDirection.None) {
+
 		Ferr2DT_SegmentDescription desc;
 		if (aDir != Ferr2DT_TerrainDirection.None) { desc = terrainMaterial.GetDescriptor(aDir); }
 		else                                       { desc = GetDescription(aSegment);            }
@@ -692,6 +693,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 			distance = Vector3.Distance(point1, point2);
 			cuts     = Mathf.Max(1,Mathf.FloorToInt(distance / bodyWidth + stretchThreshold));
 
+
 			for (int t = 0; t < cuts; t++) {
                 float p1 = (float)(t) / cuts;
                 float p2 = (float)(t + 1) / cuts;
@@ -712,6 +714,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 		Vector3   tn1  = Ferr2D_Path.GetNormal(aSegment, aVert,   aClosed);
 		Vector3   tn2  = Ferr2D_Path.GetNormal(aSegment, aVert+1, aClosed);
 
+
         // get the data needed to make the quad
         for (int i = 0; i < aCuts; i++) {
             float percent = aStart + (i / (float)(aCuts - 1)) * (aEnd - aStart);
@@ -731,7 +734,23 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             UnityEngine.Random.seed = (int)(pos[0].x * 700000 + pos[0].y * 30000);
         }
 
-        Rect  body  = terrainMaterial.ToUV(aDesc.body[UnityEngine.Random.Range(0, aDesc.body.Length)]);
+        //Rect  body  = terrainMaterial.ToUV(aDesc.body[UnityEngine.Random.Range(0, aDesc.body.Length)]);
+
+		//my changing start
+		Rect  body  = terrainMaterial.ToUV(aDesc.body[0]);
+		if (aDesc.body.Length == 2) {
+			/*
+			Debug.Log(aDesc.applyTo);
+			for (int i = 0; i < aCuts; i++) {
+				Debug.Log(pos[i]);
+
+			}
+			*/
+			if ((pos [aCuts - 1] - pos [0]).magnitude < 0.3) body  = terrainMaterial.ToUV(aDesc.body[1]);
+			else body  = terrainMaterial.ToUV(aDesc.body[0]);
+		}
+		//my changing end
+
 		float d     = (body.height / 2) * unitsPerUV.y;
 		float yOff  = fill == Ferr2DT_FillMode.InvertedClosed ? -aDesc.yOffset : aDesc.yOffset;
         if (randomByWorldCoordinates) {
@@ -844,7 +863,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             DMesh.AddVertex(fillVerts[i].x, fillVerts[i].y, fillZ, (fillVerts[i].x + uvOffset.x + transform.position.x) / scale.x, (fillVerts[i].y + uvOffset.y + transform.position.y ) / scale.y);
         }
         for (int i = 0; i < indices.Count; i+=3) {
-            try {
+			try {
                 DMesh.AddFace(indices[i    ] + offset,
                               indices[i + 1] + offset,
                               indices[i + 2] + offset);
@@ -871,7 +890,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
     /// <param name="aRecreate">Should we recreate the mesh? Usually, this is what you want (only happens if the material changes, or is forced to change)</param>
     public  void                        ForceMaterial   (Ferr2DT_TerrainMaterial aMaterial, bool aForceUpdate, bool aRecreate = true)
     {
-        if (terrainMaterial != aMaterial || aForceUpdate)
+		if (terrainMaterial != aMaterial || aForceUpdate)
         {
             terrainMaterial = aMaterial;
 
@@ -962,7 +981,8 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         return terrainMaterial.GetDescriptor(dir);
     }
     private List<List<int>>             GetSegments         (List<Vector2> aPath, out List<Ferr2DT_TerrainDirection> aSegDirections)
-    {
+	{
+
         List<List<int>> segments = new List<List<int>>();
         if (splitCorners) {
             segments = Ferr2D_Path.GetSegments(aPath, out aSegDirections, directionOverrides,
@@ -980,7 +1000,9 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         if (Path.closed ) {
             Ferr2D_Path.CloseEnds(aPath, ref segments, ref aSegDirections, splitCorners, fill == Ferr2DT_FillMode.InvertedClosed);
         }
-        return segments;
+
+
+		return segments;
     }
 	private List<Vector2>               GetSegmentsCombined (float         aSplitDist) {
 		List<Ferr2DT_TerrainDirection> dirs   = new List<Ferr2DT_TerrainDirection>();

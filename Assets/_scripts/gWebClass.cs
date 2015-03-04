@@ -234,6 +234,8 @@ public class gWebClass : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
+			if (gSpiderClass.websSpider.Count != 0) if (gSpiderClass.websSpider.Contains(gameObject.GetInstanceID())) gSpiderClass.websSpider.Remove(gameObject.GetInstanceID());
+
 			audio.Play();
 			staticClass.useWeb ++;
 			webState = "destroyingWeb";
