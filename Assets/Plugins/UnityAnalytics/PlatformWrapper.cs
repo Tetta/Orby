@@ -4,7 +4,7 @@
 #endif
 
 
-#if UNITY_IPHONE || UNITY_ANDROID || (UNITY_STANDALONE && UNITY_EDITOR)
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_METRO
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +20,8 @@ namespace UnityEngine.Cloud.Analytics
 				return new AndroidWrapper();
 				#elif UNITY_IPHONE && !UNITY_EDITOR
 				return new iOSWrapper();
+				#elif UNITY_WEBGL && !UNITY_EDITOR
+				return new WebGLWrapper();
 				#else
 				return new BasePlatformWrapper();
 				#endif
@@ -72,6 +74,28 @@ namespace UnityEngine.Cloud.Analytics
 		public virtual bool isWebPlayer
 		{
 			get { return Application.isWebPlayer; }
+		}
+
+		public virtual bool isAndroidPlayer
+		{
+			get { return Application.platform == RuntimePlatform.Android; }
+		}
+
+		public virtual bool isIPhonePlayer
+		{
+			get { return Application.platform == RuntimePlatform.IPhonePlayer; }
+		}
+
+		public virtual bool isWebGLPlayer
+		{
+			get 
+			{
+				#if UNITY_WEBGL     
+				return Application.platform == RuntimePlatform.WebGLPlayer;
+				#else	
+				return false;
+				#endif
+			}
 		}
 
 		public virtual bool isEditor
@@ -151,6 +175,12 @@ namespace UnityEngine.Cloud.Analytics
 					// LinuxPlayer	In the player on Linux.
 					case RuntimePlatform.LinuxPlayer:
 						return "linux";
+
+					#if UNITY_WEBGL
+					case RuntimePlatform.WebGLPlayer:
+						return "webglplayer";
+					#endif
+
 /*
 					// FlashPlayer	Flash Player.
 					case RuntimePlatform.FlashPlayer:

@@ -52,13 +52,8 @@ namespace UnityEngine.Advertisements {
 		return getAndroidWrapper().Call<string>("getSDKVersion");
 	}
 		
-	public override bool canShowAds (string network) {
-      return getAndroidWrapper().Call<bool>("canShowAds", network);
-	}
-		
-	public override bool canShow () {
-      Utils.LogDebug ("UnityAndroid: canShow()");
-		return getAndroidWrapper().Call<bool>("canShow");
+	public override bool canShowZone (string zone) {
+		return getAndroidWrapper().Call<bool>("canShowZone", zone);
 	}
 		
 	public override bool hasMultipleRewardItems () {
@@ -100,17 +95,6 @@ namespace UnityEngine.Advertisements {
       Utils.LogDebug ("UnityAndroid: getRewardItemDetailsKeys()");
 		return getAndroidWrapper().Call<string>("getRewardItemDetailsKeys");
 	}
-
-  public override void setNetworks(HashSet<string> networks) {
-      string networksString = Utils.Join(networks, ",");
-      Utils.LogDebug("UnityAndroid: setNetworks: " + networksString);
-      getAndroidWrapper().CallStatic("setNetworks", networksString);
-  }
-
-  public override void setNetwork(string network) {
-      Utils.LogDebug("UnityAndroid: setNetwork()");
-		getAndroidWrapper().Call("setNetwork", network);
-  }
 
 	public override void setLogLevel(Advertisement.DebugLevel logLevel) {
 		Utils.LogDebug("UnityAndroid: setLogLevel()");

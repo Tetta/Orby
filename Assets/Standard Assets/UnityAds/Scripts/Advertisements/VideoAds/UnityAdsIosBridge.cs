@@ -22,11 +22,11 @@ namespace UnityEngine.Advertisements {
 		public static extern string getSDKVersion ();
 		
 		[DllImport ("__Internal")]
-		public static extern bool canShowAds (string network);
-		
-		[DllImport ("__Internal")]
 		public static extern bool canShow ();
-		
+
+		[DllImport ("__Internal")]
+		public static extern bool canShowZone (string zone);
+
 		[DllImport ("__Internal")]
 		public static extern bool hasMultipleRewardItems ();
 		
@@ -52,17 +52,11 @@ namespace UnityEngine.Advertisements {
 		public static extern string getRewardItemDetailsKeys ();
 
 		[DllImport ("__Internal")]
-		public static extern void setNetworks(string networks);
-
-    [DllImport ("__Internal")]
-    public static extern void setNetwork(string network);
-
-		[DllImport ("__Internal")]
 		public static extern void setDebugMode(bool debugMode);
 
 		[DllImport ("__Internal")]
 		public static extern void enableUnityDeveloperInternalTestMode ();
 	}
- }
+}
 
 #endif

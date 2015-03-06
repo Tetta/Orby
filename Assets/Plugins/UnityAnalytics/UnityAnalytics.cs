@@ -1,4 +1,4 @@
-#if UNITY_IPHONE || UNITY_ANDROID || (UNITY_STANDALONE && UNITY_EDITOR)
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_WEBGL || UNITY_METRO
 #define UNITY_ANALYTICS_SUPPORTED_PLATFORM
 #endif
 
@@ -120,7 +120,13 @@ namespace UnityEngine.Cloud.Analytics
 			if (s_Implementation == null) {
 				Logger.loggerInstance = new UnityLogger();
 				IPlatformWrapper platformWrapper = PlatformWrapper.platform;
+				#if NETFX_CORE
+				IFileSystem fileSystem = new WindowsFileSystem();
+				#elif UNITY_WEBPLAYER || UNITY_WEBGL
+				IFileSystem fileSystem = new VirtualFileSystem();
+				#else
 				IFileSystem fileSystem = new FileSystem();
+				#endif
 				ICoroutineManager coroutineManager = new UnityCoroutineManager();
 				s_Implementation = new SessionImpl(platformWrapper, coroutineManager, fileSystem);
 				GameObserver.CreateComponent(platformWrapper, s_Implementation);

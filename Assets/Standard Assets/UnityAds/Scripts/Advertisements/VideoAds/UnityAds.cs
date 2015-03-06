@@ -1,36 +1,25 @@
+#if UNITY_ANDROID || UNITY_IOS
+
 namespace UnityEngine.Advertisements {
   using UnityEngine;
   using System.Collections;
   using System.Collections.Generic;
+  using ShowOptionsExtended = Optional.ShowOptionsExtended;
 
   internal class UnityAds : MonoBehaviour {
+    public static bool isShowing = false;
+    public static bool isInitialized = false;
+    public static bool allowPrecache = true;
+
+	private static bool initCalled = false;
 
     private static UnityAds sharedInstance;
-    private static bool _adsShow = false;
 
-    private static HashSet<string> _campaignsAvailable = new HashSet<string>();
-    
     private static string _rewardItemNameKey = "";
     private static string _rewardItemPictureKey = "";
-    
-    public delegate void UnityAdsCampaignsAvailable();
-    public static UnityAdsCampaignsAvailable OnCampaignsAvailable;
-  
-    public delegate void UnityAdsCampaignsFetchFailed();
-    public static UnityAdsCampaignsFetchFailed OnCampaignsFetchFailed;
-  
-    public delegate void UnityAdsShow();
-    public static UnityAdsShow OnShow;
-    
-    public delegate void UnityAdsHide();
-    public static UnityAdsHide OnHide;
-  
-    public delegate void UnityAdsVideoCompleted(string rewardItemKey, bool skipped);
-    public static UnityAdsVideoCompleted OnVideoCompleted;
-    
-    public delegate void UnityAdsVideoStarted();
-    public static UnityAdsVideoStarted OnVideoStarted;
-    
+
+	private static System.Action<ShowResult> resultCallback = null;
+
     public static UnityAds SharedInstance {
       get {
         if(!sharedInstance) {
@@ -49,11 +38,33 @@ namespace UnityEngine.Advertisements {
     }
 
     public void Init(string gameId, bool testModeEnabled) {
-      #if (UNITY_IPHONE || UNITY_ANDROID || UNITY_EDITOR)
-      UnityAdsExternal.init(gameId, testModeEnabled, SharedInstance.gameObject.name);
-      #endif
+		// Prevent double inits in all situations
+		if (initCalled) return;
+		initCalled = true;
+
+		try {
+			if(Application.internetReachability == NetworkReachability.NotReachable) {
+				Utils.LogError("Internet not reachable, can't initialize ads");
+				return;
+			}
+#if UNITY_ANDROID
+			System.Net.IPHostEntry videoAdServer = System.Net.Dns.GetHostEntry("impact.applifier.com");
+			if(videoAdServer.AddressList.Length == 1) {
+				// 0x7F000001 equals to 127.0.0.1
+				if(videoAdServer.AddressList[0].Equals(new System.Net.IPAddress(new byte[] {0x7F, 0x00, 0x00, 0x01}))) {
+					Utils.LogError("Video ad server resolves to localhost (due to ad blocker?), can't initialize ads");
+					return;
+				}
+			}
+#endif
+		} catch(System.Exception e) {
+			Utils.LogDebug("Exception during connectivity check: " + e.Message);
+			return;
+		}
+
+		UnityAdsExternal.init(gameId, testModeEnabled, SharedInstance.gameObject.name);
     }
-    
+
     public void Awake () {
       if(gameObject == SharedInstance.gameObject) {
         DontDestroyOnLoad(gameObject);
@@ -62,164 +73,167 @@ namespace UnityEngine.Advertisements {
         Destroy (gameObject);
       }
     }
-  
+
     /* Static Methods */
-    
+
     public static bool isSupported () {
       return UnityAdsExternal.isSupported();
     }
-    
+
     public static string getSDKVersion () {
       return UnityAdsExternal.getSDKVersion();
-    }
-    
-    public static bool canShowAds (string network) {
-      return _campaignsAvailable.Contains (network) && UnityAdsExternal.canShowAds (network);
     }
 
     public static void setLogLevel(Advertisement.DebugLevel logLevel) {
       UnityAdsExternal.setLogLevel(logLevel);
     }
 
-    public static bool canShow () {
-      return _campaignsAvailable.Count > 0;
+    public static bool canShowZone (string zone) {
+      if(!isInitialized || isShowing) return false;
+
+      return UnityAdsExternal.canShowZone(zone);
     }
-    
+
     public static bool hasMultipleRewardItems () {
-      if (_campaignsAvailable.Count > 0)
-        return UnityAdsExternal.hasMultipleRewardItems();
-      
-      return false;
+      return UnityAdsExternal.hasMultipleRewardItems();
     }
-    
+
     public static List<string> getRewardItemKeys () {
       List<string> retList = new List<string>();
-      
-      if (_campaignsAvailable.Count > 0) {
-        string keys = UnityAdsExternal.getRewardItemKeys();
-        retList = new List<string>(keys.Split(';'));
-      }
-      
+
+      string keys = UnityAdsExternal.getRewardItemKeys();
+      retList = new List<string>(keys.Split(';'));
+
       return retList;
     }
-    
+
     public static string getDefaultRewardItemKey () {
-      if (_campaignsAvailable.Count > 0) {
-        return UnityAdsExternal.getDefaultRewardItemKey();
-      }
-      
-      return "";
+      return UnityAdsExternal.getDefaultRewardItemKey();
     }
-    
+
     public static string getCurrentRewardItemKey () {
-      if (_campaignsAvailable.Count > 0) {
-        return UnityAdsExternal.getCurrentRewardItemKey();
-      }
-      
-      return "";
+      return UnityAdsExternal.getCurrentRewardItemKey();
     }
-    
+
     public static bool setRewardItemKey (string rewardItemKey) {
-      if (_campaignsAvailable.Count > 0) {
-        return UnityAdsExternal.setRewardItemKey(rewardItemKey);
-      }
-      
-      return false;
+      return UnityAdsExternal.setRewardItemKey(rewardItemKey);
     }
-    
+
     public static void setDefaultRewardItemAsRewardItem () {
-      if (_campaignsAvailable.Count > 0) {
-        UnityAdsExternal.setDefaultRewardItemAsRewardItem();
-      }
+      UnityAdsExternal.setDefaultRewardItemAsRewardItem();
     }
-    
+
     public static string getRewardItemNameKey () {
       if (_rewardItemNameKey == null || _rewardItemNameKey.Length == 0) {
         fillRewardItemKeyData();
       }
-      
+
       return _rewardItemNameKey;
     }
-    
+
     public static string getRewardItemPictureKey () {
       if (_rewardItemPictureKey == null || _rewardItemPictureKey.Length == 0) {
         fillRewardItemKeyData();
       }
-      
+
       return _rewardItemPictureKey;
     }
-    
+
     public static Dictionary<string, string> getRewardItemDetailsWithKey (string rewardItemKey) {
       Dictionary<string, string> retDict = new Dictionary<string, string>();
       string rewardItemDataString = "";
-      
-      if (_campaignsAvailable.Count > 0) {
-        rewardItemDataString = UnityAdsExternal.getRewardItemDetailsWithKey(rewardItemKey);
-        
-        if (rewardItemDataString != null) {
-          List<string> splittedData = new List<string>(rewardItemDataString.Split(';'));
-          Utils.LogDebug("UnityAndroid: getRewardItemDetailsWithKey() rewardItemDataString=" + rewardItemDataString);
-          
-          if (splittedData.Count == 2) {
-            retDict.Add(getRewardItemNameKey(), splittedData.ToArray().GetValue(0).ToString());
-            retDict.Add(getRewardItemPictureKey(), splittedData.ToArray().GetValue(1).ToString());
-          }
+
+      rewardItemDataString = UnityAdsExternal.getRewardItemDetailsWithKey(rewardItemKey);
+
+      if (rewardItemDataString != null) {
+        List<string> splittedData = new List<string>(rewardItemDataString.Split(';'));
+        Utils.LogDebug("UnityAndroid: getRewardItemDetailsWithKey() rewardItemDataString=" + rewardItemDataString);
+
+        if (splittedData.Count == 2) {
+          retDict.Add(getRewardItemNameKey(), splittedData.ToArray().GetValue(0).ToString());
+          retDict.Add(getRewardItemPictureKey(), splittedData.ToArray().GetValue(1).ToString());
         }
       }
-      
+
       return retDict;
     }
 
-    public static void setNetworks(HashSet<string> networks) {
-      UnityAdsExternal.setNetworks(networks);
+	public void Show(string zoneId = null, ShowOptions options = null) {
+		string gamerSid = null;
+		if (options != null) {
+			if (options.resultCallback != null) {
+				resultCallback = options.resultCallback;
+			}
+
+			ShowOptionsExtended extendedOptions = options as ShowOptionsExtended;
+			if(extendedOptions != null && extendedOptions.gamerSid != null && extendedOptions.gamerSid.Length > 0) {
+				gamerSid = extendedOptions.gamerSid;
+			}
+		}
+
+		if (!isInitialized || isShowing) {
+			deliverCallback (ShowResult.Failed);
+			return;
+		}
+		
+		if (gamerSid != null) {
+			if (!show (zoneId, "", new Dictionary<string,string> {{"sid", gamerSid}})) {
+				deliverCallback (ShowResult.Failed);
+			} 
+		} else {
+			if (!show (zoneId)) {
+				deliverCallback (ShowResult.Failed);
+			}
+		}
+	}
+
+    public static bool show (string zoneId = null) {
+      return show (zoneId, "", null);
     }
 
-    public static void setNetwork(string network) {
-      UnityAdsExternal.setNetwork(network);
-    }
-    
-    public static bool show (string zoneId = null) {
-      return show (zoneId, "", null);  
-    }
-    
     public static bool show (string zoneId, string rewardItemKey) {
-      return show (zoneId, rewardItemKey, null);  
+      return show (zoneId, rewardItemKey, null);
     }
-    
+
     public static bool show (string zoneId, string rewardItemKey, Dictionary<string, string> options) {
-      if (!_adsShow && _campaignsAvailable.Count > 0) {      
-        if (SharedInstance) {              
-          string optionsString = parseOptionsDictionary(options);
-          
-          if (UnityAdsExternal.show(zoneId, rewardItemKey, optionsString)) {        
-            if (OnShow != null)
-              OnShow();
-            
-            _adsShow = true;
-            return true;
-          }
-        }
-      }
-      
+      if (!isShowing) {
+		isShowing = true;
+		if (SharedInstance) {
+		  string optionsString = parseOptionsDictionary (options);
+
+		  if (UnityAdsExternal.show (zoneId, rewardItemKey, optionsString)) {
+			return true;
+		  }
+		}
+	  }
+
       return false;
     }
-   
+
+	private static void deliverCallback(ShowResult result) {
+		if (resultCallback != null) {
+			resultCallback(result);
+			resultCallback = null;
+			isShowing = false;
+		}
+	}
+
     public static void hide () {
-      if (_adsShow) {
+      if (isShowing) {
         UnityAdsExternal.hide();
       }
     }
-  
+
     private static void fillRewardItemKeyData () {
       string keyData = UnityAdsExternal.getRewardItemDetailsKeys();
-      
+
       if (keyData != null && keyData.Length > 2) {
         List<string> splittedKeyData = new List<string>(keyData.Split(';'));
         _rewardItemNameKey = splittedKeyData.ToArray().GetValue(0).ToString();
         _rewardItemPictureKey = splittedKeyData.ToArray().GetValue(1).ToString();
       }
     }
-    
+
     private static string parseOptionsDictionary(Dictionary<string, string> options) {
       string optionsString = "";
       if(options != null) {
@@ -247,54 +261,47 @@ namespace UnityEngine.Advertisements {
       }
       return optionsString;
     }
-  
+
     /* Events */
-    
+
     public void onHide () {
-      _adsShow = false;
-      if (OnHide != null)
-        OnHide();
-      
+      isShowing = false;
       Utils.LogDebug("onHide");
     }
-    
+
     public void onShow () {
       Utils.LogDebug("onShow");
     }
-    
-    public void onVideoStarted () {
-      if (OnVideoStarted != null)
-        OnVideoStarted();
 
+    public void onVideoStarted () {
       Utils.LogDebug("onVideoStarted");
     }
-    
+
     public void onVideoCompleted (string parameters) {
       if (parameters != null) {
         List<string> splittedParameters = new List<string>(parameters.Split(';'));
         string rewardItemKey = splittedParameters.ToArray().GetValue(0).ToString();
         bool skipped = splittedParameters.ToArray().GetValue(1).ToString() == "true" ? true : false;
-        
-        if (OnVideoCompleted != null)
-          OnVideoCompleted(rewardItemKey, skipped);
-      
+
         Utils.LogDebug("onVideoCompleted: " + rewardItemKey + " - " + skipped);
+
+		if(skipped) {
+			deliverCallback (ShowResult.Skipped);
+		} else {
+			deliverCallback (ShowResult.Finished);
+		}
       }
     }
-    
-    public void onFetchCompleted (string network) {
-      _campaignsAvailable.Add(network);
-      if (OnCampaignsAvailable != null)
-        OnCampaignsAvailable();
-        
-      Utils.LogDebug("onFetchCompleted - " + network);
+
+    public void onFetchCompleted () {
+	  isInitialized = true;
+      Utils.LogDebug("onFetchCompleted");
     }
-  
+
     public void onFetchFailed () {
-      if (OnCampaignsFetchFailed != null)
-        OnCampaignsFetchFailed();
-      
       Utils.LogDebug("onFetchFailed");
     }
   }
 }
+
+#endif

@@ -11,7 +11,14 @@ public class FacebookSettingsEditor : Editor
 {
     bool showFacebookInitSettings = false;
     bool showAndroidUtils = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);
-    bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone);
+
+	#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1	|| UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+	bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone);
+	#else
+	bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS);
+	#endif
+
+   
 
     GUIContent appNameLabel = new GUIContent("App Name [?]:", "For your own use and organization.\n(ex. 'dev', 'qa', 'prod')");
     GUIContent appIdLabel = new GUIContent("App Id [?]:", "Facebook App Ids can be found at https://developers.facebook.com/apps");

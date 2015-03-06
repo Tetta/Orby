@@ -67,7 +67,7 @@ public class PlayServiceCustomLBExample : MonoBehaviour {
 
 
 
-		GooglePlayManager.ActionSoreSubmited += OnScoreSbumitted;
+		GooglePlayManager.ActionScoreSubmited += OnScoreSbumitted;
 
 
 		//Same events, one with C# actions, one with FLE

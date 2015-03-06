@@ -20,7 +20,9 @@ namespace UnityEngine.Advertisements {
 	
       set {
         _debugLevel = value;
+#if UNITY_ANDROID || UNITY_IOS
         UnityEngine.Advertisements.UnityAds.setLogLevel(_debugLevel);
+#endif
       }
     }
 
@@ -35,39 +37,65 @@ namespace UnityEngine.Advertisements {
 
     static public bool isInitialized {
       get {
-        return Engine.Instance.isInitialized;
+#if UNITY_ANDROID || UNITY_IOS
+        return UnityAds.isInitialized;
+#else
+        return false;
+#endif
       }
     }
 
     static public void Initialize(string appId, bool testMode = false) {
-      Engine.Instance.Initialize(appId, testMode);
+#if UNITY_ANDROID || UNITY_IOS
+      UnityAds.SharedInstance.Init(appId, testMode);
+#endif
     }
 
     static public void Show(string zoneId = null, ShowOptions options = null) {
-      Engine.Instance.Show(zoneId, options);
+#if UNITY_ANDROID || UNITY_IOS
+      UnityAds.SharedInstance.Show(zoneId, options);
+#else
+      if(options.resultCallback != null) {
+        options.resultCallback(ShowResult.Failed);
+      }
+#endif
     }
 
     static public bool allowPrecache { 
       get {
-        return Engine.Instance.allowPrecache;
+#if UNITY_ANDROID || UNITY_IOS
+        return UnityAds.allowPrecache;
+#else
+        return false;
+#endif
       }
       set {
-        Engine.Instance.allowPrecache = value;
+#if UNITY_ANDROID || UNITY_IOS
+        UnityAds.allowPrecache = value;
+#endif
       }
     }
 
     static public bool isReady(string zoneId = null) {
-      return Engine.Instance.isReady(zoneId);
+#if UNITY_ANDROID || UNITY_IOS
+      return UnityAds.canShowZone(zoneId);
+#else
+      return false;
+#endif
     }
 
     static public bool isShowing { 
       get {
-        return Engine.Instance.isShowing();
+#if UNITY_ANDROID || UNITY_IOS
+        return UnityAds.isShowing;
+#else
+        return false;
+#endif
       }
     }
 
     static public bool UnityDeveloperInternalTestMode {
-		get; set;
+      get; set;
     }
 
   }

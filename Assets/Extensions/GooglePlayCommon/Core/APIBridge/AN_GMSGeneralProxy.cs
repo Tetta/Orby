@@ -19,17 +19,19 @@ public class AN_GMSGeneralProxy : MonoBehaviour {
 	
 	public static void clearDefaultAccount() {
 		CallActivityFunction("clearDefaultAccount");
-	}
-	
+	}	
 	
 	public static void playServiceInit (string scopes) {
 		CallActivityFunction("playServiceInit", scopes);
 	}
+
+	public static void setConnectionParams(bool showPopup) {
+		CallActivityFunction ("setConnectionParams", showPopup.ToString());
+	}
 	
 	public static void playServiceConnect() {
 		CallActivityFunction("playServiceConnect");
-	}
-	
+	}	
 	
 	public static void playServiceConnect(string accountName) {
 		CallActivityFunction("playServiceConnect", accountName);
@@ -144,9 +146,11 @@ public class AN_GMSGeneralProxy : MonoBehaviour {
 	}
 
 
+
 	public static void OnApplicationPause(bool isPaused) {
 		CallActivityFunction("OnApplicationPause", isPaused);
 	}
+
 
 	
 	// --------------------------------------
@@ -175,6 +179,9 @@ public class AN_GMSGeneralProxy : MonoBehaviour {
 		CallActivityFunction("OpenSpanshotByName_Bridge", name);
 	}
 
+	public static void DeleteSpanshotByName_Bridge(string name) {
+		CallActivityFunction("DeleteSpanshotByName_Bridge", name);
+	}
 
 	//--------------------------------------
 	// Goole Cloud

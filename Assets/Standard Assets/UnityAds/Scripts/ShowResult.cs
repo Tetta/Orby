@@ -6,5 +6,4 @@ namespace UnityEngine.Advertisements {
     Skipped,
     Finished
   }
-
 }

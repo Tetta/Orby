@@ -1,4 +1,6 @@
-﻿namespace UnityEngine.Advertisements {
+#if UNITY_ANDROID || UNITY_IOS
+
+namespace UnityEngine.Advertisements {
   using UnityEngine;
   using System.Collections;
 
@@ -28,30 +30,10 @@
       return asyncImpl;
     }
 
-    public static void run(IEnumerator method) {
-      getImpl().StartCoroutine(method);
-    }
-
-    public static void runWithCallback<T>(System.Func<System.Action<T>,IEnumerator> asyncMethod, System.Action<T> callback) {
-      getImpl().StartCoroutine(asyncMethod(callback));
-    }
-
     public static void runWithCallback<K,T>(System.Func<K,System.Action<T>,IEnumerator> asyncMethod, K arg0, System.Action<T> callback) {
       getImpl().StartCoroutine(asyncMethod(arg0, callback));
     }
-
-    public static void runWithDelay(int delay, System.Action callback) {
-      getImpl().StartCoroutine(getAsyncImpl().delayedCallback(delay, callback));
-    }
-
-    private IEnumerator delayedCallback(int delay, System.Action callback) {
-      float start = Time.realtimeSinceStartup;
-
-      while(Time.realtimeSinceStartup < start + delay) {
-        yield return null;
-      }
-
-      callback();
-    }
   }
 }
+
+#endif

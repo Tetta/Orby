@@ -1,3 +1,5 @@
+#if UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+
 namespace UnityEngine.Advertisements
 {
   using UnityEngine;
@@ -81,3 +83,5 @@ namespace UnityEngine.Advertisements
 		}		
 	}
 }
+
+#endif

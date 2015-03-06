@@ -340,8 +340,7 @@ public final class AccessToken implements Serializable {
         }
     }
 
-    @SuppressWarnings("unused")
-	private static class SerializationProxyV1 implements Serializable {
+    private static class SerializationProxyV1 implements Serializable {
         private static final long serialVersionUID = -2488473066578201069L;
         private final Date expires;
         private final List<String> permissions;

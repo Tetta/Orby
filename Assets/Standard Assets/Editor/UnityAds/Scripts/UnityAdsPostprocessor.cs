@@ -18,7 +18,11 @@ namespace UnityEngine.Advertisements
     [PostProcessBuild(1080)]
     public static void OnPostProcessBuild (BuildTarget target, string path)
     {
+#if UNITY_5
+      if (target == BuildTarget.iOS) {
+#else
       if (target == BuildTarget.iPhone) {
+#endif
         PostProcessBuild_iOS (path);
       }
     }
@@ -26,7 +30,11 @@ namespace UnityEngine.Advertisements
     [PostProcessBuild(-10)]
     public static void OnPostProcessBuildEarly (BuildTarget target, string path)
     {
+#if UNITY_5
+      if (target == BuildTarget.iOS) {
+#else
       if (target == BuildTarget.iPhone) {
+#endif
         FixUnityPlistAppendBug (path);
       }
     }
@@ -76,11 +84,11 @@ namespace UnityEngine.Advertisements
       List<string> frameworks = new List<string> ();
       frameworks.Add ("AdSupport.framework");
       frameworks.Add ("StoreKit.framework");
+      frameworks.Add ("CoreTelephony.framework");
 
       List<string> dependencyList = new List<string> ();
       dependencyList.Add ("UnityAds.framework");
       dependencyList.Add ("UnityAds.bundle");
-      dependencyList.Add ("DeviceInfo.framework");
       dependencyList.Add ("UnityAdsUnityWrapper.h");
       dependencyList.Add ("UnityAdsUnityWrapper.mm");
 

@@ -90,6 +90,12 @@ namespace UnityEngine.Cloud.Analytics
 
 					return Md5Hex(androidId);
 				} 
+			#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2
+				catch (System.Exception)
+				{
+				return "";
+				}
+			#else
 				catch (UnityEngine.AndroidJavaException)
 				{
 					return "";
@@ -98,6 +104,7 @@ namespace UnityEngine.Cloud.Analytics
 				{
 					return "";
 				}
+			#endif
 			}
 		}
 	}

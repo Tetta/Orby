@@ -29,9 +29,7 @@ public class initClass : MonoBehaviour {
 			if (progress["music"] == 1) GameObject.Find("music").audio.enabled = true;
 			//опции
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
-			GameObject g = GameObject.Find(Localization.language);
-			Debug.Log (GameObject.Find(Localization.language).GetComponent<BoxCollider>());
-			//GameObject.Find(Localization.language).GetComponent<UIToggle>().value = true;
+			GameObject.Find(Localization.language).GetComponent<UIToggle>().value = true;
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
 			//
 

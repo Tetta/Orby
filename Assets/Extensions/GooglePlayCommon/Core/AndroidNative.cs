@@ -17,6 +17,7 @@ public class AndroidNative {
 
 	public const string DATA_SPLITTER = "|";
 	public const string DATA_EOF = "endofline";
+	public const string DATA_SPLITTER2 = "|%|";
 	
 
 

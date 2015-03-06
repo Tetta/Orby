@@ -27,6 +27,7 @@ public class GooglePlaySavedGamesManager :  SA_Singleton<GooglePlaySavedGamesMan
 	public static Action<GP_SpanshotLoadResult> ActionGameSaveLoaded 	= delegate {};
 	public static Action<GP_SpanshotLoadResult> ActionGameSaveResult 	= delegate {};
 	public static Action<GP_SnapshotConflict> ActionConflict 	= delegate {};
+	public static Action<GP_DeleteSnapshotResult> ActionGameSaveRemoved 	= delegate {};
 
 	private List<GP_SnapshotMeta> _AvailableGameSaves = new List<GP_SnapshotMeta>();
 
@@ -76,6 +77,10 @@ public class GooglePlaySavedGamesManager :  SA_Singleton<GooglePlaySavedGamesMan
 
 	public void LoadSpanshotByName(string name) {
 		AN_GMSGeneralProxy.OpenSpanshotByName_Bridge(name);
+	}
+
+	public void DeleteSpanshotByName(string name) {
+		AN_GMSGeneralProxy.DeleteSpanshotByName_Bridge(name);
 	}
 
 	public void LoadAvailableSavedGames() {
@@ -286,24 +291,19 @@ public class GooglePlaySavedGamesManager :  SA_Singleton<GooglePlaySavedGamesMan
 
 
 
+	private void OnDeleteResult(string data) {
+		string[] storeData;
+		storeData = data.Split(AndroidNative.DATA_SPLITTER [0]);
+		
+		
+		GP_DeleteSnapshotResult result = new GP_DeleteSnapshotResult (storeData [0]);
+		if(result.isSuccess) {
+			result.SetId(storeData [1]);
+		}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		ActionGameSaveRemoved(result);
+	}
 
 
 

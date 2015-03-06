@@ -30,12 +30,12 @@ namespace UnityEngine.Advertisements {
 		return UnityAdsIosBridge.getSDKVersion();
 	}
 		
-	public override bool canShowAds (string network) {
-		return UnityAdsIosBridge.canShowAds(network);
-	}
-		
-	public override bool canShow () {
-		return UnityAdsIosBridge.canShow();
+	public override bool canShowZone (string zone) {
+		if(!string.IsNullOrEmpty(zone)) {
+			return UnityAdsIosBridge.canShowZone(zone);
+		} else {
+			return UnityAdsIosBridge.canShow();
+		}
 	}
 		
 	public override bool hasMultipleRewardItems () {
@@ -69,14 +69,6 @@ namespace UnityEngine.Advertisements {
 	public override string getRewardItemDetailsKeys () {
 		return UnityAdsIosBridge.getRewardItemDetailsKeys();
 	}
-
-	public override void setNetworks (HashSet<string> networks) {
-		UnityAdsIosBridge.setNetworks(Utils.Join(networks, ","));
-	}
-
-	public override void setNetwork(string network) {
-    	UnityAdsIosBridge.setNetwork(network);
-    }
 
 	public override void setLogLevel(Advertisement.DebugLevel logLevel) {
 		UnityAdsIosBridge.setDebugMode((Advertisement.debugLevel & Advertisement.DebugLevel.DEBUG) != Advertisement.DebugLevel.NONE ? true : false);

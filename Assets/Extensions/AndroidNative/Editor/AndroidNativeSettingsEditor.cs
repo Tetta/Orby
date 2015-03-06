@@ -322,18 +322,32 @@ public class AndroidNativeSettingsEditor : Editor {
 
 			if(GUILayout.Button("Load Example Settings",  GUILayout.Width(160))) {
 				LoadExampleSettings();
+			}
+
+			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Space();
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+			if(GUILayout.Button("Reinstall",  GUILayout.Width(160))) {
+				AN_Plugin_Update();
+				UpdateVersionInfo();
 
 			}
 
+			
 			EditorGUILayout.EndHorizontal();
 		}
 	}
 
-	private void LoadExampleSettings()  {
+	public static void LoadExampleSettings()  {
 		AndroidNativeSettings.Instance.base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsV676BTvO5djSDdUwotbLCIPtGZ5OVCbIn402RXuEpDwuHZMIOy5E6DQjUlQPKCiB7A1Vx+ePQI50Gk8NO1zuPRBgCgvW/oTTf863KkF34QLZD+Ii8fc6VE0UKp3GfApnLmq2qtr1fwDmRCteBUET1h0EcRn3/6R/BA5DMmF1aTv8yUY5LQETWqEPIjGdyNaAhmnWf2sTliYLANiR51WXsfbDdCNT4Ux3gQo/XJynGadfwRS7A9N9e5SgvMEFUR6EwnANOF9QXgE2d0HEitpS56D3uHH/2LwICrTWAmbLX3qPYlQ3Ncf1SRyjqiKae2wW8QUnDFU5BSozwGW6tcQvQIDAQAB";
 		AndroidNativeSettings.Instance.InAppProducts =  new List<string>();
 		AndroidNativeSettings.Instance.InAppProducts.Add("coins_bonus");
 		AndroidNativeSettings.Instance.InAppProducts.Add("small_coins_bag");
+		AndroidNativeSettings.Instance.InAppProducts.Add("pm_coins");
+		AndroidNativeSettings.Instance.InAppProducts.Add("pm_green_sphere");
+		AndroidNativeSettings.Instance.InAppProducts.Add("pm_red_sphere");
 		AndroidNativeSettings.Instance.GCM_SenderId = "216817929098";
 		AndroidNativeSettings.Instance.GooglePlayServiceAppID = "216817929098";
 
@@ -744,6 +758,15 @@ public class AndroidNativeSettingsEditor : Editor {
 		//PushNotificationsAPI
 		////////////////////////
 		UpdateId++;
+
+
+		AN_PropertyTemplate permission_C2D_MESSAGE_Old = Manifest.GetPropertyWithName ("permission", "com.example.gcm.permission.C2D_MESSAGE");
+		if (permission_C2D_MESSAGE_Old != null) {
+			Manifest.RemoveProperty(permission_C2D_MESSAGE_Old);
+		}
+
+
+
 		AN_PropertyTemplate GcmBroadcastReceiver = application.GetOrCreatePropertyWithName("receiver",  "com.androidnative.gcm.GcmBroadcastReceiver");
 		AN_PropertyTemplate GcmIntentService = application.GetOrCreatePropertyWithName("service",  "com.androidnative.gcm.GcmIntentService");
 		AN_PropertyTemplate permission_C2D_MESSAGE = Manifest.GetOrCreatePropertyWithName("permission", PlayerSettings.bundleIdentifier + ".permission.C2D_MESSAGE");
@@ -762,6 +785,19 @@ public class AndroidNativeSettingsEditor : Editor {
 			application.RemoveProperty(GcmBroadcastReceiver);
 			application.RemoveProperty(GcmIntentService);
 			Manifest.RemoveProperty(permission_C2D_MESSAGE);
+		}
+
+		AN_ActivityTemplate gameThriveActivity = application.GetOrCreateActivityWithName ("com.gamethrive.NotificationOpenedActivity");
+		AN_PropertyTemplate gameThriveService = application.GetOrCreatePropertyWithName("service", "com.gamethrive.GcmIntentService");
+		AN_PropertyTemplate gameThriveReceiver = application.GetOrCreatePropertyWithName ("receiver", "com.gamethrive.GcmBroadcastReceiver");
+		if (AndroidNativeSettings.Instance.UseGameThrivePushNotifications) {
+			gameThriveReceiver.SetValue("android:permission", "com.google.android.c2dm.permission.SEND");
+			AN_PropertyTemplate gameThriveIntentFilter = gameThriveReceiver.GetOrCreateIntentFilterWithName("com.google.android.c2dm.intent.RECEIVE");
+			gameThriveIntentFilter.GetOrCreatePropertyWithName("category", PlayerSettings.bundleIdentifier);
+		} else {
+			application.RemoveActivity(gameThriveActivity);
+			application.RemoveProperty(gameThriveService);
+			application.RemoveProperty(gameThriveReceiver);
 		}
 
 		if (AndroidNativeSettings.Instance.UseParsePushNotifications) {
@@ -1175,6 +1211,16 @@ public class AndroidNativeSettingsEditor : Editor {
 			settings.LoadQuestsImages	 	= EditorGUILayout.Toggle(settings.LoadQuestsImages);
 			EditorGUILayout.EndHorizontal();
 			EditorGUI.indentLevel--;
+
+			EditorGUILayout.LabelField("Extras:");
+
+			EditorGUI.indentLevel++;
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Show Connecting Popup");
+			settings.ShowConnectingPopup	= EditorGUILayout.Toggle(settings.ShowConnectingPopup);
+			EditorGUILayout.EndHorizontal();
+			EditorGUI.indentLevel--;
+
 		}
 
 	}
@@ -1368,6 +1414,36 @@ public class AndroidNativeSettingsEditor : Editor {
 		}
 
 		EditorGUILayout.Space ();
+		EditorGUILayout.LabelField ("GameThrive Push Notifications", EditorStyles.boldLabel);
+		EditorGUILayout.BeginHorizontal ();
+		EditorGUILayout.LabelField ("Use GameThrive Push Notifications");
+		
+		EditorGUI.BeginChangeCheck ();
+		AndroidNativeSettings.Instance.UseGameThrivePushNotifications = EditorGUILayout.Toggle (AndroidNativeSettings.Instance.UseGameThrivePushNotifications);
+		if (EditorGUI.EndChangeCheck ()) {
+			UpdateManifest();
+		}
+		
+		EditorGUILayout.EndHorizontal ();
+		
+		if (AndroidNativeSettings.Instance.UseGameThrivePushNotifications) {
+			EditorGUI.indentLevel++;
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("GameThrive App ID");
+			AndroidNativeSettings.Instance.GameThriveAppID = EditorGUILayout.TextField(AndroidNativeSettings.Instance.GameThriveAppID);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space ();
+			if (GUILayout.Button("[?] How To SetUp GameThrive Push Notifications?", GUILayout.Width(300.0f))) {
+				Application.OpenURL("http://goo.gl/tfmbMF");
+			}
+			EditorGUILayout.Space ();
+			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Space ();
+		}
+
+		EditorGUILayout.Space ();
 		EditorGUILayout.LabelField ("Parse Push Notifications", EditorStyles.boldLabel);
 		EditorGUILayout.BeginHorizontal ();
 		EditorGUILayout.LabelField ("Use Parse Push Notifications");
@@ -1396,7 +1472,7 @@ public class AndroidNativeSettingsEditor : Editor {
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.Space ();
 			if (GUILayout.Button("[?] How To SetUp Parse Push Notifications?", GUILayout.Width(300.0f))) {
-				Application.OpenURL("http://goo.gl/LXwaJ3");
+				Application.OpenURL("http://goo.gl/9BgQ8r");
 			}
 			EditorGUILayout.Space ();
 			EditorGUILayout.EndHorizontal();

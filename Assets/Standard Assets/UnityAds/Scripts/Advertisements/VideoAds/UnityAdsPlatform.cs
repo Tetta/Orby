@@ -1,3 +1,5 @@
+#if UNITY_ANDROID || UNITY_IOS
+
 namespace UnityEngine.Advertisements {
   using UnityEngine;
   using System.Collections;
@@ -10,8 +12,7 @@ namespace UnityEngine.Advertisements {
     public abstract void hide();
     public abstract bool isSupported();
     public abstract string getSDKVersion();
-    public abstract bool canShowAds(string network);
-    public abstract bool canShow();
+    public abstract bool canShowZone(string zone);
     public abstract bool hasMultipleRewardItems();
     public abstract string getRewardItemKeys();
     public abstract string getDefaultRewardItemKey();
@@ -20,8 +21,8 @@ namespace UnityEngine.Advertisements {
     public abstract void setDefaultRewardItemAsRewardItem();
     public abstract string getRewardItemDetailsWithKey(string rewardItemKey);
     public abstract string getRewardItemDetailsKeys();
-    public abstract void setNetworks(HashSet<string> networks);
-    public abstract void setNetwork(string network);
-	public abstract void setLogLevel(Advertisement.DebugLevel logLevel);
+    public abstract void setLogLevel(Advertisement.DebugLevel logLevel);
   }
 }
+
+#endif

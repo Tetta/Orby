@@ -104,9 +104,14 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 
 	private void OnImagePicked(AndroidImagePickResult result) {
 		Debug.Log("OnImagePicked");
-		if(result.IsSucceeded) {
-			image.GetComponent<Renderer>().material.mainTexture = result.image;
+		if (result.IsSucceeded) {
+			AN_PoupsProxy.showMessage ("Image Pick Rsult", "Succeeded");
+			image.GetComponent<Renderer> ().material.mainTexture = result.image;
+		} else {
+			AN_PoupsProxy.showMessage ("Image Pick Rsult", "Failed");
 		}
+
+
 
 		AndroidCamera.instance.OnImagePicked -= OnImagePicked;
 	}
@@ -122,6 +127,8 @@ public class AnOtherFeaturesPreview : MonoBehaviour {
 			AN_PoupsProxy.showMessage("Failed", "Image save to gallery failed");
 			SA_StatusBar.text =  "Image save to gallery failed";
 		}
+
+
 
 	}
 

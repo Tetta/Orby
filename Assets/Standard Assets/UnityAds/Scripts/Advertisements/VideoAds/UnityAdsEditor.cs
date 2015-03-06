@@ -1,10 +1,9 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
 
 namespace UnityEngine.Advertisements {
   using UnityEngine;
   using System.Collections;
   using System.Collections.Generic;
-  using UnityEngine.Advertisements.HTTPLayer;
 
 	internal class UnityAdsEditor : UnityAdsPlatform {
   	private static bool initialized = false;
@@ -17,18 +16,26 @@ namespace UnityEngine.Advertisements {
       Utils.LogDebug ("UnityEditor: init(), gameId=" + gameId + ", testModeEnabled=" + testModeEnabled + ", gameObjectName=" + gameObjectName);
 
     	string url = "https://impact.applifier.com/mobile/campaigns?platform=editor&gameId=" + WWW.EscapeURL(gameId) + "&unityVersion=" + WWW.EscapeURL(Application.unityVersion);
-    	HTTPRequest req = new HTTPRequest(url);
-    	req.execute(handleResponse);
-
+    	
+		AsyncExec.runWithCallback<string,WWW> (getAdPlan, url, handleResponse);
   	}
-    
-  	private void handleResponse(HTTPResponse res) {
-	    bool success = false;
 
-    if (res.error) {
-      Utils.LogError("UnityAdsEditor error: Failed to contact server: " + res.errorMsg);
-    } else {
-      string json = System.Text.Encoding.UTF8.GetString(res.data, 0, res.data.Length);
+	private IEnumerator getAdPlan(string url, System.Action<WWW> callback) {
+		WWW www = new WWW(url);
+			
+		yield return www;
+			
+		callback(www);
+	}
+
+
+  	private void handleResponse(WWW www) {
+	  bool success = false;
+
+      if(!string.IsNullOrEmpty(www.error)) {
+        Utils.LogError("UnityAdsEditor error: Failed to contact server");
+      } else {
+      string json = System.Text.Encoding.UTF8.GetString(www.bytes, 0, www.bytes.Length);
         
       bool validResponse = false;
         
@@ -59,7 +66,7 @@ namespace UnityEngine.Advertisements {
     }
     
     if(success) {
-      UnityAds.SharedInstance.onFetchCompleted("editor");
+      UnityAds.SharedInstance.onFetchCompleted();
 	    ready = true;
     } else {
       UnityAds.SharedInstance.onFetchFailed();
@@ -92,12 +99,7 @@ namespace UnityEngine.Advertisements {
       return "EDITOR";
     }
     
-    public override bool canShowAds (string network) {
-      return ready;
-    }
-    
-    public override bool canShow () {
-      Utils.LogDebug ("UnityEditor: canShow()");
+    public override bool canShowZone (string zone) {
       return ready;
     }
     
@@ -137,14 +139,6 @@ namespace UnityEngine.Advertisements {
     
     public override string getRewardItemDetailsKeys () {
       return "name;picture";
-    }
-
-    public override void setNetworks(HashSet<string> networks) {
-      Utils.LogDebug("UnityEditor: setNetworks() networks=" + Utils.Join(networks, ","));
-    }
-
-    public override void setNetwork(string network) {
-      Utils.LogDebug("UnityEditor: setNetwork() network=" + network);
     }
 
     public override void setLogLevel(Advertisement.DebugLevel logLevel) {

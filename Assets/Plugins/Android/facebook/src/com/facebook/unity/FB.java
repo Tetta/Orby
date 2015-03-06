@@ -386,11 +386,18 @@ public class FB {
                     parameters
             );
         } else if (unity_params.hasString("logEvent")) {
-            FB.getAppEventsLogger().logEvent(
-                    unity_params.getString("logEvent"),
-                    unity_params.getDouble("valueToSum"),
-                    parameters
-            );
+            if (unity_params.has("valueToSum")) {
+                FB.getAppEventsLogger().logEvent(
+                        unity_params.getString("logEvent"),
+                        unity_params.getDouble("valueToSum"),
+                        parameters
+                );
+            } else {
+                FB.getAppEventsLogger().logEvent(
+                        unity_params.getString("logEvent"),
+                        parameters
+                );
+            }
         } else {
             Log.e(TAG, "couldn't logPurchase or logEvent params: "+params);
         }

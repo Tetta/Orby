@@ -38,7 +38,7 @@ extern NSString * const kUnityAdsOptionVideoUsesDeviceOrientation;
 - (void)unityAdsDidHide;
 - (void)unityAdsWillLeaveApplication;
 - (void)unityAdsVideoStarted;
-- (void)unityAdsFetchCompleted:(NSString *)network;
+- (void)unityAdsFetchCompleted;
 - (void)unityAdsFetchFailed;
 @end
 
@@ -55,15 +55,15 @@ extern NSString * const kUnityAdsOptionVideoUsesDeviceOrientation;
 - (void)setDebugMode:(BOOL)debugMode;
 - (void)setTestMode:(BOOL)testModeEnabled;
 - (void)enableUnityDeveloperInternalTestMode;
+- (void)setCampaignDataURL:(NSString *)campaignDataUrl;
 
 - (BOOL)isDebugMode;
 - (BOOL)startWithGameId:(NSString *)gameId andViewController:(UIViewController *)viewController;
 - (BOOL)startWithGameId:(NSString *)gameId;
 - (BOOL)setViewController:(UIViewController *)viewController;
-- (BOOL)canShowAds:(NSString *)network;
+- (BOOL)canShowAds;
 - (BOOL)canShow;
-- (void)setNetworks:(NSString *)networks;
-- (void)setNetwork:(NSString *)network;
+- (BOOL)canShowZone:(NSString *)zoneId;
 - (BOOL)setZone:(NSString *)zoneId;
 - (BOOL)setZone:(NSString *)zoneId withRewardItem:(NSString *)rewardItemKey;
 - (BOOL)show:(NSDictionary *)options;

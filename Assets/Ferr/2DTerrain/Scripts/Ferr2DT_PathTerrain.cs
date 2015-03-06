@@ -738,15 +738,9 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 
 		//my changing start
 		Rect  body  = terrainMaterial.ToUV(aDesc.body[0]);
-		if (aDesc.body.Length == 2) {
-			/*
-			Debug.Log(aDesc.applyTo);
-			for (int i = 0; i < aCuts; i++) {
-				Debug.Log(pos[i]);
 
-			}
-			*/
-			if ((pos [aCuts - 1] - pos [0]).magnitude < 0.3) body  = terrainMaterial.ToUV(aDesc.body[1]);
+		if (aDesc.body.Length == 2) {
+			if ((pos [aCuts - 1] - pos [0]).magnitude < 0.2) body  = terrainMaterial.ToUV(aDesc.body[1]);
 			else body  = terrainMaterial.ToUV(aDesc.body[0]);
 		}
 		//my changing end
@@ -1022,9 +1016,6 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
         List<float> result = new List<float>(aIndices.Count);
 		//Debug.Log("start");
 		for (int i = 0; i < aIndices.Count; i++) {
-			//Debug.Log(i);
-			//Debug.Log(aIndices[i]);
-			//Debug.Log(vertScales[aIndices[i]]);
 			result.Add(vertScales[aIndices[i]]);
         }
         return result;

@@ -11,10 +11,13 @@
 #endif
 
 static UnityAdsUnityWrapper *unityAds = NULL;
-static NSString * currentNetwork = NULL;
 
 void UnitySendMessage(const char* obj, const char* method, const char* msg);
+#if UNITY_VERSION >= 500
+void UnityPause(int pause);
+#else
 void UnityPause(bool pause);
+#endif
 
 extern "C" {
   NSString* UnityAdsCreateNSString (const char* string) {
@@ -63,14 +66,22 @@ extern "C" {
 
 - (void)unityAdsDidShow {
   UnitySendMessage(UnityAdsMakeStringCopy([self.gameObjectName UTF8String]), "onShow", "");
+#if UNITY_VERSION >= 500
+  UnityPause(1);
+#else
   UnityPause(true);
+#endif
 }
 
 - (void)unityAdsWillHide {
 }
 
 - (void)unityAdsDidHide {
+#if UNITY_VERSION >= 500
+  UnityPause(0);
+#else
   UnityPause(false);
+#endif
   UnitySendMessage(UnityAdsMakeStringCopy([self.gameObjectName UTF8String]), "onHide", "");
 }
 
@@ -81,8 +92,8 @@ extern "C" {
   UnitySendMessage(UnityAdsMakeStringCopy([self.gameObjectName UTF8String]), "onVideoStarted", "");
 }
 
-- (void)unityAdsFetchCompleted:(NSString *)network {
-  UnitySendMessage(UnityAdsMakeStringCopy([self.gameObjectName UTF8String]), "onFetchCompleted", [network UTF8String]);
+- (void)unityAdsFetchCompleted {
+  UnitySendMessage(UnityAdsMakeStringCopy([self.gameObjectName UTF8String]), "onFetchCompleted", "");
 }
 
 - (void)unityAdsFetchFailed {
@@ -96,7 +107,13 @@ extern "C" {
       unityAds = [[UnityAdsUnityWrapper alloc] initWithGameId:UnityAdsCreateNSString(gameId) testModeOn:testMode debugModeOn:debugMode withGameObjectName:UnityAdsCreateNSString(gameObjectName)];
     }
   }
-  
+
+ 	bool canShowZone (const char * rawZoneId) {
+    NSString * zoneId = UnityAdsCreateNSString(rawZoneId);
+
+    return [[UnityAds sharedInstance] canShowZone:zoneId];
+  }
+ 
 	bool show (const char * rawZoneId, const char * rawRewardItemKey, const char * rawOptionsString) {
     NSString * zoneId = UnityAdsCreateNSString(rawZoneId);
     NSString * rewardItemKey = UnityAdsCreateNSString(rawRewardItemKey);
@@ -111,12 +128,13 @@ extern "C" {
       }];
     }
     
-    if ([[UnityAds sharedInstance] canShowAds:currentNetwork] && [[UnityAds sharedInstance] canShow]) {
-      
-      if([rewardItemKey length] > 0) {
-        [[UnityAds sharedInstance] setZone:zoneId withRewardItem:rewardItemKey];
-      } else {
-        [[UnityAds sharedInstance] setZone:zoneId];
+    if ([[UnityAds sharedInstance] canShowZone:zoneId]) {
+      if([zoneId length] > 0) {
+        if([rewardItemKey length] > 0) {
+          [[UnityAds sharedInstance] setZone:zoneId withRewardItem:rewardItemKey];
+        } else {
+          [[UnityAds sharedInstance] setZone:zoneId];
+        }
       }
       
       return [[UnityAds sharedInstance] show:optionsDictionary];
@@ -137,24 +155,10 @@ extern "C" {
     return UnityAdsMakeStringCopy([[UnityAds getSDKVersion] UTF8String]);
   }
   
-	bool canShowAds (const char * rawNetwork) {
-    return [[UnityAds sharedInstance] canShowAds:UnityAdsCreateNSString(rawNetwork)];
-  }
-  
 	bool canShow () {
     return [[UnityAds sharedInstance] canShow];
   }
-  
-  void setNetworks(const char * rawNetworks) {
-    NSString * networks = UnityAdsCreateNSString(rawNetworks);
-    [[UnityAds sharedInstance] setNetworks:networks];
-  }
-  
-  void setNetwork(const char * rawNetwork) {
-    currentNetwork = UnityAdsCreateNSString(rawNetwork);
-    [[UnityAds sharedInstance] setNetwork:currentNetwork];
-  }
-	
+
 	bool hasMultipleRewardItems () {
     return [[UnityAds sharedInstance] hasMultipleRewardItems];
   }
@@ -209,6 +213,10 @@ extern "C" {
 
   void enableUnityDeveloperInternalTestMode () {
   	[[UnityAds sharedInstance] enableUnityDeveloperInternalTestMode];
+  }
+
+  void setCampaignDataURL (const char *campaignDataUrl) {
+    [[UnityAds sharedInstance] setCampaignDataURL:UnityAdsCreateNSString(campaignDataUrl)];
   }
 
 }

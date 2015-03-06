@@ -103,7 +103,12 @@ public class SocialPlatfromSettingsEditor : Editor {
 
 	public static bool IsInstalled {
 		get {
+
+			#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1	|| UNITY_4_2 || UNITY_4_3 || UNITY_4_5 || UNITY_4_6
 			if(FileStaticAPI.IsFileExists(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "androidnative.jar") && FileStaticAPI.IsFileExists(PluginsInstalationUtil.IOS_DESTANATION_PATH + "MGInstagram.h")) {
+			#else
+			if(FileStaticAPI.IsFileExists(PluginsInstalationUtil.ANDROID_DESTANATION_PATH + "androidnative.jar")) {
+			#endif
 				return true;
 			} else {
 				return false;
@@ -464,6 +469,20 @@ public class SocialPlatfromSettingsEditor : Editor {
 				
 				
 			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.Space();
+
+
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.Space();
+			if(GUILayout.Button("Reinstall",  GUILayout.Width(160))) {
+				PluginsInstalationUtil.Android_UpdatePlugin();
+				UpdateVersionInfo();
+				
+			}
+			
+			
+			EditorGUILayout.EndHorizontal();
+
 				
 		}
 	}

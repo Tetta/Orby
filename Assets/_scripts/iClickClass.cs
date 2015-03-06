@@ -93,6 +93,9 @@ public class iClickClass : MonoBehaviour {
 			} else if  (currentButton.name == "button settings") {
 				GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
 				animation.Play("back transition open");
+			} else if (currentButton.name == "button settings back") {
+				GameObject.Find("settings").SetActive(false);
+				animation.Play("back transition open");
 			} else if (currentButton.name == "button market back") {
 				if (marketClass.instance.coinsMenu.activeSelf) {
 					marketClass.instance.coinsMenu.SetActive(false);

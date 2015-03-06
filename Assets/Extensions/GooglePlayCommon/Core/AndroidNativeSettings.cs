@@ -10,8 +10,8 @@ using UnityEditor;
 
 public class AndroidNativeSettings : ScriptableObject {
 
-	public const string VERSION_NUMBER = "6.0";
-	public const string GOOGLE_PLAY_SDK_VERSION_NUMBER = "6171000";
+	public const string VERSION_NUMBER = "6.2";
+	public const string GOOGLE_PLAY_SDK_VERSION_NUMBER = "6587000";
 
 
 	public bool EnablePlusAPI 		= true;
@@ -24,7 +24,7 @@ public class AndroidNativeSettings : ScriptableObject {
 	public bool LoadQuestsImages 	= true;
 	public bool LoadQuestsIcons 	= true;
 	public bool LoadEventsIcons 	= true;
-
+	public bool ShowConnectingPopup = true;
 
 
 	public bool UseProductNameAsFolderName = true;
@@ -97,6 +97,9 @@ public class AndroidNativeSettings : ScriptableObject {
 	public bool EnableVibrationLocal = false;
 	public Texture2D LocalNotificationIcon = null;
 	public AudioClip LocalNotificationSound = null;
+
+	public bool UseGameThrivePushNotifications = false;
+	public string GameThriveAppID = "YOUR_GAMETHRIVE_APP_ID";
 
 	public bool UseParsePushNotifications = false;
 	public string ParseAppId = "YOUR_PARSE_APP_ID";
