@@ -6,7 +6,7 @@ public class ctrlUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		 if (name == "back transition") {
-			animation.Play("back transition open");
+			GetComponent<Animation>().Play("back transition open");
 		}
 	}
 	

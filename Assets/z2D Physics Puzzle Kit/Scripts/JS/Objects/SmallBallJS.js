@@ -8,7 +8,7 @@ public class SmallBallJS extends PhysicsObjectJS
     function Start()
     {
         //Save starting friction
-        friction = this.collider2D.sharedMaterial.friction;
+        friction = this.GetComponent.<Collider2D>().sharedMaterial.friction;
     }
 
     //Called when the object enters a trigger zone
@@ -16,7 +16,7 @@ public class SmallBallJS extends PhysicsObjectJS
     {
         //If we entered a pipe, remove friction behaviour
         if (other.name == "ColliderPipe")
-            this.collider2D.sharedMaterial.friction = 0;
+            this.GetComponent.<Collider2D>().sharedMaterial.friction = 0;
 
         super.OnTriggerEnter2D(other);
     }
@@ -25,6 +25,6 @@ public class SmallBallJS extends PhysicsObjectJS
     {
         //If we entered a pipe, add friction behaviour
         if (other.name == "ColliderPipe")
-            this.collider2D.sharedMaterial.friction = friction;
+            this.GetComponent.<Collider2D>().sharedMaterial.friction = friction;
     }
 }

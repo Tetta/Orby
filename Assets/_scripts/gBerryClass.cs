@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.Advertisements;
+using System.Collections.Generic;
 
 public class gBerryClass : MonoBehaviour {
 
@@ -14,8 +15,7 @@ public class gBerryClass : MonoBehaviour {
 	private GameObject[] guiStars = new GameObject[3];
 	private UISprite[] guiStarsComplete = new UISprite[3];
 	//private GameObject spider;
-	private GameObject restart;
-	//private GameObject spider;
+	//private GameObject restart;
 	private GameObject back;
 	private Vector3 dir = new Vector3(0, 0, 0);
 	private float t = 0;
@@ -24,13 +24,26 @@ public class gBerryClass : MonoBehaviour {
 	void Start () {
 
 		Time.timeScale = 1;
-		//energy
+		//notifer
 		/* OFF FOR TESTS
-		if (lsEnergyClass.checkEnergy(false) == 0) {
-			lsEnergyClass.energyMenuState = "energy";
-			Application.LoadLevel("level menu");
+		List<LocalNotificationTemplate> PendingNotifications;
+		PendingNotifications = AndroidNotificationManager.instance.LoadPendingNotifications();
+		foreach (var PendingNotification in PendingNotifications) {
+			if (PendingNotification.title == Localization.Get("notiferTitleEnergy")) {
+				AndroidNotificationManager.instance.CancelLocalNotification(PendingNotification.id);
+			}
 		}
 		*/
+		//energy, если нет комплекта
+		if (initClass.progress.Count == 0) initClass.getProgress();
+		if (initClass.progress["complect"] == 0) {
+			int energyCount = lsEnergyClass.checkEnergy(false);
+			if (energyCount == 0) {
+				AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleEnergy"), Localization.Get("notiferMessageEnergy"), lsEnergyClass.costEnergy * lsEnergyClass.maxEnergy);
+				lsEnergyClass.energyMenuState = "energy";
+				Application.LoadLevel("level menu");
+			}
+		}
 		staticClass.useWeb = 0;
 		staticClass.timer = 0;
 		staticClass.useSluggish = false;
@@ -50,7 +63,7 @@ public class gBerryClass : MonoBehaviour {
 		guiStarsComplete[0] = GameObject.Find("gui").transform.GetChild(0).GetChild(0).GetComponent<UISprite>();
 		guiStarsComplete[1] = GameObject.Find("gui").transform.GetChild(0).GetChild(1).GetComponent<UISprite>();
 		guiStarsComplete[2] = GameObject.Find("gui").transform.GetChild(0).GetChild(2).GetComponent<UISprite>();
-		restart = GameObject.Find("restart");
+		//restart = GameObject.Find("restart");
 	
 		//spider = GameObject.Find("spider");
 		//timer
@@ -64,25 +77,28 @@ public class gBerryClass : MonoBehaviour {
 		}
 
 
-		staticClass.showAd ++;
+		//showAd, если нет комплекта
+		if (initClass.progress["complect"] == 0) {
+			staticClass.showAd ++;
 
-		if (staticClass.showAdColony < 2 && staticClass.showAd >= 5) {
-			if (!Advertisement.isReady("defaultVideoAndPictureZone")) {
-				staticClass.showAd = 4;
-				Debug.Log("!isReady 1");
-			} else { 
-				Debug.Log("isReady 1");
-				staticClass.showAdColony ++;
-				staticClass.showAd = 0;
-				Advertisement.Show("defaultVideoAndPictureZone");
+			if (staticClass.showAdColony < 2 && staticClass.showAd >= 5) {
+				if (!Advertisement.isReady("defaultVideoAndPictureZone")) {
+					staticClass.showAd = 4;
+					Debug.Log("!isReady 1");
+				} else { 
+					Debug.Log("isReady 1");
+					staticClass.showAdColony ++;
+					staticClass.showAd = 0;
+					Advertisement.Show("defaultVideoAndPictureZone");
+				}
+			} else if (staticClass.showAdColony >= 2 && staticClass.showAd >= 5) {
+				if (Advertisement.isReady("rewardedVideoZone")) {
+					Debug.Log("isReady 2");
+					staticClass.showAdColony = 0;
+					staticClass.showAd = 0;
+					Advertisement.Show("rewardedVideoZone");
+				} 
 			}
-		} else if (staticClass.showAdColony >= 2 && staticClass.showAd >= 5) {
-			if (Advertisement.isReady("rewardedVideoZone")) {
-				Debug.Log("isReady 2");
-				staticClass.showAdColony = 0;
-				staticClass.showAd = 0;
-				Advertisement.Show("rewardedVideoZone");
-			} 
 		}
 
 		/*
@@ -114,7 +130,8 @@ public class gBerryClass : MonoBehaviour {
 		*/
 
 		back = GameObject.Find("back forest");
-
+		if (back == null) back = GameObject.Find("back rock");
+		Debug.Log (back);
 	}
 	
 	// Update is called once per frame
@@ -124,9 +141,9 @@ public class gBerryClass : MonoBehaviour {
 			t = Time.time;
 			dir.y = Input.acceleration.y;
 			dir.x = Input.acceleration.x;
-			back.rigidbody2D.AddForce((-dir - back.transform.localPosition / 100) * 5);
+			back.GetComponent<Rigidbody2D>().AddForce((-dir - back.transform.localPosition / 100) * 5);
 
-			back.rigidbody2D.drag = (1 - (-new Vector2(dir.x, dir.y) - 
+			back.GetComponent<Rigidbody2D>().drag = (1 - (-new Vector2(dir.x, dir.y) - 
 			                             new Vector2(back.transform.localPosition.x, back.transform.localPosition.y)  / 100).magnitude) * 10;
 		}
 		//acceleration end
@@ -154,17 +171,25 @@ public class gBerryClass : MonoBehaviour {
 	//void OnTriggerEnter2D(Collider2D collisionObject) {
 	void OnCollisionEnter2D (Collision2D collisionObject) {
 		if (collisionObject.gameObject.name == "spider") {
+			//cut ropes
+			GameObject[] webs = GameObject.FindGameObjectsWithTag("web");
+			foreach (var web in webs) {
+				if (web.GetComponent<gWebClass>().webStateCollisionBerry) web.SendMessage("OnClick");
+			}
+
+
+
 			//tutorial
 			gHandClass.delHand();
 			berryState = "start finish";
 
 			//collisionObject.transform.GetChild(0).GetComponent<Animator>().StopPlayback();
 			collisionObject.transform.GetChild(0).GetComponent<Animator>().Play("spider open month");
-			animation.Play();
+			GetComponent<Animation>().Play();
 			transform.position = collisionObject.gameObject.transform.position;
 			if (initClass.progress.Count == 0) initClass.getProgress();
-			rigidbody2D.isKinematic = true;
-			collider2D.enabled = false;
+			GetComponent<Rigidbody2D>().isKinematic = true;
+			GetComponent<Collider2D>().enabled = false;
 			//collisionObject.gameObject.rigidbody2D.isKinematic = true;
 			StartCoroutine(coroutineEat(collisionObject));
 		}

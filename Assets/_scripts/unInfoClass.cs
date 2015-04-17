@@ -9,7 +9,7 @@ public class unInfoClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		label.text = info;
-		//Application.RegisterLogCallback(handleLog);
+		//Application.logMessageReceived += handleLog;
 		//Debug.Log("test");
 	}
 	

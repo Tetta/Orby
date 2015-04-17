@@ -136,7 +136,8 @@ extern "C" {
           [[UnityAds sharedInstance] setZone:zoneId];
         }
       }
-      
+
+      [[UnityAds sharedInstance] setViewController:UnityGetGLViewController()];
       return [[UnityAds sharedInstance] show:optionsDictionary];
     }
     

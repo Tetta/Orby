@@ -10,7 +10,7 @@ var offset: Vector3;
 var spot:GameObject;
 
 function Start () {
-	rigidbody2D.drag = drag;
+	GetComponent.<Rigidbody2D>().drag = drag;
 	
 	//запоминаем пятно и выключаем
 	spot = gameObject.Find("orby_spot");
@@ -19,7 +19,7 @@ function Start () {
 }
 
 function Update () {
-	 if (rigidbody2D.velocity.x == 0 && rigidbody2D.velocity.y == 0 && flag == 1) gameObject.Find("helper").guiText.text = "Game over";
+	 if (GetComponent.<Rigidbody2D>().velocity.x == 0 && GetComponent.<Rigidbody2D>().velocity.y == 0 && flag == 1) gameObject.Find("helper").GetComponent.<GUIText>().text = "Game over";
   	
 }
 //нажимаем на шарик
@@ -44,7 +44,7 @@ function OnMouseUp () {
 	var diff: Vector2;
 	//diff = Vector2(0 , -3.5) - transform.position;
 	diff = screenPoint - transform.position;
-	rigidbody2D.AddForce(new Vector2(diff.x * force, diff.y * force));
+	GetComponent.<Rigidbody2D>().AddForce(new Vector2(diff.x * force, diff.y * force));
 	flag = 1;
 }
 

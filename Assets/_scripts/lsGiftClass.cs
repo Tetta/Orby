@@ -49,7 +49,7 @@ public class lsGiftClass : MonoBehaviour {
 	private void OnInterstisialsClosed() {
 		initClass.progress["coins"] += 1;
 		initClass.saveProgress();
-		initLevelMenuClass.goldLabel.text = initClass.progress["coins"].ToString();
+		initLevelMenuClass.coinsLabel.text = initClass.progress["coins"].ToString();
 	}
 
 	/*

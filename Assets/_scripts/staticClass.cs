@@ -26,8 +26,9 @@ public class staticClass {
 	}
 
 	public static void initLevels () {
+		//всегда есть stars [0] + что-то еще [1]
 		levels[1, 0] = 3;
-		levels[1, 1] = 10;
+		levels[1, 1] = 201;
 		levels[2, 0] = 2;
 		levels[2, 1] = 100;
 		levelBlocks[5] = 3;

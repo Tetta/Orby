@@ -90,7 +90,7 @@ public class RopeControl : MonoBehaviour {
 				pControl.Flip();
 
 			//add swing force to connected chain
-			collidedChain.rigidbody2D.AddForce (Vector2.right * H * swingForce);
+			collidedChain.GetComponent<Rigidbody2D>().AddForce (Vector2.right * H * swingForce);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class RopeControl : MonoBehaviour {
 
 	IEnumerator JumpOff()
 	{
-		rigidbody2D.velocity = Vector2.zero;	//reset velocity
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;	//reset velocity
 		playerTransform.parent = null;			//detach player from chain
 		onRope = false;
 		pControl.enabled = true;				//activate PlayerControl script

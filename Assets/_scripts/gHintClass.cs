@@ -15,6 +15,9 @@ public class gHintClass : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		hint = GameObject.Find("hint");
+		if (initClass.progress.Count == 0) initClass.getProgress();
+		transform.GetChild(0).GetComponent<UILabel>().text = initClass.progress["hints"].ToString();
+		if (initClass.progress["hints"] != 0) GetComponent<UIPlayAnimation>().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -33,15 +36,18 @@ public class gHintClass : MonoBehaviour {
 		}
 
 	}
-	void OnMouseUp() {
-		Application.LoadLevel(Application.loadedLevel);
-		SendMessage(Application.loadedLevelName); 
+	void OnPress(bool flag) {
+		if (!flag) {
+			Debug.Log(222);
+			Application.LoadLevel(Application.loadedLevel);
+			SendMessage(Application.loadedLevelName); 
 
 
-		Time.timeScale = 1;
-		hintState = "start";
-		time = Time.unscaledTime;
-		counter = 0;
+			Time.timeScale = 1;
+			hintState = "start";
+			time = Time.unscaledTime;
+			counter = 0;
+		}
 	}
 
 	public static Vector3 checkHint(GameObject obj, bool flag = false) {
@@ -79,6 +85,16 @@ public class gHintClass : MonoBehaviour {
 	}
 
 	void level1 () {
+		actions = new action[2];
+		actions[0].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[0].time = 0.1F;
+		actions[0].mouse = new Vector3(209, 386, 0);
+		actions[1].id = new Vector3(0.051342F, 0.49288F, 0F);
+		actions[1].time = 1.094343F;
+		actions[1].mouse = new Vector3(209, 386, 0);
+	}
+
+	void level2 () {
 		actions = new action[2];
 		actions[0].id = new Vector3(0.051342F, 0.49288F, 0F);
 		actions[0].time = 0.1F;

@@ -16,11 +16,11 @@ public class PhysicsObjectJS extends MonoBehaviour
 
         //If we hit a trampoline, bounce back
         if (other.collider.gameObject .name == "TrampolineTop")
-            this.rigidbody2D.AddForce(Vector2.up * rigidbody2D.velocity.y * springBounciness);
+            this.GetComponent.<Rigidbody2D>().AddForce(Vector2.up * GetComponent.<Rigidbody2D>().velocity.y * springBounciness);
 
         //If the y velocity is smaller than 1.25, make the object stop vertically
-        if (Mathf.Abs(this.rigidbody2D.velocity.y) < 1.25f)
-            this.rigidbody2D.velocity = new Vector2(this.rigidbody2D.velocity.x, 0);
+        if (Mathf.Abs(this.GetComponent.<Rigidbody2D>().velocity.y) < 1.25f)
+            this.GetComponent.<Rigidbody2D>().velocity = new Vector2(this.GetComponent.<Rigidbody2D>().velocity.x, 0);
     }
     //Called when the object enters a trigger zone
     public function OnTriggerEnter2D(other : Collider2D)
@@ -37,16 +37,16 @@ public class PhysicsObjectJS extends MonoBehaviour
     public function Enable()
     {
         canMove = true;
-        this.rigidbody2D.gravityScale = gravity;
-        this.rigidbody2D.fixedAngle = false;
+        this.GetComponent.<Rigidbody2D>().gravityScale = gravity;
+        this.GetComponent.<Rigidbody2D>().fixedAngle = false;
     }
     //Called when the level leaves play mode
     public function Reset()
     {
         canMove = false;
-        this.rigidbody2D.gravityScale = 0;
-        this.rigidbody2D.velocity = new Vector2(0, 0);
-        this.rigidbody2D.fixedAngle = true;
+        this.GetComponent.<Rigidbody2D>().gravityScale = 0;
+        this.GetComponent.<Rigidbody2D>().velocity = new Vector2(0, 0);
+        this.GetComponent.<Rigidbody2D>().fixedAngle = true;
     }
 
     //Returns the ObjectBase parent of the item

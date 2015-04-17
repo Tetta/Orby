@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
 //D:\Programs\AndroidSDK\platform-tools\adb logcat ActivityManager:I com.feedthespider/com.unity3d.player.UnityPlayerNativeActivity:D *:S
 
 public class initClass : MonoBehaviour {
@@ -18,6 +17,8 @@ public class initClass : MonoBehaviour {
 	//static public string mainMenuState = "start";
 
 	private int i;
+	//private int LastNotificationId = 0;
+
 
 	// Use this for initialization
 	void Start () { 
@@ -26,13 +27,36 @@ public class initClass : MonoBehaviour {
 			staticClass.initLevels();
 			market.SetActive(true);
 			if (progress["sound"] == 0) setSound(false);
-			if (progress["music"] == 1) GameObject.Find("music").audio.enabled = true;
+			if (progress["music"] == 1) GameObject.Find("music").GetComponent<AudioSource>().enabled = true;
 			//опции
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
 			GameObject.Find(Localization.language).GetComponent<UIToggle>().value = true;
 			GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(false);
 			//
+			//push
+			GameThrive.Init("0e3f3ad6-c7ee-11e4-9aca-47e056863935", "660292827653", HandleNotification);
+			GoogleCloudMessageService.instance.InitPushNotifications ();
+			Debug.Log( "......................................");
+			//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), "notiferTitleDay", 600);
+			//AndroidNotificationManager.instance.OnNotificationIdLoaded += OnNotificationIdLoaded;
+			//AndroidNotificationManager.instance.LocadAppLaunchNotificationId();
 
+			List<LocalNotificationTemplate> PendingNotifications;
+			PendingNotifications = AndroidNotificationManager.instance.LoadPendingNotifications();
+			bool flagNotifer = false;
+			foreach (var PendingNotification in PendingNotifications) {
+				if (PendingNotification.title == Localization.Get("notiferTitleDay")) {
+					if (PendingNotification.fireDate.Day == DateTime.Now.Day) {
+						AndroidNotificationManager.instance.CancelLocalNotification(PendingNotification.id);
+						AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMessageDay"), 60 * 60 * 24);
+					}
+					flagNotifer = true;
+				}
+			}
+			if (!flagNotifer) AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleDay"), Localization.Get("notiferMesssageDay"), 60 * 60 * 24);
+
+			Debug.Log( "......................................");
+			//
 		}
 
 
@@ -86,8 +110,9 @@ public class initClass : MonoBehaviour {
 	
 	static public void getProgress() {
 
-		string strProgressDefault = "googlePlay=0;lastLevel=0;currentLevel=1;coins=1000;medals=0;energyTime=0;energy=0;" +
-				"hints=3;music=1;sound=1;" +
+		string strProgressDefault = "googlePlay=0;lastLevel=0;currentLevel=1;coins=1000;gems=0;energyTime=0;energy=0;" +
+				"hints=3;webs=3;grabs=3;teleports=3;complect=0;music=1;sound=1;dailyBonus=0;" +
+				"skin1=2;skin2=0;skin3=0;skin4=0;skin5=0;" +
 				"level1=0;level2=0;level3=0;level4=0;level5=0;level6=0;level7=0;level8=0;level9=0;level10=0;" +
 				"level11=0;level12=0;level13=0;level14=0;level15=0;level16=0;level17=0;level18=0;level19=0;level20=0;" +
 				"level21=0;level22=0;level23=0;level24=0;level25=0;level26=0;level50=0;level51=0;level75=0;level76=0;";
@@ -130,13 +155,6 @@ public class initClass : MonoBehaviour {
 	}
 	*/
 
-	void handleLog(string logString, string stackTrace, LogType type)
-	{
-		NGUIDebug.Log(type+": " + logString + "\n" + stackTrace);
-
-		//NGUIDebug.Log(type+": " + logString + "\n");
-	}
-
 	private void OnDestroy() {
 		if(!GooglePlayConnection.IsDestroyed) {
 			GooglePlayConnection.instance.removeEventListener (GooglePlayConnection.PLAYER_CONNECTED, OnPlayerConnected);
@@ -145,13 +163,25 @@ public class initClass : MonoBehaviour {
 	}
 
 	static public void setSound(bool flag) {
-		UIPlaySound[] sounds = FindObjectsOfTypeAll(typeof(UIPlaySound))as UIPlaySound[];
+		UIPlaySound[] sounds = Resources.FindObjectsOfTypeAll(typeof(UIPlaySound))as UIPlaySound[];
 		foreach (UIPlaySound sound in sounds) {
 			if (flag) sound.enabled = true;
 			else sound.enabled = false;
 		}
 
 	}
+
+	// Gets called when the player opens the notification. (GameThrive)
+	private static void HandleNotification(string message, Dictionary<string, object> additionalData, bool isActive) {
+		Debug.Log("HandleNotification");
+		Debug.Log(message);
+	}
+
+	// Gets called when the player opens the notification. (Local)
+	private void OnNotificationIdLoaded (int notificationid){
+		Debug.Log( "App was laucnhed with notification id: " + notificationid);
+	}
+
 
 
 }

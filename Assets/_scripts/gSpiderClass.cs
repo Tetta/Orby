@@ -9,6 +9,7 @@ public class gSpiderClass : MonoBehaviour {
 	private int fixedUpdateCount;
 	private GameObject berry;
 	private Animator currentSkinAnimator;
+	private Rigidbody2D rigid2D;
 	public static List<int> websSpider = new List<int>();
 	//private GameObject completeMenu;
 	//private GameObject berry;
@@ -19,6 +20,8 @@ public class gSpiderClass : MonoBehaviour {
 		guiStars[2] = GameObject.Find("gui star 3");	
 		berry = GameObject.Find("berry");
 		currentSkinAnimator = transform.GetChild(0).GetComponent<Animator>();
+		rigid2D = GetComponent<Rigidbody2D>();
+
 		//completeMenu = GameObject.Find("gui").transform.Find("complete menu").gameObject;
 
 	}
@@ -30,6 +33,20 @@ public class gSpiderClass : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+
+
+		if ((berry.transform.position - transform.position).magnitude < 0.5F) {
+
+			if (gBerryClass.berryState == "" && !rigid2D.isKinematic) {
+				rigid2D.isKinematic = true;
+			}
+		} else {
+			if (rigid2D.isKinematic) {
+				rigid2D.isKinematic = false;
+			}
+
+		}
+
 		if (fixedUpdateCount % 50 == 0 && gBerryClass.berryState != "start finish") {
 			if ((berry.transform.position - transform.position).magnitude >= 0.5F) {
 				if (currentSkinAnimator.GetCurrentAnimatorStateInfo(1).IsName("spider open month")) {
@@ -40,7 +57,7 @@ public class gSpiderClass : MonoBehaviour {
 			}
 
 			//check jump
-			if (rigidbody2D.velocity.magnitude <= 0.02F && websSpider.Count == 0) {
+			if (GetComponent<Rigidbody2D>().velocity.magnitude <= 0.001F && websSpider.Count == 0) {
 				if (transform.rotation.z > 0.4F || transform.rotation.z < -0.4F) {
 					currentSkinAnimator.Play("spider jump");
 					StartCoroutine(coroutineJump());
@@ -68,7 +85,8 @@ public class gSpiderClass : MonoBehaviour {
 			//check mouth
 			if ((berry.transform.position - transform.position).magnitude < 0.5F) 
 				if (currentSkinAnimator.GetCurrentAnimatorStateInfo(0).IsName("spider breath") ||
-				    currentSkinAnimator.GetCurrentAnimatorStateInfo(0).IsName("spider fly")) currentSkinAnimator.Play("spider open month");
+				    currentSkinAnimator.GetCurrentAnimatorStateInfo(0).IsName("spider fly")) 
+						currentSkinAnimator.Play("spider open month");
 				
 		}
 		fixedUpdateCount ++;

@@ -7,7 +7,7 @@ public class SetSortingLayerJS extends MonoBehaviour
 
 	function Start () 
     {
-        this.renderer.sortingLayerName = layerName;
-        this.renderer.sortingOrder = sortingOrder;
+        this.GetComponent.<Renderer>().sortingLayerName = layerName;
+        this.GetComponent.<Renderer>().sortingOrder = sortingOrder;
 	}
 }

@@ -20,7 +20,7 @@ public class Balloon : PhysicsObject
 	{
 		if (canMove)
 		{
-            this.rigidbody2D.AddForce(Vector2.up * upwardForce);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * upwardForce);
 
             //Calculate rotation angle
             zRot = transform.eulerAngles.z;
@@ -29,7 +29,7 @@ public class Balloon : PhysicsObject
 
             //Add rotation force in opposite direction to limit rotation
             rotatingForce = maxTorque * (-zRot / maxRotation);
-            this.rigidbody2D.AddTorque(rotatingForce);
+            this.GetComponent<Rigidbody2D>().AddTorque(rotatingForce);
 		}
 	}
     //Called when the ballon is colliding with something
@@ -60,7 +60,7 @@ public class Balloon : PhysicsObject
 	//Enable the balloon
 	public override void Enable ()
 	{
-        this.rigidbody2D.fixedAngle = false;
+        this.GetComponent<Rigidbody2D>().fixedAngle = false;
         canMove = true;
 	}
     //Reset the balloon
@@ -77,8 +77,8 @@ public class Balloon : PhysicsObject
         canMove = false;
 
         //Stop balloon movement
-        this.rigidbody2D.velocity = new Vector2(0, 0);
-        this.rigidbody2D.fixedAngle = true;
+        this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        this.GetComponent<Rigidbody2D>().fixedAngle = true;
 
         StopAllCoroutines();
 	}
@@ -86,18 +86,18 @@ public class Balloon : PhysicsObject
 	//Reduce horizontal speed based on time
 	IEnumerator ReduceHorizontalSpeed (float time)
 	{
-		float startValue = this.rigidbody2D.velocity.x;
+		float startValue = this.GetComponent<Rigidbody2D>().velocity.x;
 		float rate = 1.0f / time;
 	    float t = 0.0f;
-	    Vector2 vel = this.rigidbody2D.velocity;
+	    Vector2 vel = this.GetComponent<Rigidbody2D>().velocity;
 		
 	    while (t < 1.0f && !onCollision) 
 	    {
 	        t += Time.deltaTime * rate;
-			vel = this.rigidbody2D.velocity;
+			vel = this.GetComponent<Rigidbody2D>().velocity;
 	        vel.x = Mathf.Lerp(startValue, 0.0f, t);
 
-			this.rigidbody2D.velocity = vel;
+			this.GetComponent<Rigidbody2D>().velocity = vel;
 	        yield return new WaitForEndOfFrame();
 	    }
 	}

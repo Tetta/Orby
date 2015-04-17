@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 public class initLevelMenuClass : MonoBehaviour {
 
-	public UILabel gold;
-	public UILabel medals;
-	public static UILabel goldLabel;
-	public static UILabel medalsLabel;
+	public UILabel coins;
+	public UILabel gems;
+	public static UILabel coinsLabel;
+	public static UILabel gemsLabel;
 	public static int levelDemands = 0;
 	public static string levelMenuState = "";
 
@@ -18,11 +18,11 @@ public class initLevelMenuClass : MonoBehaviour {
 		//temp
 		staticClass.initLevels();
 		//temp
-		goldLabel = gold;
-		medalsLabel = medals;
+		coinsLabel = coins;
+		gemsLabel = gems;
 		if (initClass.progress.Count == 0) initClass.getProgress();
-		goldLabel.text = initClass.progress["coins"].ToString();
-		medalsLabel.text = initClass.progress["medals"].ToString();
+		coinsLabel.text = initClass.progress["coins"].ToString();
+		gemsLabel.text = initClass.progress["gems"].ToString();
 
 	}
 	

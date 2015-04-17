@@ -67,8 +67,8 @@ public class ObjectBase : MonoBehaviour
         if (physicsScript)
             physicsScript.Enable();
         //If the object does not have a physics script, but has a rigidbody, make it kinematic
-        else if (this.rigidbody2D)
-            this.rigidbody2D.isKinematic = true;
+        else if (this.GetComponent<Rigidbody2D>())
+            this.GetComponent<Rigidbody2D>().isKinematic = true;
 
         foreach (var collider in colliders)
             collider.isTrigger = false;
@@ -80,8 +80,8 @@ public class ObjectBase : MonoBehaviour
         if (physicsScript)
             physicsScript.Reset();
         //If the object does not have a physics script, but has a rigidbody, disable its kinematic state
-        else if (this.rigidbody2D)
-            this.rigidbody2D.isKinematic = false;
+        else if (this.GetComponent<Rigidbody2D>())
+            this.GetComponent<Rigidbody2D>().isKinematic = false;
 
         foreach (var collider in colliders)
             collider.isTrigger = true;

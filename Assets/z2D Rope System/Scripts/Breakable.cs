@@ -125,8 +125,8 @@ public class Breakable : MonoBehaviour {
 		if(joint)
 		{
 			joint.enabled = false;
-			tr.collider2D.isTrigger = true; 
-			tr.renderer.enabled = false;
+			tr.GetComponent<Collider2D>().isTrigger = true; 
+			tr.GetComponent<Renderer>().enabled = false;
 		}
 
 		//if breakFX is set, instantiate it where break occurs

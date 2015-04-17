@@ -37,7 +37,7 @@ public class RopeCutter : MonoBehaviour {
 		//get cutter object's components
 		tr = transform;
 		cam = Camera.main;
-		audioSrc = audio;
+		audioSrc = GetComponent<AudioSource>();
 		trailRend = GetComponent<TrailRenderer>();
 
 		trailRendTime = trailRend.time;
@@ -121,7 +121,7 @@ public class RopeCutter : MonoBehaviour {
 					
 					col.GetComponent<HingeJoint2D>().enabled = false; //disable cut object's HingeJoint2D component, so it won't be connected to another object
 					col.isTrigger = true;
-					col.renderer.enabled = false;
+					col.GetComponent<Renderer>().enabled = false;
 
 					//if cutFX object is set (from inspector window), instantiate that object at cut position
 					if(cutFX)

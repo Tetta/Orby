@@ -11,7 +11,7 @@ public class musicClass : MonoBehaviour {
 		}
 		instance = this;
 		DontDestroyOnLoad (gameObject);
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 	}
 
 	// Update is called once per frame

@@ -301,14 +301,12 @@ namespace UnityEngine.Advertisements.XCodeEditor
 
 			// TODO: Aggiungere controllo se file già presente
 			PBXFileReference fileReference = GetFile(System.IO.Path.GetFileName(filePath));
-			if(fileReference != null) {
-				return null;
+			if(fileReference == null) {
+				fileReference = new PBXFileReference(filePath, (TreeEnum)System.Enum.Parse(typeof(TreeEnum), tree));
+				parent.AddChild(fileReference);
+				fileReferences.Add(fileReference);
+				results.Add(fileReference.guid, fileReference);
 			}
-
-			fileReference = new PBXFileReference(filePath, (TreeEnum)System.Enum.Parse(typeof(TreeEnum), tree));
-			parent.AddChild(fileReference);
-			fileReferences.Add(fileReference);
-			results.Add(fileReference.guid, fileReference);
 
 			//Create a build file for reference
 			if(!string.IsNullOrEmpty(fileReference.buildPhase) && createBuildFiles) {
@@ -422,7 +420,11 @@ namespace UnityEngine.Advertisements.XCodeEditor
 
 			foreach(KeyValuePair<string, PBXFileReference> current in fileReferences) {
 				if(!string.IsNullOrEmpty(current.Value.name) && current.Value.name.CompareTo(name) == 0) {
-					return current.Value;
+					var fileReference = current.Value;
+					if(fileReference.buildPhase == null && fileReference.name.EndsWith(".framework")) {
+						fileReference.buildPhase = "PBXFrameworksBuildPhase";
+					}
+					return fileReference;
 				}
 			}
 

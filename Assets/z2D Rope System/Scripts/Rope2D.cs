@@ -37,7 +37,7 @@ public class Rope2D
 		Transform tempChain = null;
 
 		//calculate how many chains is needed from pointA to pointB
-		remainChainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f));
+		remainChainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f));
 
 		//while rope isn't connected to end point
 		while (!connected)
@@ -51,9 +51,9 @@ public class Rope2D
 
 			//if useLineRenderer is true, disable chain's renderer
 			if (useLineRenderer)
-				chain.renderer.enabled = false;
+				chain.GetComponent<Renderer>().enabled = false;
 			else
-				chain.renderer.enabled = true;
+				chain.GetComponent<Renderer>().enabled = true;
 
 			//positioning and naming chains
 			if (!tempChain)//if this is first chain
@@ -61,11 +61,11 @@ public class Rope2D
 				chain.position = pointA.position;
 				chain.name = "chain 1";
 
-				chain.collider2D.isTrigger = true;
+				chain.GetComponent<Collider2D>().isTrigger = true;
 
 				//if hideEndObjects is true, disable chain's renderer
 				if(hideEndObjects)
-					chain.renderer.enabled = false;
+					chain.GetComponent<Renderer>().enabled = false;
 
 				//if connecToA is true, connect pointA to chain
 				if(connectToA)
@@ -81,10 +81,10 @@ public class Rope2D
 					}
 
 					distJoint.distance = 0.01f;
-					distJoint.connectedBody = chain.rigidbody2D;
-					pointA.rigidbody2D.isKinematic = true;
+					distJoint.connectedBody = chain.GetComponent<Rigidbody2D>();
+					pointA.GetComponent<Rigidbody2D>().isKinematic = true;
 				}
-				else chain.rigidbody2D.isKinematic = lockFirstChain;
+				else chain.GetComponent<Rigidbody2D>().isKinematic = lockFirstChain;
 			}
 			else //if this isn't first chain
 			{
@@ -104,10 +104,10 @@ public class Rope2D
 			{
 				//get last created chain's HingeJoint2D component and connect it to newly created object
 				var tempChainHinge = tempChain.GetComponent<HingeJoint2D>();
-				var midPos = tempChain.position + ((chain.position - tempChain.position).normalized * (chainObject.renderer.bounds.extents.x));
+				var midPos = tempChain.position + ((chain.position - tempChain.position).normalized * (chainObject.GetComponent<Renderer>().bounds.extents.x));
 				tempChainHinge.anchor = tempChain.transform.InverseTransformPoint (midPos);
 				tempChainHinge.connectedAnchor = chain.transform.InverseTransformPoint(midPos);
-				tempChainHinge.connectedBody = chain.rigidbody2D;
+				tempChainHinge.connectedBody = chain.GetComponent<Rigidbody2D>();
 				tempChainHinge.enabled = true;
 
 				//if this is second chain
@@ -116,7 +116,7 @@ public class Rope2D
 					//add second hingejoint component to second chain object and connect to first chain
 					//it's necessary to swing rope freely around both ends
 					var chainHinge = chain.gameObject.AddComponent<HingeJoint2D>();
-					chainHinge.connectedBody = tempChain.rigidbody2D;
+					chainHinge.connectedBody = tempChain.GetComponent<Rigidbody2D>();
 
 					//set anchor position
 					if(!connectToA)
@@ -134,7 +134,7 @@ public class Rope2D
 			}
 			
 			//calculate how many chain is needed from last chain position to end position
-			remainChainCount = (int) (Vector3.Distance (chain.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f));
+			remainChainCount = (int) (Vector3.Distance (chain.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f));
 
 			//if it's last chain, make it isKinematic(physics won't affect it)
 			if(remainChainCount < 1)
@@ -150,11 +150,11 @@ public class Rope2D
 					tempChainJoint.anchor = tempChain.transform.InverseTransformPoint(chain.position);
 				}
 
-				chain.collider2D.isTrigger = true;
+				chain.GetComponent<Collider2D>().isTrigger = true;
 
 				//if hideEndObjects is true, disable chain's renderer
 				if(hideEndObjects)
-					chain.renderer.enabled = false;
+					chain.GetComponent<Renderer>().enabled = false;
 
 				//if connectToB is true, connect pointB to last chain
 				if(connectToB)
@@ -170,11 +170,11 @@ public class Rope2D
 					}
 
 					distJoint.distance = 0.01f;
-					distJoint.connectedBody = chain.rigidbody2D;
-					pointB.rigidbody2D.isKinematic = true;
+					distJoint.connectedBody = chain.GetComponent<Rigidbody2D>();
+					pointB.GetComponent<Rigidbody2D>().isKinematic = true;
 				}
 				else if(lockLastChain) 
-					chain.rigidbody2D.isKinematic = true;
+					chain.GetComponent<Rigidbody2D>().isKinematic = true;
 
 				GameObject.DestroyImmediate (chain.GetComponent<HingeJoint2D>()); //remove HingeJoint2D component for last chain
 			
@@ -211,7 +211,7 @@ public class Rope2D
 		Transform tempChain = null;
 
 		//calculate how many chains is needed
-		remainChainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f)); 
+		remainChainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f)); 
 
 		UseLineRenderer useLinerend = null;
 
@@ -235,9 +235,9 @@ public class Rope2D
 
 			//if useLineRenderer is true, disable chain's renderer
 			if (useLineRenderer)
-				chain.renderer.enabled = false;
+				chain.GetComponent<Renderer>().enabled = false;
 			else
-				chain.renderer.enabled = true;
+				chain.GetComponent<Renderer>().enabled = true;
 			
 			//positioning and naming chains
 			if (!tempChain)//if this is first chain
@@ -245,11 +245,11 @@ public class Rope2D
 				chain.position = pointA.position;
 				chain.name = "chain 1";
 
-				chain.collider2D.isTrigger = true;
+				chain.GetComponent<Collider2D>().isTrigger = true;
 
 				//if hideEndObjects is true, disable chain's renderer
 				if(hideEndObjects)
-					chain.renderer.enabled = false;
+					chain.GetComponent<Renderer>().enabled = false;
 
 				//if connecToA is true, connect pointA to chain
 				if(connectToA)
@@ -265,10 +265,10 @@ public class Rope2D
 					}
 					
 					distJoint.distance = 0.01f;
-					distJoint.connectedBody = chain.rigidbody2D;
-					pointA.rigidbody2D.isKinematic = true;
+					distJoint.connectedBody = chain.GetComponent<Rigidbody2D>();
+					pointA.GetComponent<Rigidbody2D>().isKinematic = true;
 				}
-				else chain.rigidbody2D.isKinematic = lockFirstChain;
+				else chain.GetComponent<Rigidbody2D>().isKinematic = lockFirstChain;
 			}
 			else //if this isn't first chain
 			{
@@ -296,10 +296,10 @@ public class Rope2D
 			{
 				//get last created chain's HingeJoint2D component and connect it to newly created object
 				var tempChainHinge = tempChain.GetComponent<HingeJoint2D>();
-				var midPos = tempChain.position + ((chain.position - tempChain.position).normalized * (chainObject.renderer.bounds.extents.x));
+				var midPos = tempChain.position + ((chain.position - tempChain.position).normalized * (chainObject.GetComponent<Renderer>().bounds.extents.x));
 				tempChainHinge.anchor = tempChain.transform.InverseTransformPoint (midPos);
 				tempChainHinge.connectedAnchor = chain.transform.InverseTransformPoint(midPos);
-				tempChainHinge.connectedBody = chain.rigidbody2D;
+				tempChainHinge.connectedBody = chain.GetComponent<Rigidbody2D>();
 				tempChainHinge.enabled = true;
 
 				//if this is second chain
@@ -308,7 +308,7 @@ public class Rope2D
 					//add second hingejoint component to second chain object and connect to first chain
 					//it's necessary to swing rope freely around both ends
 					var chainHinge = chain.gameObject.AddComponent<HingeJoint2D>();
-					chainHinge.connectedBody = tempChain.rigidbody2D;
+					chainHinge.connectedBody = tempChain.GetComponent<Rigidbody2D>();
 
 					//set anchor position
 					if(!connectToA)
@@ -326,7 +326,7 @@ public class Rope2D
 			}
 			
 			//calculate how many chain is needed from last chain position to end position
-			remainChainCount = (int) (Vector3.Distance (chain.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f));
+			remainChainCount = (int) (Vector3.Distance (chain.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f));
 			
 			//if it's last chain, make it isKinematic(physics won't affect it)
 			if(remainChainCount < 1)
@@ -342,11 +342,11 @@ public class Rope2D
 					tempChainJoint.anchor = tempChain.transform.InverseTransformPoint(chain.position);
 				}
 
-				chain.collider2D.isTrigger = true;
+				chain.GetComponent<Collider2D>().isTrigger = true;
 
 				//if hideEndObjects is true, disable chain's renderer
 				if(hideEndObjects)
-					chain.renderer.enabled = false;
+					chain.GetComponent<Renderer>().enabled = false;
 
 				//if connectToB is true, connect pointB to last chain
 				if(connectToB)
@@ -365,11 +365,11 @@ public class Rope2D
 						distJoint = pointB.gameObject.AddComponent<DistanceJoint2D>();
 
 					distJoint.distance = 0.01f;
-					distJoint.connectedBody = chain.rigidbody2D;
-					pointB.rigidbody2D.isKinematic = true;
+					distJoint.connectedBody = chain.GetComponent<Rigidbody2D>();
+					pointB.GetComponent<Rigidbody2D>().isKinematic = true;
 				}
 				else if(lockLastChain) 
-					chain.rigidbody2D.isKinematic = true;
+					chain.GetComponent<Rigidbody2D>().isKinematic = true;
 
 				GameObject.DestroyImmediate (chain.GetComponent<HingeJoint2D>());	//remove HingeJoint2D component for last chain
 				

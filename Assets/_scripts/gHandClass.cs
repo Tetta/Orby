@@ -21,35 +21,35 @@ public class gHandClass : MonoBehaviour {
 
 	public static void addHand() {
 		if (level == "level1") {
-			hand.animation.Play("hand enable");
+			hand.GetComponent<Animation>().Play("hand enable");
 		} else if (level == "level5") {
-			hand.animation.Play("hand sluggish");
+			hand.GetComponent<Animation>().Play("hand sluggish");
 		} else if (level == "level15") {
-			hand.animation.Play("hand destroyer");
+			hand.GetComponent<Animation>().Play("hand destroyer");
 		} else if (level == "level16") {
 			hand.transform.position = new Vector2 (0.27F, 0.2F);
-			hand.animation.Play("hand enable");
+			hand.GetComponent<Animation>().Play("hand enable");
 		} else if (level == "level19") {
-			hand.animation.Play("hand groot");
+			hand.GetComponent<Animation>().Play("hand groot");
 		}
 	}
 
 	public static void delHand() {
 		if (level == "level1") {
 			hand.transform.position = new Vector2 (-5, 1);
-			hand.animation.Stop("hand enable");
+			hand.GetComponent<Animation>().Stop("hand enable");
 		} else if (level == "level5") {
 			hand.transform.position = new Vector2 (-5, 1);
-			hand.animation.Stop("hand sluggish");
+			hand.GetComponent<Animation>().Stop("hand sluggish");
 		} else if (level == "level15") {
 			hand.transform.position = new Vector2 (-5, 1);
-			hand.animation.Stop("hand destroyer");
+			hand.GetComponent<Animation>().Stop("hand destroyer");
 		} else if (level == "level16") {
 			hand.transform.position = new Vector2 (-5, 1);
-			hand.animation.Stop("hand enable");
+			hand.GetComponent<Animation>().Stop("hand enable");
 		} else if (level == "level19") {
 			hand.transform.position = new Vector2 (-5, 1);
-			hand.animation.Stop("hand groot");
+			hand.GetComponent<Animation>().Stop("hand groot");
 		}
 	}
 }

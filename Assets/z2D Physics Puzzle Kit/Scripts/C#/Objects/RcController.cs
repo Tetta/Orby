@@ -36,15 +36,15 @@ public class RcController : PhysicsObject
     {
         inPlayMode = true;
 
-        body.rigidbody2D.gravityScale = gravity;
+        body.GetComponent<Rigidbody2D>().gravityScale = gravity;
     }
     //Called when the level is disabled
     public override void Reset()
     {
         inPlayMode = false;
 
-        body.rigidbody2D.gravityScale = 0;
-        body.rigidbody2D.velocity = Vector2.zero;
+        body.GetComponent<Rigidbody2D>().gravityScale = 0;
+        body.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         body.localPosition = bodyStartPos;
         knob.localPosition = bodyStartPos + knobStartDist;
@@ -58,10 +58,10 @@ public class RcController : PhysicsObject
 
         //If the knob is pushed down by an object, apply upward force on it
         if (knob.localPosition.y - body.localPosition.y < knobStartDist.y)
-            knob.rigidbody2D.AddForce(Vector2.up * 5);
+            knob.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 5);
         else
         {
-            knob.rigidbody2D.velocity = new Vector2(0, 0);
+            knob.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             knob.transform.localPosition = new Vector2(knob.transform.localPosition.x, body.localPosition.y + knobStartDist.y);
         }
     }

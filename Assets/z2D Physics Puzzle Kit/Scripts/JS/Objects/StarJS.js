@@ -21,7 +21,7 @@ public class StarJS extends ObjectBaseJS
     public override function Enable()
     {
         inPlayMode = true;
-        this.collider2D.isTrigger = true;
+        this.GetComponent.<Collider2D>().isTrigger = true;
     }
     //Called when the level leaves play mode
     public override function Reset()

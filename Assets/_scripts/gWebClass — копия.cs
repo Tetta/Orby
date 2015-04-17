@@ -44,16 +44,16 @@ public class gWebClass2 : MonoBehaviour {
 
 				int i = chainCount;
 				//chain[i].rigidbody2D.fixedAngle = true;
-				if (pointB.collider2D.OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
+				if (pointB.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
 
 					chainCount = i;
 					HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
-					jointChain.connectedBody = pointB.rigidbody2D;
+					jointChain.connectedBody = pointB.GetComponent<Rigidbody2D>();
 					jointChain.connectedAnchor = pointBAchor;
 					jointChain.enabled = true;	
 					jointChain.useLimits = false;
 					for (int y = 1; y <= chainCount; y ++){
-						chain[y].rigidbody2D.drag = drag;
+						chain[y].GetComponent<Rigidbody2D>().drag = drag;
 						//chain[y].rigidbody2D.angularDrag = 2;
 						//chain[y].rigidbody2D.centerOfMass = new Vector2(0, -0.3F);
 					}
@@ -100,7 +100,7 @@ public class gWebClass2 : MonoBehaviour {
 						chain[y].transform.position =  new Vector3(web.transform.position.x + diffX * (chainCount - y), web.transform.position.y + diffY * (chainCount - y), chainPositionZ);
 					}
 					//orby.transform.position =  new Vector3(web.transform.position.x + diffX * chainCount, web.transform.position.y + diffY * chainCount, chainPositionZ);
-					jointWeb.connectedBody = chain[chainCount - 1].rigidbody2D;
+					jointWeb.connectedBody = chain[chainCount - 1].GetComponent<Rigidbody2D>();
 					chainCount--;
 				} else {
 					webState = "enableWeb";
@@ -150,21 +150,21 @@ public class gWebClass2 : MonoBehaviour {
 		chain[i].transform.parent = holder.transform;
 		//chain[i].rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
 		if (i == 1) {
-			jointWeb.connectedBody = chain[i].rigidbody2D;
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody2D>();
 			jointWeb.enabled = true;
 			
 			//chainClass script = chain[i].GetComponent <chainClass>();
 		} else {
-			if (!berry.collider2D.OverlapPoint(chain[1].transform.position)) {
+			if (!berry.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position)) {
 				for (int y = 1; y <= i; y++) {
 					chain[y].transform.position = new Vector3(web.transform.position.x + diffX * (i - y), web.transform.position.y + diffY * (i - y), chainPositionZ);
 				}
 			}
 			HingeJoint2D joint = chain[i].GetComponent<HingeJoint2D> ();
-			joint.connectedBody = chain[i - 1].rigidbody2D;
+			joint.connectedBody = chain[i - 1].GetComponent<Rigidbody2D>();
 			joint.enabled = true;
-			jointWeb.connectedBody = chain[i].rigidbody2D;
-			if (berry.collider2D.OverlapPoint(chain[1].transform.position) && i >= 20) {
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody2D>();
+			if (berry.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position) && i >= 20) {
 				HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
 
 				jointChain.useLimits = false;
@@ -172,7 +172,7 @@ public class gWebClass2 : MonoBehaviour {
 				//jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
 				jointChain.connectedAnchor = new Vector2(0, 0);
 
-				jointChain.connectedBody = berry.rigidbody2D;
+				jointChain.connectedBody = berry.GetComponent<Rigidbody2D>();
 				jointChain.enabled = true;	
 				webState = "afterCollisionOrby";
 
@@ -201,7 +201,7 @@ public class gWebClass2 : MonoBehaviour {
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (webState == "") {
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_50_times", 1);
 
@@ -212,7 +212,7 @@ public class gWebClass2 : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 			webState = "destroyingWeb";
 			globalCounter = 1;

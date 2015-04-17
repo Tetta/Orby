@@ -40,9 +40,9 @@ public class Drag : MonoBehaviour {
 			
 			//if forTouchScreen variable is true (set from inspector window) use touches, else use mouse for dragging
 			if(forTouchScreen)
-				pos = camera.ScreenToWorldPoint(Input.GetTouch(0).position);//get position, where touch is detected
+				pos = GetComponent<Camera>().ScreenToWorldPoint(Input.GetTouch(0).position);//get position, where touch is detected
 			else
-				pos = camera.ScreenToWorldPoint(Input.mousePosition); //get position, where mouse cursor is
+				pos = GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition); //get position, where mouse cursor is
 			pos.z = -1;
 
 			//make dragger object's position same as input position
@@ -56,15 +56,15 @@ public class Drag : MonoBehaviour {
 				hitObject = hit.transform;
 
 			//check if hit object has collider and we aren't still dragging object
-			if(!dragging && !movingTransform && hit.collider && (hit.collider.tag == "tack" || hit.collider.tag == "candy") && hit.collider.rigidbody2D)
+			if(!dragging && !movingTransform && hit.collider && (hit.collider.tag == "tack" || hit.collider.tag == "candy") && hit.collider.GetComponent<Rigidbody2D>())
 			{
 				//change springjoint anchor & connectedAnchor positions and connect to hit object
 				springJoint.anchor = springJoint.transform.InverseTransformPoint (hit.point);
 				springJoint.connectedAnchor = hit.transform.InverseTransformPoint (hit.point);
-				springJoint.connectedBody = hit.collider.rigidbody2D;
+				springJoint.connectedBody = hit.collider.GetComponent<Rigidbody2D>();
 
 				//save hit object's rigidbody2D component and set it's isKinematic false (physics won't affect on it)
-				connectedRB = hit.collider.rigidbody2D;	
+				connectedRB = hit.collider.GetComponent<Rigidbody2D>();	
 				connectedRB.isKinematic = false;
 
 				dragging = true;

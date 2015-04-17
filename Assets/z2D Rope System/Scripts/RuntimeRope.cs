@@ -141,7 +141,7 @@ public class RuntimeRope : MonoBehaviour{
 
 		//if rope width is 0, that means that user hadn't set rope width, in that case we make width same as chainObject's renderer size
 		if(ropeWidth <= 0.0f)
-			ropeWidth = chainObject.renderer.bounds.size.x;
+			ropeWidth = chainObject.GetComponent<Renderer>().bounds.size.x;
 
 		//if pointA has 3D collider attached, remove it
 		var colA = pointA.GetComponent<Collider>();
@@ -155,7 +155,7 @@ public class RuntimeRope : MonoBehaviour{
 			if(!jointA || (jointA && jointA.connectedBody))
 			{
 				pointA.gameObject.AddComponent<DistanceJoint2D>();
-				pointA.rigidbody2D.isKinematic = true;
+				pointA.GetComponent<Rigidbody2D>().isKinematic = true;
 			}
 		}
 
@@ -171,12 +171,12 @@ public class RuntimeRope : MonoBehaviour{
 			if(!jointB || (jointB && jointB.connectedBody))
 			{
 				pointB.gameObject.AddComponent<DistanceJoint2D>();
-				pointB.rigidbody2D.isKinematic = true;
+				pointB.GetComponent<Rigidbody2D>().isKinematic = true;
 			}
 		}
 
 		//calculate how many chains is needed from pointA to pointB
-		var chainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f));
+		var chainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f));
 		if(chainCount < 2)
 		{
 			Debug.LogWarning("Distance from "+ pointA.name +" (PointA) to "+ pointB.name +" (PointB) is very small, increase distance");

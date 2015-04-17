@@ -61,7 +61,7 @@ public class UseLineRenderer : MonoBehaviour {
 		{
 			if(width <= 0.0f)
 			{
-				width = chains[0].renderer.bounds.size.x;
+				width = chains[0].GetComponent<Renderer>().bounds.size.x;
 			}
 
 			lineRend.SetWidth (width, width);
@@ -147,7 +147,7 @@ public class UseLineRenderer : MonoBehaviour {
 					else
 					{
 						child.parent = (brokenChainsHolder != null) ? brokenChainsHolder.transform : null;
-						child.collider2D.isTrigger = true;
+						child.GetComponent<Collider2D>().isTrigger = true;
 					}
 				}
 			}

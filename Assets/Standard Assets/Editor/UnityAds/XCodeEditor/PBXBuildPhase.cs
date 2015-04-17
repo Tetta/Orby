@@ -23,9 +23,11 @@ namespace UnityEngine.Advertisements.XCodeEditor
 			if(!ContainsKey(FILES_KEY)) {
 				this.Add(FILES_KEY, new PBXList());
 			}
-			((PBXList)_data[FILES_KEY]).Add(file.guid);
-
-			return true;
+			if(!HasBuildFile (file.guid)) {
+				((PBXList)_data[FILES_KEY]).Add(file.guid);
+				return true;
+			}
+			return false;
 		}
 
 		public void RemoveBuildFile(string id)

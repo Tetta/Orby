@@ -7,6 +7,7 @@ public class gWebClass : MonoBehaviour {
 	public GameObject web;
 	public GameObject web2;
 	public GameObject chainPrefab;
+	public bool webStateCollisionBerry = false;
 	public GameObject pointB;
 	public Vector3 pointBAchor;
 	public int drag = 2;
@@ -35,6 +36,7 @@ public class gWebClass : MonoBehaviour {
 		maxDiffC = chainLength * maxChainCount;
 		jointWeb = web.GetComponent<HingeJoint2D> ();
 		if (pointB != null) {
+			if (pointB.name == "berry") webStateCollisionBerry = true;
 			if (pointB.name == "spider") gSpiderClass.websSpider.Add(gameObject.GetInstanceID());
 			diff = pointB.transform.position + pointBAchor - web.transform.position;
 			float pointBDiffC = Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y);
@@ -46,16 +48,16 @@ public class gWebClass : MonoBehaviour {
 
 				int i = chainCount;
 				//chain[i].rigidbody2D.fixedAngle = true;
-				if (pointB.collider2D.OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
+				if (pointB.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
 
 					chainCount = i;
 					HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
-					jointChain.connectedBody = pointB.rigidbody2D;
+					jointChain.connectedBody = pointB.GetComponent<Rigidbody2D>();
 					jointChain.connectedAnchor = pointBAchor;
 					jointChain.enabled = true;	
 					jointChain.useLimits = false;
 					for (int y = 1; y <= chainCount; y ++){
-						chain[y].rigidbody2D.drag = drag;
+						chain[y].GetComponent<Rigidbody2D>().drag = drag;
 						chain[y].GetComponent<BoxCollider2D>().enabled = true;
 						//chain[y].rigidbody2D.angularDrag = 2;
 						//chain[y].rigidbody2D.centerOfMass = new Vector2(0, -0.3F);
@@ -89,7 +91,7 @@ public class gWebClass : MonoBehaviour {
 						chain[y].transform.position =  new Vector3(web.transform.position.x + diffX * (chainCount - y), web.transform.position.y + diffY * (chainCount - y), chainPositionZ);
 					}
 					//orby.transform.position =  new Vector3(web.transform.position.x + diffX * chainCount, web.transform.position.y + diffY * chainCount, chainPositionZ);
-					jointWeb.connectedBody = chain[chainCount - 1].rigidbody2D;
+					jointWeb.connectedBody = chain[chainCount - 1].GetComponent<Rigidbody2D>();
 					chainCount--;
 				} else {
 					for (int y = 1; y <= normalChainCount; y++) {
@@ -165,21 +167,21 @@ public class gWebClass : MonoBehaviour {
 		chain[i].transform.parent = holder.transform;
 		//chain[i].rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
 		if (i == 1) {
-			jointWeb.connectedBody = chain[i].rigidbody2D;
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody2D>();
 			jointWeb.enabled = true;
 			
 			//chainClass script = chain[i].GetComponent <chainClass>();
 		} else {
-			if (!berry.collider2D.OverlapPoint(chain[1].transform.position)) {
+			if (!berry.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position)) {
 				for (int y = 1; y <= i; y++) {
 					chain[y].transform.position = new Vector3(web.transform.position.x + diffX * (i - y), web.transform.position.y + diffY * (i - y), chainPositionZ);
 				}
 			}
 			HingeJoint2D joint = chain[i].GetComponent<HingeJoint2D> ();
-			joint.connectedBody = chain[i - 1].rigidbody2D;
+			joint.connectedBody = chain[i - 1].GetComponent<Rigidbody2D>();
 			joint.enabled = true;
-			jointWeb.connectedBody = chain[i].rigidbody2D;
-			if (berry.collider2D.OverlapPoint(chain[1].transform.position) && i >= normalChainCount) {
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody2D>();
+			if (berry.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position) && i >= normalChainCount) {
 				HingeJoint2D jointChain = chain[1].GetComponent<HingeJoint2D> ();
 
 				jointChain.useLimits = false;
@@ -187,7 +189,7 @@ public class gWebClass : MonoBehaviour {
 				//jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
 				jointChain.connectedAnchor = new Vector2(0, 0);
 
-				jointChain.connectedBody = berry.rigidbody2D;
+				jointChain.connectedBody = berry.GetComponent<Rigidbody2D>();
 				jointChain.enabled = true;	
 				webState = "afterCollisionOrby";
 
@@ -211,18 +213,15 @@ public class gWebClass : MonoBehaviour {
 
 	}
 
-	void OnMouseDown() {
-		Debug.Log ("OnMouseDown");
-	}
-
 	void OnClick () {
 		GetComponent<Animator>().Play("web");
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		gHandClass.delHand();
 		if (webState == "") {
+			webStateCollisionBerry = true;
 			if (Application.loadedLevelName == "level1" && timePauseAnimation == 0) timePauseAnimation = Time.time;
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 
 			StartCoroutine(Coroutine());
@@ -234,9 +233,10 @@ public class gWebClass : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
+			webStateCollisionBerry = false;
 			if (gSpiderClass.websSpider.Count != 0) if (gSpiderClass.websSpider.Contains(gameObject.GetInstanceID())) gSpiderClass.websSpider.Remove(gameObject.GetInstanceID());
 
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 			webState = "destroyingWeb";
 			globalCounter = 1;

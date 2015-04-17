@@ -204,7 +204,7 @@ public class RopeSystem2D : EditorWindow{
 
 		//if rope width is 0, that means that user hadn't set rope width, in that case we make width same as chainObject's renderer size
 		if(ropeWidth <= 0.0f)
-			ropeWidth = chainObject.renderer.bounds.size.x;
+			ropeWidth = chainObject.GetComponent<Renderer>().bounds.size.x;
 
 		//if pointA has 3D collider attached, remove it
 		var colA = pointA.GetComponent<Collider>();
@@ -233,7 +233,7 @@ public class RopeSystem2D : EditorWindow{
 		}
 
 		//calculate how many chains is needed from pointA to pointB
-		var chainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.renderer.bounds.extents.x * 1.9f));
+		var chainCount = (int)(Vector3.Distance(pointA.position, pointB.position) / (chainObject.GetComponent<Renderer>().bounds.extents.x * 1.9f));
 		if(chainCount < 2)
 		{
 			helpText = "Distance between PointA & PointB is very small";

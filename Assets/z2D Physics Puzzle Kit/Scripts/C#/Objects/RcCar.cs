@@ -66,8 +66,8 @@ public class RcCar : PhysicsObject
 
         mainRigidbody.fixedAngle = false;
 
-        wheels[0].rigidbody2D.fixedAngle = false;
-        wheels[1].rigidbody2D.fixedAngle = false;
+        wheels[0].GetComponent<Rigidbody2D>().fixedAngle = false;
+        wheels[1].GetComponent<Rigidbody2D>().fixedAngle = false;
 
         mainRigidbody.gravityScale = gravity;
         activated = true;
@@ -83,14 +83,14 @@ public class RcCar : PhysicsObject
         StopAllCoroutines();
 
         //Stop the rigidbodies
-        mainRigidbody.rigidbody2D.velocity = Vector2.zero;
-        wheels[0].rigidbody2D.velocity = Vector2.zero;
-        wheels[1].rigidbody2D.velocity = Vector2.zero;
+        mainRigidbody.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        wheels[0].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        wheels[1].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         //Freeze rigidbody rotations
         mainRigidbody.fixedAngle = true;
-        wheels[0].rigidbody2D.fixedAngle = true;
-        wheels[1].rigidbody2D.fixedAngle = true;
+        wheels[0].GetComponent<Rigidbody2D>().fixedAngle = true;
+        wheels[1].GetComponent<Rigidbody2D>().fixedAngle = true;
 
         //Reset positions
         mainRigidbody.transform.position = lastBodyPos;

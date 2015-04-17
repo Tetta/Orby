@@ -16,8 +16,15 @@ public class gRecHintClass : MonoBehaviour {
 	
 	}
 
+	void OnMouseClick () {
+				Debug.Log ("start rec");
+
+	}
+
 	// Update is called once per frame
 	void OnMouseUp () {
+		Debug.Log("start rec");
+
 		if (recHintState == -1) {
 			Application.LoadLevel(Application.loadedLevel);
 			counter = 0;

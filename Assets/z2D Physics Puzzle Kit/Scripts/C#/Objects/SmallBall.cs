@@ -9,7 +9,7 @@ public class SmallBall : PhysicsObject
     void Start()
     {
         //Save starting friction
-        friction = this.collider2D.sharedMaterial.friction;
+        friction = this.GetComponent<Collider2D>().sharedMaterial.friction;
     }
 
     //Called when the object enters a trigger zone
@@ -17,7 +17,7 @@ public class SmallBall : PhysicsObject
     {
         //If we entered a pipe, remove friction behaviour
         if (other.name == "ColliderPipe")
-            this.collider2D.sharedMaterial.friction = 0;
+            this.GetComponent<Collider2D>().sharedMaterial.friction = 0;
 
         base.OnTriggerEnter2D(other);
     }
@@ -26,6 +26,6 @@ public class SmallBall : PhysicsObject
     {
         //If we entered a pipe, add friction behaviour
         if (other.name == "ColliderPipe")
-            this.collider2D.sharedMaterial.friction = friction;
+            this.GetComponent<Collider2D>().sharedMaterial.friction = friction;
     }
 }

@@ -19,7 +19,7 @@ public class BalloonJS extends PhysicsObjectJS
 	{
 		if (canMove)
 		{
-            this.rigidbody2D.AddForce(Vector2.up * upwardForce);
+            this.GetComponent.<Rigidbody2D>().AddForce(Vector2.up * upwardForce);
 
             //Calculate rotation angle
             zRot = transform.eulerAngles.z;
@@ -28,7 +28,7 @@ public class BalloonJS extends PhysicsObjectJS
 
             //Add rotation force in opposite direction to limit rotation
             rotatingForce = maxTorque * (-zRot / maxRotation);
-            this.rigidbody2D.AddTorque(rotatingForce);
+            this.GetComponent.<Rigidbody2D>().AddTorque(rotatingForce);
 		}
 	}
     //Called when the ballon is colliding with something
@@ -59,7 +59,7 @@ public class BalloonJS extends PhysicsObjectJS
 	//Enable the balloon
 	public override function Enable ()
 	{
-        this.rigidbody2D.fixedAngle = false;
+        this.GetComponent.<Rigidbody2D>().fixedAngle = false;
         canMove = true;
 	}
     //Reset the balloon
@@ -76,8 +76,8 @@ public class BalloonJS extends PhysicsObjectJS
         canMove = false;
 
         //Stop balloon movement
-        this.rigidbody2D.velocity = new Vector2(0, 0);
-        this.rigidbody2D.fixedAngle = true;
+        this.GetComponent.<Rigidbody2D>().velocity = new Vector2(0, 0);
+        this.GetComponent.<Rigidbody2D>().fixedAngle = true;
 
         StopAllCoroutines();
 	}
@@ -85,18 +85,18 @@ public class BalloonJS extends PhysicsObjectJS
 	//Reduce horizontal speed based on time
 	public function ReduceHorizontalSpeed (time : float)
 	{
-		var startValue : float = this.rigidbody2D.velocity.x;
+		var startValue : float = this.GetComponent.<Rigidbody2D>().velocity.x;
 		var rate : float = 1.0f / time;
 	    var t : float = 0.0f;
-	    var vel : Vector2 = this.rigidbody2D.velocity;
+	    var vel : Vector2 = this.GetComponent.<Rigidbody2D>().velocity;
 		
 	    while (t < 1.0f && !onCollision) 
 	    {
 	        t += Time.deltaTime * rate;
-			vel = this.rigidbody2D.velocity;
+			vel = this.GetComponent.<Rigidbody2D>().velocity;
 	        vel.x = Mathf.Lerp(startValue, 0.0f, t);
 
-			this.rigidbody2D.velocity = vel;
+			this.GetComponent.<Rigidbody2D>().velocity = vel;
 	        yield WaitForEndOfFrame();
 	    }
 	}

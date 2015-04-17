@@ -57,7 +57,7 @@ public class gDestroyerClass : MonoBehaviour {
 		if (destroyerState == "active") {
 			staticClass.useDestroyer = true;
 			gRecHintClass.recHint(transform);
-			rigidbody2D.isKinematic = false;
+			GetComponent<Rigidbody2D>().isKinematic = false;
 			CircleCollider2D collider = gameObject.GetComponent<CircleCollider2D>();
 			collider.radius = 0.001F;
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(gHintClass.checkHint(gameObject, true));
@@ -70,7 +70,7 @@ public class gDestroyerClass : MonoBehaviour {
 			float diffY = maxDiffC / pointBDiffC * diff.y;
 			
 			
-			rigidbody2D.AddForce( new Vector2(diffX, diffY));
+			GetComponent<Rigidbody2D>().AddForce( new Vector2(diffX, diffY));
 			//Debug.Log (diffX);
 			destroyerState = "fly";
 		}
@@ -232,7 +232,7 @@ public class gDestroyerClass : MonoBehaviour {
 			for (int i = 0; i < gGrootClass.terrainGrootChains.Count; i++ ) {
 				gGrootClass.terrainGrootChain terr = gGrootClass.terrainGrootChains[i];
 				if (terr.terrain == collider.gameObject) {
-					if (!terr.terrain.collider2D.OverlapPoint(terr.chain.transform.position)) {
+					if (!terr.terrain.GetComponent<Collider2D>().OverlapPoint(terr.chain.transform.position)) {
 						terr.chain.transform.parent.SendMessage("OnMouseDown");
 						gGrootClass.terrainGrootChains.Remove(terr);
 						i--;

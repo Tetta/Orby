@@ -22,7 +22,7 @@ public class Star : ObjectBase
     public override void Enable()
     {
         inPlayMode = true;
-        this.collider2D.isTrigger = true;
+        this.GetComponent<Collider2D>().isTrigger = true;
     }
     //Called when the level leaves play mode
     public override void Reset()

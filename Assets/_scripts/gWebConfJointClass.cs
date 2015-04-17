@@ -44,15 +44,15 @@ public class gWebConfJointClass : MonoBehaviour {
 
 				int i = chainCount;
 				//chain[i].rigidbody.fixedAngle = true;
-				if (pointB.collider2D.OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
+				if (pointB.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position + new Vector3(diffX, diffY, 0))) {
 
 					chainCount = i;
 					ConfigurableJoint jointChain = chain[1].GetComponent<ConfigurableJoint> ();
-					jointChain.connectedBody = pointB.rigidbody;
+					jointChain.connectedBody = pointB.GetComponent<Rigidbody>();
 					jointChain.connectedAnchor = pointBAchor;
 					//jointChain.enabled = true;	
 					for (int y = 1; y <= chainCount; y ++){
-						chain[y].rigidbody.drag = drag;
+						chain[y].GetComponent<Rigidbody>().drag = drag;
 						//chain[y].rigidbody.angularDrag = 2;
 						//chain[y].rigidbody.centerOfMass = new Vector2(0, -0.3F);
 					}
@@ -99,7 +99,7 @@ public class gWebConfJointClass : MonoBehaviour {
 						chain[y].transform.position =  new Vector3(web.transform.position.x + diffX * (chainCount - y), web.transform.position.y + diffY * (chainCount - y), chainPositionZ);
 					}
 					//orby.transform.position =  new Vector3(web.transform.position.x + diffX * chainCount, web.transform.position.y + diffY * chainCount, chainPositionZ);
-					jointWeb.connectedBody = chain[chainCount - 1].rigidbody;
+					jointWeb.connectedBody = chain[chainCount - 1].GetComponent<Rigidbody>();
 					chainCount--;
 				} else {
 					webState = "enableWeb";
@@ -150,7 +150,7 @@ public class gWebConfJointClass : MonoBehaviour {
 		chain[i].transform.parent = holder.transform;
 		//chain[i].rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
 		if (i == 1) {
-			jointWeb.connectedBody = chain[i].rigidbody;
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody>();
 			//jointWeb.enabled = true;
 			
 			//chainClass script = chain[i].GetComponent <chainClass>();
@@ -161,9 +161,9 @@ public class gWebConfJointClass : MonoBehaviour {
 				}
 			//}
 			ConfigurableJoint joint = chain[i].GetComponent<ConfigurableJoint> ();
-			joint.connectedBody = chain[i - 1].rigidbody;
+			joint.connectedBody = chain[i - 1].GetComponent<Rigidbody>();
 			//joint.enabled = true;
-			jointWeb.connectedBody = chain[i].rigidbody;
+			jointWeb.connectedBody = chain[i].GetComponent<Rigidbody>();
 			if ( i >= 20) {
 				ConfigurableJoint jointChain = chain[1].GetComponent<ConfigurableJoint> ();
 
@@ -171,9 +171,9 @@ public class gWebConfJointClass : MonoBehaviour {
 				//jointChain.connectedAnchor = berry.transform.InverseTransformPoint(chain[1].transform.position);
 				jointChain.connectedAnchor = new Vector2(0, 0);
 
-				jointChain.connectedBody = berry.rigidbody;
+				jointChain.connectedBody = berry.GetComponent<Rigidbody>();
 				//jointChain.enabled = true;	
-				berry.rigidbody.isKinematic = false;
+				berry.GetComponent<Rigidbody>().isKinematic = false;
 				webState = "afterCollisionOrby";
 
 			}
@@ -193,7 +193,7 @@ public class gWebConfJointClass : MonoBehaviour {
 		gRecHintClass.recHint(transform);
 		gHintClass.checkHint(gameObject);
 		if (webState == "") {
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 			if (GooglePlayConnection.state == GPConnectionState.STATE_CONNECTED) GooglePlayManager.instance.IncrementAchievement("achievement_use_web_50_times", 1);
 
@@ -204,7 +204,7 @@ public class gWebConfJointClass : MonoBehaviour {
 			webState = "creatingWeb";
 		}
 		if (webState == "enableWeb") {
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 			staticClass.useWeb ++;
 			webState = "destroyingWeb";
 			globalCounter = 1;

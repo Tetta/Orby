@@ -3,27 +3,35 @@ using System.Collections;
 
 public class lsLevelClass : MonoBehaviour {
 
-	public NavMeshAgent spider;
-	public Transform cameraTransform;
-	public SpriteRenderer[] medals;
+	//public GameObject spider;
+	//public Transform cameraTransform;
+	public GameObject islandInactive;
+	public GameObject gem1Inactive;
+	public GameObject gem2Inactive;
+	public GameObject gemBottom1Inactive;
+	public GameObject gemBottom2Inactive;
 	public int prevLevel = 0;
 
-	private NavMeshPath path;
-	private float maxDistance = 3.5F;
+	//private float maxDistance = 3.5F;
 	private int level;
 
 	// Use this for initialization
 	void Start () {
-		path = new NavMeshPath();
+		//path = new NavMeshPath();
 		level = int.Parse(gameObject.name.Substring(6));
 		//levelLabel.text = level.ToString();
 		if (initClass.progress.Count == 0) initClass.getProgress();
 		int levelProgress = initClass.progress["level" + level];
 		int lastLevel = initClass.progress["lastLevel"];
-		if (((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) && staticClass.levelBlocks[level] <= initClass.progress["medals"]) GetComponent<SpriteRenderer>().color = Color.white;
-
-		if (levelProgress == 0 || levelProgress == 2) medals[0].color = new Color32(100, 100, 100, 255);
-		if (levelProgress == 0 || levelProgress == 1) medals[1].color = new Color32(100, 100, 100, 255);
+		if (!((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) && staticClass.levelBlocks[level] <= initClass.progress["gems"]) islandInactive.SetActive(true);
+		if (levelProgress == 0 || levelProgress == 2) {
+			gem1Inactive.SetActive(true);
+			gemBottom1Inactive.SetActive(true);
+		}
+		if (levelProgress == 0 || levelProgress == 1) {
+			gem2Inactive.SetActive(true);
+			gemBottom2Inactive.SetActive(true);
+		}
 	}
 	
 	// Update is called once per frame
@@ -32,34 +40,18 @@ public class lsLevelClass : MonoBehaviour {
 
 	void OnClick() {
 		int lastLevel = initClass.progress["lastLevel"];
-		//if (initClass.progress["currentLevel"] == level) Application.LoadLevel("level" + level);
 		if (initClass.progress["currentLevel"] == level) {
-			spider.gameObject.SendMessage("selectLevelMenu");
+			GameObject.Find("spider").transform.GetChild(0).GetComponent<Animator>().Play("spider jump");
+			GameObject.Find("spider").SendMessage("selectLevelMenuCorourine");
 
-		}
-		if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) {
-
-			if (Mathf.Abs(spider.transform.position.x - cameraTransform.position.x) > maxDistance) {
-				spider.CalculatePath(transform.position, path);
-				Debug.Log("path.corners.Length: " + path.status );
-				for (int i = 1; i < path.corners.Length; i++) {
-					Vector2 v = new Vector2(10000, 10000);
-					if (spider.transform.position.x < cameraTransform.position.x) v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x - maxDistance, 3), new Vector2 (cameraTransform.position.x - maxDistance, -3));
-					else v = lineIntersectPos(new Vector2(path.corners[i - 1].x, path.corners[i - 1].z), new Vector2(path.corners[i].x, path.corners[i].z), new Vector2 (cameraTransform.position.x + maxDistance, 3), new Vector2 (cameraTransform.position.x + maxDistance, -3));
-					if (v.x != 10000) {
-						Debug.Log(44);
-						spider.enabled = false;
-						spider.transform.position = new Vector3(v.x, 0, v.y);
-						spider.enabled = true;
-						break;
-					}
-				}
-
+		} else {
+			if ((prevLevel == 0 && lastLevel + 1 >= level) || (prevLevel != 0 && lastLevel >= prevLevel)) {
+				initClass.progress["currentLevel"] = level;
+				initClass.saveProgress();
 			}
-			spider.SetDestination(transform.position);
-			initClass.progress["currentLevel"] = level;
-			initClass.saveProgress();
+			GameObject.Find("spider").SendMessage("clickLevel", transform.position);
 		}
+
 	}
 
 	/// <summary>

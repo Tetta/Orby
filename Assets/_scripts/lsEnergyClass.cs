@@ -7,17 +7,25 @@ public class lsEnergyClass : MonoBehaviour {
 	public GameObject energyMenu;
 	public UILabel minutes;
 	public UILabel seconds;
+	public UILabel energyLabel;
+	public UISprite energyLine;
 
 	public static string energyMenuState = "";
 
-	private UILabel label;
-	private static int costEnergy = 60;
-	private int maxEnergy = 10;
+	public static int costEnergy = 60;
+	public static int maxEnergy = 1000;
 
 	// Use this for initialization
 	void Start () {
 		OnApplicationPause(false);
 		if (energyMenuState == "energy") OnClick();
+
+		//init complect, work only with scene "menu"
+		//GameObject complect = GameObject.Instantiate(marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).gameObject);
+		//complect.transform.parent = energyMenu.transform.GetChild(0).GetChild(0);
+		//complect.transform.localPosition = new Vector3(-98, -776, -0.01F);
+		//complect.transform.localScale = new Vector3(1F, 1F, 0);
+		//
 	}
 	
 	// Update is called once per frame
@@ -27,7 +35,8 @@ public class lsEnergyClass : MonoBehaviour {
 
 	public IEnumerator Coroutine(){
 		int mod = checkEnergy(true);
-		label.text = (initClass.progress["energy"]).ToString();
+		energyLabel.text = (initClass.progress["energy"]).ToString();
+		energyLine.fillAmount = (float) initClass.progress["energy"] / maxEnergy;
 
 		// остановка выполнения функции на costEnergy секунд
 		yield return new WaitForSeconds(costEnergy - mod);
@@ -39,7 +48,6 @@ public class lsEnergyClass : MonoBehaviour {
 	public static int checkEnergy(bool flag) {
 		if (initClass.progress.Count == 0) initClass.getProgress();
 
-		int maxEnergy = 10;
 		//число секунд с 01.01.2015
 		int now = (int)(DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalSeconds;
 		int deltaEnergy = Mathf.CeilToInt( (now - initClass.progress["energyTime"]) / costEnergy);
@@ -49,7 +57,7 @@ public class lsEnergyClass : MonoBehaviour {
 		if (initClass.progress["energy"] > maxEnergy) initClass.progress["energy"] = maxEnergy;
 		if (flag) {
 			initClass.saveProgress();
-			if (maxEnergy == initClass.progress["energy"]) GameObject.Find("energyLabel").SendMessage("stopCoroutineEnergyMenu");
+			if (maxEnergy == initClass.progress["energy"]) GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
 			return mod;
 		} else {
 			if (initClass.progress["energy"] > 0) {
@@ -61,14 +69,13 @@ public class lsEnergyClass : MonoBehaviour {
 
 	}
 
-	void OnApplicationPause(bool flag) {
+	public void OnApplicationPause(bool flag) {
 		if (!flag) { 
-			label = GetComponent<UILabel>();
 			if (initClass.progress.Count == 0) initClass.getProgress();
 			//StopCoroutine("Coroutine");
 			StopAllCoroutines();
 			StartCoroutine("Coroutine");
-			if (energyMenu.activeSelf)StartCoroutine("CoroutineEnergyMenu");
+			if (energyMenu.activeSelf) StartCoroutine("CoroutineEnergyMenu");
 		}
 	}
 

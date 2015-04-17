@@ -27,15 +27,15 @@ public class gYetiClass : MonoBehaviour {
 		gHintClass.checkHint(gameObject);
 		if (yetiState == "") {
 			yetiState = "active";
-			berry.rigidbody2D.angularVelocity = 0;
-			berry.rigidbody2D.velocity = new Vector2(0, 0);
+			berry.GetComponent<Rigidbody2D>().angularVelocity = 0;
+			berry.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
 			chains = GameObject.FindGameObjectsWithTag("chain");
 			for (int i = 0; i < chains.Length; i++) {
-				chains[i].rigidbody2D.isKinematic = true;
+				chains[i].GetComponent<Rigidbody2D>().isKinematic = true;
 			}
 			foreach (GameObject item in tumbleweeds) {
-				item.rigidbody2D.isKinematic = true;
+				item.GetComponent<Rigidbody2D>().isKinematic = true;
 			}
 			Time.timeScale = 0;
 			back.SetActive(true);
@@ -43,10 +43,10 @@ public class gYetiClass : MonoBehaviour {
 			yetiState = "";
 			chains = GameObject.FindGameObjectsWithTag("chain");
 			for (int i = 0; i < chains.Length; i++) {
-				chains[i].rigidbody2D.isKinematic = false;
+				chains[i].GetComponent<Rigidbody2D>().isKinematic = false;
 			}
 			foreach (GameObject item in tumbleweeds) {
-				item.rigidbody2D.isKinematic = false;
+				item.GetComponent<Rigidbody2D>().isKinematic = false;
 			}
 			Time.timeScale = 1;
 			back.SetActive(false);

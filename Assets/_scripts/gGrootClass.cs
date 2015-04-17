@@ -134,26 +134,26 @@ public class gGrootClass : MonoBehaviour {
 		chain[i].transform.parent = transform;
 		chain[i].transform.localScale = new Vector3(1, 1, 1);
 		if (i == 1) {
-			jointGroot.connectedBody = chain[i].rigidbody2D;
+			jointGroot.connectedBody = chain[i].GetComponent<Rigidbody2D>();
 			jointGroot.enabled = true;
 		} else {
 			for (int y = 1; y <= i; y++) {
 				chain[y].transform.localPosition = new Vector3(diffX * (i - y), diffY * (i - y), 0);
 			}
 			HingeJoint2D joint = chain[i].GetComponent<HingeJoint2D> ();
-			joint.connectedBody = chain[i - 1].rigidbody2D;
+			joint.connectedBody = chain[i - 1].GetComponent<Rigidbody2D>();
 			joint.enabled = true;
-			jointGroot.connectedBody = chain[i].rigidbody2D;
+			jointGroot.connectedBody = chain[i].GetComponent<Rigidbody2D>();
 
 		}
 		foreach (GameObject terrain in terrains) {
-			if (terrain.collider2D.OverlapPoint(chain[1].transform.position)) {
-				chain[1].rigidbody2D.isKinematic = true;
+			if (terrain.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position)) {
+				chain[1].GetComponent<Rigidbody2D>().isKinematic = true;
 				grootState = "enable";
 				terrainGrootChains.Add(new terrainGrootChain() {terrain = terrain, chain = chain[1]});
 			} 
 		}
-		if (chainCount == maxChainCount || spider.collider2D.OverlapPoint(chain[1].transform.position) || berry.collider2D.OverlapPoint(chain[1].transform.position)) {
+		if (chainCount == maxChainCount || spider.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position) || berry.GetComponent<Collider2D>().OverlapPoint(chain[1].transform.position)) {
 			grootState = "noCollisions";
 			globalCounter = 1;
 		}

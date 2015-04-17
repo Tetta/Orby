@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class iClickClass : MonoBehaviour {
 	public static GameObject backTransition = null;
@@ -69,15 +70,13 @@ public class iClickClass : MonoBehaviour {
 	}
 
 
-	public void buttonAnimationEnd () {
-	}
 
 	public void backTransitionOpen ( ) {
 		//animation.Play("back transition open");
 	}
 
 	public void backTransitionExit ( ) {
-		animation.Play("back transition exit");
+		GetComponent<Animation>().Play("back transition exit");
 		if (ActiveAnimation.current != null) {
 			currentButton = ActiveAnimation.current.gameObject;
 			//if (name == "market") marketMenu.SetActive(true);
@@ -85,17 +84,18 @@ public class iClickClass : MonoBehaviour {
 	}
 
 	public void backTransitionExitFinished () {
+		Debug.Log("currentButton: " + currentButton);
 		if (currentButton != null) {
 			if (currentButton.name == "button market") {
 				marketClass.instance.gameObject.SetActive(true);
 				marketClass.instance.marketMainMenu.SetActive(true);
-				animation.Play("back transition open");
+				GetComponent<Animation>().Play("back transition open");
 			} else if  (currentButton.name == "button settings") {
 				GameObject.Find("settings folder").transform.GetChild(0).gameObject.SetActive(true);
-				animation.Play("back transition open");
+				GetComponent<Animation>().Play("back transition open");
 			} else if (currentButton.name == "button settings back") {
 				GameObject.Find("settings").SetActive(false);
-				animation.Play("back transition open");
+				GetComponent<Animation>().Play("back transition open");
 			} else if (currentButton.name == "button market back") {
 				if (marketClass.instance.coinsMenu.activeSelf) {
 					marketClass.instance.coinsMenu.SetActive(false);
@@ -110,22 +110,40 @@ public class iClickClass : MonoBehaviour {
 					marketClass.instance.marketMainMenu.SetActive(true);
 					
 				} else marketClass.instance.gameObject.SetActive(false);
-				animation.Play("back transition open");
-			} else if (currentButton.name == "coins" || currentButton.name == "hints" || currentButton.name == "customization") {
+				GetComponent<Animation>().Play("back transition open");
+			} else if (currentButton.name == "special" || currentButton.name == "coins" || currentButton.name == "hints" || currentButton.name == "customization") {
 				marketClass.instance.marketMainMenu.SetActive(false);
+				marketClass.instance.specialMenu.SetActive(false);
 				marketClass.instance.hintsMenu.SetActive(false);
 				marketClass.instance.notCoinsMenu.SetActive(false);
 				marketClass.instance.coinsMenu.SetActive(false);
 				marketClass.instance.customizationMenu.SetActive(false);
-				animation.Play("back transition open");
-				if (currentButton.name == "coins") {
+				GetComponent<Animation>().Play("back transition open");
+				if (currentButton.name == "special") {
+					marketClass.instance.specialMenu.SetActive(true);
+					//отмечаем, если комплект куплен
+					if (initClass.progress["complect"] == 1) {
+						//убираем label price и label currency [0] и [2]
+						marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
+						marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
+						//добавляем accept [3]
+						marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.SetActive(true);
+					}
+					ActiveAnimation.Play(marketClass.instance.specialMenu.transform.GetChild(0).GetChild(0).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.specialMenu.transform.GetChild(0).GetChild(1).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
+				} else if (currentButton.name == "coins") {
+					marketClass.instance.gameObject.SetActive(true);
+					Debug.Log(marketClass.instance.enabled);
+					Destroy( GameObject.Find("root/Camera/UI Root/not coins menu"));
 					marketClass.instance.coinsMenu.SetActive(true);
-					ActiveAnimation.Play(marketClass.instance.coinsMenu.transform.GetChild(0).GetChild(0).animation, AnimationOrTween.Direction.Forward);
-					ActiveAnimation.Play(marketClass.instance.coinsMenu.transform.GetChild(0).GetChild(1).animation, AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.coinsMenu.transform.GetChild(0).GetChild(0).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.coinsMenu.transform.GetChild(0).GetChild(1).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
 				} else if (currentButton.name == "hints") {
+					Debug.Log(555);
+					marketClass.instance.gameObject.SetActive(true);
 					marketClass.instance.hintsMenu.SetActive(true);
-					ActiveAnimation.Play(marketClass.instance.hintsMenu.transform.GetChild(0).GetChild(0).animation, AnimationOrTween.Direction.Forward);
-					ActiveAnimation.Play(marketClass.instance.hintsMenu.transform.GetChild(0).GetChild(1).animation, AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.hintsMenu.transform.GetChild(0).GetChild(0).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.hintsMenu.transform.GetChild(0).GetChild(1).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
 				} else if (currentButton.name == "customization") {
 					marketClass.instance.customizationMenu.SetActive(true);
 					for (int j = 1; j <= 2; j++) {
@@ -142,8 +160,8 @@ public class iClickClass : MonoBehaviour {
 
 						}
 					}
-					ActiveAnimation.Play(marketClass.instance.customizationMenu.transform.GetChild(0).GetChild(0).animation, AnimationOrTween.Direction.Forward);
-					ActiveAnimation.Play(marketClass.instance.customizationMenu.transform.GetChild(0).GetChild(1).animation, AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.customizationMenu.transform.GetChild(0).GetChild(0).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
+					ActiveAnimation.Play(marketClass.instance.customizationMenu.transform.GetChild(0).GetChild(1).GetComponent<Animation>(), AnimationOrTween.Direction.Forward);
 				}
 			}
 		}
@@ -176,17 +194,19 @@ public class iClickClass : MonoBehaviour {
 
 	void clickMusic () {
 		if (initClass.progress["music"] == 0) {
-			GameObject.Find("music").audio.enabled = true;
+			GameObject.Find("music").GetComponent<AudioSource>().enabled = true;
 			initClass.progress["music"] = 1;
 			initClass.saveProgress();
 			transform.GetChild(0).gameObject.SetActive(false);
 		} else {
-			GameObject.Find("music").audio.enabled = false;
+			GameObject.Find("music").GetComponent<AudioSource>().enabled = false;
 			initClass.progress["music"] = 0;
 			initClass.saveProgress();
 			transform.GetChild(0).gameObject.SetActive(true);
 		}
 	}
+
+
 
 	void showAchievements () {
 		//NGUIDebug.Log("mGooglePlayClass OnClick");
@@ -211,8 +231,8 @@ public class iClickClass : MonoBehaviour {
 	}
 
 	void resetProgress () {
-		string strProgressDefault = "googlePlay=0;lastLevel=0;currentLevel=1;coins=1000;medals=0;energyTime=0;energy=1000;" +
-				"hints=3;" +
+		string strProgressDefault = "googlePlay=0;lastLevel=0;currentLevel=1;coins=1000;gems=0;energyTime=0;energy=20;" +
+				"hints=3;webs=3;grabs=3;teleports=3;complect=0;music=1;sound=1;dailyBonus=0;" +
 				"skin1=2;skin2=0;skin3=0;skin4=0;skin5=0;" +
 				"level1=0;level2=0;level3=0;level4=0;level5=0;level6=0;level7=0;level8=0;level9=0;level10=0;" +
 				"level11=0;level12=0;level13=0;level14=0;level15=0;level16=0;level17=0;level18=0;level19=0;level20=0;" +
@@ -257,10 +277,17 @@ public class iClickClass : MonoBehaviour {
 		
 	}
 	public void closeMenu () {
+		StartCoroutine(coroutineCloseMenu ());
+	}
+
+	public IEnumerator coroutineCloseMenu () {
+		yield return new WaitForSeconds(0F);
 		Debug.Log(name);
 		GameObject menu = null;
 		if (name == "exit level menu") {
 			menu = GameObject.Find("level menu");
+			menu.transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+			yield return new WaitForSeconds(0.2F);
 			menu.SetActive(false);
 		}else if (name == "next level menu") {
 			menu = GameObject.Find("level menu");
@@ -282,23 +309,55 @@ public class iClickClass : MonoBehaviour {
 			Time.timeScale = 1;
 
 		} else if (name == "exit energy menu") {
-			GameObject.Find("energyLabel").SendMessage("stopCoroutineEnergyMenu");
+			GameObject.Find("energy menu").transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+			yield return new WaitForSeconds(0.2F);
+			GameObject.Find("energy").SendMessage("stopCoroutineEnergyMenu");
+		
 		} else if (name == "exit not coins menu") {
-			menu = marketClass.instance.notCoinsMenu;
-			menu.SetActive(false);
+			menu = GameObject.Find("root/Camera/UI Root/not coins menu");
+			if (menu != null) {
+				menu.transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+				yield return new WaitForSeconds(0.2F);
+				Destroy(menu);
+			} else {
+				menu = marketClass.instance.notCoinsMenu;
+				menu.transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+				yield return new WaitForSeconds(0.2F);
+				menu.SetActive(false);
+			}
 		} else if (name == "exit thanks menu") {
-			menu = marketClass.instance.thanksMenu;
-			menu.SetActive(false);
+			menu = GameObject.Find("root/Camera/UI Root/thanks menu");
+			if (menu != null) {
+				menu.transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+				yield return new WaitForSeconds(0.2F);
+				Destroy(menu);
+			} else {
+				menu = marketClass.instance.thanksMenu;
+				menu.transform.GetChild(0).GetComponent<Animation>().Play("menu exit");
+				yield return new WaitForSeconds(0.2F);
+				menu.SetActive(false);
+			}
+
 		}	
 
 	}
+
+	//public IEnumerator CoroutineCloseMenu(){
+	
+	//}
 
 	void selectLanguage() {
 		Localization.language = name;
 	}
 
 	public IEnumerator CoroutineLoadLevel(){
-		GameObject.Find("back transition").animation.Play("back transition exit");
+		if (name == "play 0") {
+			yield return new WaitForSeconds(0.2F);
+		} else if (name == "play 1") {
+			yield return new WaitForSeconds(0.2F);
+		}
+
+		GameObject.Find("back transition").GetComponent<Animation>().Play("back transition exit");
 		yield return new WaitForSeconds(0.1F);
 		if (name == "start level menu") Application.LoadLevel("level menu");
 		else if (name == "button back") Application.LoadLevel("menu");
@@ -316,5 +375,22 @@ public class iClickClass : MonoBehaviour {
 		}
 
 	}
+
+	void buyEnergy () {
+		marketClass.instance.item = gameObject;
+		marketClass.instance.purchaseForCoins();
+	}
+
+	void clickBonusesArrow () {
+		if (name == "arrow right") {
+			gameObject.SetActive(false);
+			GameObject.Find("bonuses/tween").transform.GetChild(1).gameObject.SetActive(true);
+		} else {
+			gameObject.SetActive(false);
+			GameObject.Find("bonuses/tween").transform.GetChild(0).gameObject.SetActive(true);
+		}
+
+	}
+
 
 }
