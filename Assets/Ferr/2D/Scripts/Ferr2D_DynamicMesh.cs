@@ -81,7 +81,7 @@ public class Ferr2D_DynamicMesh
         aMesh.normals   = mNorms  .ToArray();
         aMesh.tangents  = mTans   .ToArray();
         if (mUV2s != null) {
-            aMesh.uv1 = mUV2s.ToArray();
+            aMesh.uv2 = mUV2s.ToArray();
         }
         if (mNorms.Count == 0) aMesh.RecalculateNormals();
         if (aCalculateTangents && mTans.Count == 0) {

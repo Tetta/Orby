@@ -29,7 +29,7 @@ public class Ferr2DT_PathTerrainEditor : Editor {
         Ferr2DT_PathTerrain collider = (Ferr2DT_PathTerrain)target;
         Ferr2D_Path         path     = collider.gameObject.GetComponent<Ferr2D_Path>();
 
-        EditorUtility.SetSelectedWireframeHidden(collider.gameObject.renderer, Ferr_Menu.HideMeshes);
+        EditorUtility.SetSelectedWireframeHidden(collider.gameObject.GetComponent<Renderer>(), Ferr_Menu.HideMeshes);
 
         if (!(collider.enabled == false || path == null || path.pathVerts.Count <= 1 || !collider.createCollider) && Ferr2DT_SceneOverlay.showCollider) {
             Handles.color = new Color(0, 1, 0, 1);
@@ -84,21 +84,21 @@ public class Ferr2DT_PathTerrainEditor : Editor {
 				        string[]     layerNames = sortingLayerNames.GetValue(null, null) as string[];
 				        int          current    = 0;
 				        
-				        if (layerNames != null) current = Array.IndexOf(layerNames, sprite.renderer.sortingLayerName);
+				        if (layerNames != null) current = Array.IndexOf(layerNames, sprite.GetComponent<Renderer>().sortingLayerName);
 				        if (current    <= -1  ) current = 0;
 				        
-				        if (current != sprite.renderer.sortingLayerID || sprite.renderer.sortingLayerID < 0 || sprite.renderer.sortingLayerID >= layerNames.Length) {
-					        sprite.renderer.sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.renderer.sortingLayerID);
+				        if (current != sprite.GetComponent<Renderer>().sortingLayerID || sprite.GetComponent<Renderer>().sortingLayerID < 0 || sprite.GetComponent<Renderer>().sortingLayerID >= layerNames.Length) {
+					        sprite.GetComponent<Renderer>().sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.GetComponent<Renderer>().sortingLayerID);
 				        } else {
-					        sprite.renderer.sortingLayerName = layerNames[EditorGUILayout.Popup("Sorting Layer", current, layerNames)];
+					        sprite.GetComponent<Renderer>().sortingLayerName = layerNames[EditorGUILayout.Popup("Sorting Layer", current, layerNames)];
 				        }
 			        } else {
-				        sprite.renderer.sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.renderer.sortingLayerID);
+				        sprite.GetComponent<Renderer>().sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.GetComponent<Renderer>().sortingLayerID);
 			        }
 		        } else {
-			        sprite.renderer.sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.renderer.sortingLayerID);
+			        sprite.GetComponent<Renderer>().sortingLayerID = EditorGUILayout.IntField("Sorting Layer", sprite.GetComponent<Renderer>().sortingLayerID);
 		        }
-		        sprite.renderer.sortingOrder = EditorGUILayout.IntField  ("Order in Layer", sprite.renderer.sortingOrder);
+		        sprite.GetComponent<Renderer>().sortingOrder = EditorGUILayout.IntField  ("Order in Layer", sprite.GetComponent<Renderer>().sortingOrder);
 #endif
 	        });
         }

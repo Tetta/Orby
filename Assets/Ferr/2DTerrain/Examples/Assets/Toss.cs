@@ -16,7 +16,7 @@ public class Toss : MonoBehaviour {
 	
 	void Start () {
 		#if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
-		body = rigidbody2D;
+		body = GetComponent<Rigidbody2D>();
 		body.gravityScale = 1;
 		#else
 		body = rigidbody;

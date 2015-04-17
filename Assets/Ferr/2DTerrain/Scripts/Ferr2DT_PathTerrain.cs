@@ -472,7 +472,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
             gameObject.AddComponent<MeshCollider>();
         }
         if (physicsMaterial != null) GetComponent<MeshCollider>().sharedMaterial = physicsMaterial;
-        GetComponent<MeshCollider>().smoothSphereCollisions = smoothSphereCollisions;
+        //GetComponent<MeshCollider>().smoothSphereCollisions = smoothSphereCollisions;
         GetComponent<MeshCollider>().isTrigger              = isTrigger;
 
         // compile the mesh!
@@ -739,8 +739,9 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
 		//my changing start
 		Rect  body  = terrainMaterial.ToUV(aDesc.body[0]);
 
-		if (aDesc.body.Length == 2) {
-			if ((pos [aCuts - 1] - pos [0]).magnitude < 0.2) body  = terrainMaterial.ToUV(aDesc.body[1]);
+		if (aDesc.body.Length == 3) {
+			if ((pos [aCuts - 1] - pos [0]).magnitude < 0.08F) body  = terrainMaterial.ToUV(aDesc.body[2]);
+			else if ((pos [aCuts - 1] - pos [0]).magnitude >= 0.08F && (pos [aCuts - 1] - pos [0]).magnitude < 0.25F) body  = terrainMaterial.ToUV(aDesc.body[1]);
 			else body  = terrainMaterial.ToUV(aDesc.body[0]);
 		}
 		//my changing end
@@ -904,7 +905,7 @@ public class Ferr2DT_PathTerrain : MonoBehaviour, Ferr2D_IPath {
                     aMaterial.fillMaterial
                 };
             }
-            renderer.sharedMaterials = newMaterials;
+            GetComponent<Renderer>().sharedMaterials = newMaterials;
 
             // make sure we update the units per UV
             if (terrainMaterial.edgeMaterial != null && terrainMaterial.edgeMaterial.mainTexture != null) {

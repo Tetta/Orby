@@ -21,7 +21,7 @@ public class AutoBoxCollider : MonoBehaviour {
                 DestroyImmediate(box);
 
                 box2D        = gameObject.AddComponent<BoxCollider2D>();
-                box2D.center = new Vector2(center.x, center.y);
+                box2D.offset = new Vector2(center.x, center.y);
                 box2D.size   = new Vector2(size  .x, size  .y);
 
             } else if (box2D == null) {

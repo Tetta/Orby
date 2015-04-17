@@ -1,9 +1,12 @@
+// Upgrade NOTE: commented out 'half4 unity_LightmapST', a built-in variable
+// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
+
 sampler2D _MainTex;
 half4     _MainTex_ST;
 
 #ifdef FERR2DT_LIGHTMAP
 sampler2D_half unity_Lightmap;
-half4          unity_LightmapST;
+// half4          unity_LightmapST;
 #endif
 
 struct appdata_ferr_lit {
@@ -52,7 +55,7 @@ VS_OUT_LIT vert (appdata_ferr_lit input) {
 fixed4 frag (VS_OUT_LIT inp) : COLOR {
 	fixed4 color = tex2D(_MainTex, inp.uv);
 	#ifdef FERR2DT_LIGHTMAP
-	fixed3 light = DecodeLightmap(tex2D(unity_Lightmap, inp.lightuv));
+	fixed3 light = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, inp.lightuv));
 	#else
 	fixed3 light = UNITY_LIGHTMODEL_AMBIENT;
 	#endif

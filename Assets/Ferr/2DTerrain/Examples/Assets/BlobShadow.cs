@@ -43,9 +43,9 @@ public class BlobShadow : MonoBehaviour {
                 transform.position = hit.point + offset;
                 FitGround(hit.normal);
                 Modifiers(hit.distance / maxDistance);
-                renderer.enabled = true;
+                GetComponent<Renderer>().enabled = true;
             } else {
-                renderer.enabled = false;
+                GetComponent<Renderer>().enabled = false;
             }
         } else {
 #if !(UNITY_4_2 || UNITY_4_1 || UNITY_4_1 || UNITY_4_0 || UNITY_3_5 || UNITY_3_4 || UNITY_3_3 || UNITY_3_1 || UNITY_3_0)
@@ -67,9 +67,9 @@ public class BlobShadow : MonoBehaviour {
                 transform.position = (Vector3)hit.point + offset;
                 FitGround(hit.normal);
                 Modifiers(closest);
-                renderer.enabled = true;
+                GetComponent<Renderer>().enabled = true;
             } else {
-                renderer.enabled = false;
+                GetComponent<Renderer>().enabled = false;
             }
 #else
 	        use3D = true;
@@ -79,9 +79,9 @@ public class BlobShadow : MonoBehaviour {
 
     void Modifiers(float aPercent) {
         if (fadeOut) {
-            Color c = renderer.material.color;
+            Color c = GetComponent<Renderer>().material.color;
             c.a = 1-aPercent;
-            renderer.material.color = c;
+            GetComponent<Renderer>().material.color = c;
         }
 
         float s = Mathf.Lerp(1, scaleTo, aPercent);

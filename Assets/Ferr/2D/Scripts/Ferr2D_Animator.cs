@@ -86,7 +86,7 @@ public class Ferr2D_Animator : MonoBehaviour {
         }
         if (HasAnim("default")) SetAnimation("default");
         if (HasAnim("idle"   )) SetAnimation("idle");
-        renderer.material.SetTextureScale("_MainTex", cellSize);
+        GetComponent<Renderer>().material.SetTextureScale("_MainTex", cellSize);
 	}
 	
 	void Update () {
@@ -103,7 +103,7 @@ public class Ferr2D_Animator : MonoBehaviour {
 	}
 
     public void SetFrame(int aFrame) {
-        renderer.material.SetTextureOffset("_MainTex", GetPos(aFrame));
+        GetComponent<Renderer>().material.SetTextureOffset("_MainTex", GetPos(aFrame));
     }
     public void SetAnimation(string aName) {
         aName = aName.ToLower();

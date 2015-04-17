@@ -17,11 +17,11 @@ public class Ferr2D_Sprite : MonoBehaviour
     public float Width {
         get {
             Vector2 ppuScale = new Vector2(1,1);
-            if (renderer.sharedMaterial.mainTexture != null)
+            if (GetComponent<Renderer>().sharedMaterial.mainTexture != null)
             {
                 ppuScale = new Vector2(
-                    renderer.sharedMaterial.mainTexture.width  / pixelsPerUnit,
-                    renderer.sharedMaterial.mainTexture.height / pixelsPerUnit);
+                    GetComponent<Renderer>().sharedMaterial.mainTexture.width  / pixelsPerUnit,
+                    GetComponent<Renderer>().sharedMaterial.mainTexture.height / pixelsPerUnit);
             }
             return ppuScale.x * meshScale.x * UV.width/2;
         }
@@ -29,11 +29,11 @@ public class Ferr2D_Sprite : MonoBehaviour
     public float Height {
         get {
             Vector2 ppuScale = new Vector2(1,1);
-            if (renderer.sharedMaterial.mainTexture != null)
+            if (GetComponent<Renderer>().sharedMaterial.mainTexture != null)
             {
                 ppuScale = new Vector2(
-                    renderer.sharedMaterial.mainTexture.width  / pixelsPerUnit,
-                    renderer.sharedMaterial.mainTexture.height / pixelsPerUnit);
+                    GetComponent<Renderer>().sharedMaterial.mainTexture.width  / pixelsPerUnit,
+                    GetComponent<Renderer>().sharedMaterial.mainTexture.height / pixelsPerUnit);
             }
             return ppuScale.y * meshScale.y * (UV.height/2);
         }
@@ -57,11 +57,11 @@ public class Ferr2D_Sprite : MonoBehaviour
             m.name = name;
         }
         Vector2 ppuScale = new Vector2(1,1);
-        if (renderer.sharedMaterial.mainTexture != null)
+        if (GetComponent<Renderer>().sharedMaterial.mainTexture != null)
         {
             ppuScale = new Vector2(
-                renderer.sharedMaterial.mainTexture.width  / pixelsPerUnit,
-                renderer.sharedMaterial.mainTexture.height / pixelsPerUnit);
+                GetComponent<Renderer>().sharedMaterial.mainTexture.width  / pixelsPerUnit,
+                GetComponent<Renderer>().sharedMaterial.mainTexture.height / pixelsPerUnit);
         }
         m.Clear();
         if (!Edged)
